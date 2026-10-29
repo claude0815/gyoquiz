@@ -1,0 +1,27 @@
+{
+  "name": "gyoquiz",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Quiz zur Bremer Oberstufen- und Abiturprüfungsverordnung (GyO-VO, AP-V)",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "tsc && vitest run && vite build"
+  },
+  "dependencies": {
+    "@fontsource-variable/ibm-plex-sans": "5.3.0",
+    "@fontsource-variable/literata": "5.3.0",
+    "@fontsource/ibm-plex-mono": "5.3.0"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2",
+    "vite": "8.3.4",
+    "vitest": "5.0.4",
+    "yaml": "2.9.1"
+  }
+}

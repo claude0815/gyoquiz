@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>GyO-VO &amp; AP-V Quiz</title>
+    <meta name="description" content="Quiz zur Verordnung über die Gymnasiale Oberstufe (GyO-VO) und zur Abiturprüfungsverordnung (AP-V) im Land Bremen.">
+    <meta name="theme-color" content="#1E3D63">
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="top">
+        <div class="flag" role="img" aria-label="Bremer Speckflagge"></div>
+        <div>
+          <div class="eyebrow">Land Bremen · Gymnasiale Oberstufe</div>
+          <h1>GyO-VO &amp; AP-V Quiz</h1>
+          <p class="lede">Fragen zu jedem Paragraphen und jeder Anlage der Oberstufenverordnung und der Abiturprüfungsverordnung, zufällig gemischt.</p>
+          <p class="stand mono" id="stand"></p>
+        </div>
+      </header>
+
+      <!-- Einstellungen -->
+      <section id="view-setup" class="panel" aria-label="Runde einstellen">
+        <div class="group">
+          <span class="label" id="lbl-vo">Verordnung</span>
+          <div class="seg" role="group" aria-labelledby="lbl-vo" id="seg-vo">
+            <button type="button" data-vo="all">Beide</button>
+            <button type="button" data-vo="GyO-VO">GyO-VO</button>
+            <button type="button" data-vo="AP-V">AP-V</button>
+          </div>
+        </div>
+
+        <div class="group">
+          <span class="label">Abschnitte</span>
+          <div id="sec-list" class="group"></div>
+        </div>
+
+        <div class="group">
+          <span class="label" id="lbl-n">Fragen pro Runde</span>
+          <div class="seg" role="group" aria-labelledby="lbl-n" id="seg-n">
+            <button type="button" data-n="10">10</button>
+            <button type="button" data-n="20">20</button>
+            <button type="button" data-n="40">40</button>
+            <button type="button" data-n="0">Alle</button>
+          </div>
+        </div>
+
+        <div class="checks">
+          <label class="check" for="opt-weak">
+            <input type="checkbox" id="opt-weak">
+            <span>Unsicheres bevorzugen<small>Falsch beantwortete und neue Fragen kommen häufiger, sicher gewusste seltener.</small></span>
+          </label>
+          <label class="check" for="opt-case">
+            <input type="checkbox" id="opt-case">
+            <span>Nur Fall- und Rechenfragen<small>Versetzung, Zulassung, Bestehen, Punkte und Tabellen aus den Anlagen.</small></span>
+          </label>
+        </div>
+
+        <div class="startbar">
+          <span class="poolinfo" id="pool-info"></span>
+          <button type="button" class="btn primary" id="btn-start">Runde starten</button>
+        </div>
+
+        <div class="group compact">
+          <div class="progressline" id="learn-line"></div>
+          <div><button type="button" class="linkbtn" id="btn-reset">Lernstand zurücksetzen</button></div>
+          <div class="confirm" id="reset-confirm" hidden>
+            <span>Alle gespeicherten Antworten auf diesem Gerät löschen?</span>
+            <button type="button" class="btn" id="btn-reset-yes">Ja, löschen</button>
+            <button type="button" class="btn ghost" id="btn-reset-no">Abbrechen</button>
+          </div>
+        </div>
+
+        <details class="cover">
+          <summary>Begriffe und Abkürzungen</summary>
+          <dl class="glossary" id="glossary"></dl>
+        </details>
+
+        <details class="cover">
+          <summary>Welche Paragraphen und Anlagen sind abgedeckt?</summary>
+          <div class="coverlist" id="cover-list"></div>
+        </details>
+      </section>
+
+      <!-- Frage -->
+      <section id="view-quiz" class="panel" aria-live="polite" hidden>
+        <div class="qhead">
+          <div class="qtop">
+            <span class="qcount" id="q-count"></span>
+            <button type="button" class="linkbtn" id="btn-quit">Runde beenden</button>
+          </div>
+          <div id="q-track"></div>
+        </div>
+        <div class="qmeta" id="q-meta"></div>
+        <h2 class="qtext" id="q-text"></h2>
+        <div class="opts" id="q-opts"></div>
+        <div class="feedback" id="q-feedback" hidden></div>
+        <div class="qfoot">
+          <span class="keys">Tasten <kbd>1</kbd>–<kbd>4</kbd> zum Antworten, <kbd>Enter</kbd> weiter</span>
+          <button type="button" class="btn primary" id="btn-next" hidden>Weiter</button>
+        </div>
+      </section>
+
+      <!-- Ergebnis -->
+      <section id="view-result" class="panel" hidden>
+        <div class="score">
+          <div class="big" id="r-points"></div>
+          <div class="sub">
+            <span class="note" id="r-note"></span>
+            <span id="r-line"></span>
+            <span class="muted">Umrechnung in Notenpunkte nach dem üblichen Abitur-Bewertungsraster (ab 95 % = 15 Punkte, ab 45 % = 5 Punkte).</span>
+          </div>
+        </div>
+        <div class="group">
+          <h3>Nach Abschnitten</h3>
+          <div class="breakdown" id="r-breakdown"></div>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn primary" id="btn-retry-wrong">Falsche wiederholen</button>
+          <button type="button" class="btn" id="btn-again">Neue Runde</button>
+          <button type="button" class="btn ghost" id="btn-setup">Einstellungen</button>
+        </div>
+        <div class="group" id="r-wrong-wrap">
+          <h3>Falsch beantwortet</h3>
+          <div class="wronglist" id="r-wrong"></div>
+        </div>
+      </section>
+
+      <footer class="foot" id="foot"></footer>
+    </div>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>
