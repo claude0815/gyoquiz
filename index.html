@@ -59,7 +59,26 @@
 
         <div class="startbar">
           <span class="poolinfo" id="pool-info"></span>
-          <button type="button" class="btn primary" id="btn-start">Runde starten</button>
+          <div class="startbtns">
+            <button type="button" class="btn" id="btn-duel" aria-expanded="false" aria-controls="duel-form">Duell starten</button>
+            <button type="button" class="btn primary" id="btn-start">Runde starten</button>
+          </div>
+        </div>
+
+        <form class="duelform" id="duel-form" novalidate hidden>
+          <label class="label" for="duel-name">Dein Name für das Duell</label>
+          <div class="namerow">
+            <input type="text" id="duel-name" maxlength="24" autocomplete="nickname" spellcheck="false" aria-describedby="duel-name-hint duel-name-error">
+            <button type="submit" class="btn primary" id="duel-go">Los geht’s</button>
+            <button type="button" class="btn ghost" id="duel-cancel">Abbrechen</button>
+          </div>
+          <small class="hint" id="duel-name-hint">Wird im Link mitgeschickt. Vorname oder Kürzel reicht.</small>
+          <span class="formerror" id="duel-name-error" role="alert"></span>
+        </form>
+
+        <div class="group compact" id="my-duels-wrap" hidden>
+          <span class="label">Meine Duelle</span>
+          <ul class="duellist" id="my-duels"></ul>
         </div>
 
         <div class="group compact">
@@ -90,21 +109,63 @@
             <span class="qcount" id="q-count"></span>
             <button type="button" class="linkbtn" id="btn-quit">Runde beenden</button>
           </div>
+          <div class="confirm" id="quit-confirm" hidden>
+            <span>Duell wirklich aufgeben? Offene Fragen zählen als falsch.</span>
+            <button type="button" class="btn" id="btn-quit-yes">Ja, aufgeben</button>
+            <button type="button" class="btn ghost" id="btn-quit-no">Weiterspielen</button>
+          </div>
+          <div class="duelbar" id="q-duelbar" hidden></div>
           <div id="q-track"></div>
         </div>
         <div class="qmeta" id="q-meta"></div>
         <h2 class="qtext" id="q-text"></h2>
         <div class="opts" id="q-opts"></div>
         <div class="feedback" id="q-feedback" hidden></div>
+        <div class="duelhint" id="q-duel" hidden></div>
         <div class="qfoot">
           <span class="keys">Tasten <kbd>1</kbd>–<kbd>4</kbd> zum Antworten, <kbd>Enter</kbd> weiter</span>
           <button type="button" class="btn primary" id="btn-next" hidden>Weiter</button>
         </div>
       </section>
 
+      <!-- Duell: Einladung, eigene Herausforderung, Fehler -->
+      <section id="view-duel" class="panel" aria-labelledby="duel-title" hidden>
+        <div class="eyebrow">Duell</div>
+        <h2 class="cardtitle" id="duel-title"></h2>
+        <div class="group" id="duel-invite" hidden>
+          <ul class="facts" id="inv-facts"></ul>
+          <form class="duelform" id="inv-form" novalidate>
+            <label class="label" for="inv-name">Dein Name</label>
+            <div class="namerow">
+              <input type="text" id="inv-name" maxlength="24" autocomplete="nickname" spellcheck="false" aria-describedby="inv-name-hint inv-name-error">
+              <button type="submit" class="btn primary">Duell starten</button>
+            </div>
+            <small class="hint" id="inv-name-hint">Wird im Rückmelde-Link mitgeschickt. Vorname oder Kürzel reicht.</small>
+            <span class="formerror" id="inv-name-error" role="alert"></span>
+          </form>
+          <div><button type="button" class="linkbtn" data-free>Lieber frei üben</button></div>
+        </div>
+        <div class="group" id="duel-own" hidden>
+          <p id="own-text"></p>
+          <div class="share" id="own-share"></div>
+          <div class="actions">
+            <button type="button" class="btn" id="btn-own-result" hidden>Ergebnis ansehen</button>
+            <button type="button" class="btn ghost" data-free>Frei üben</button>
+          </div>
+        </div>
+        <div class="group" id="duel-error" hidden>
+          <p id="err-text" role="alert"></p>
+          <div class="actions"><button type="button" class="btn primary" data-free>Zum Lernmodus</button></div>
+        </div>
+      </section>
+
       <!-- Ergebnis -->
       <section id="view-result" class="panel" hidden>
-        <div class="score">
+        <div class="banner" id="r-banner" role="status" hidden>
+          <span class="sym" id="r-banner-sym" aria-hidden="true"></span>
+          <div class="btext"><strong id="r-banner-head"></strong><span id="r-banner-sub"></span></div>
+        </div>
+        <div class="score" id="r-score">
           <div class="big" id="r-points"></div>
           <div class="sub">
             <span class="note" id="r-note"></span>
@@ -112,7 +173,12 @@
             <span class="muted">Umrechnung in Notenpunkte nach dem üblichen Abitur-Bewertungsraster (ab 95 % = 15 Punkte, ab 45 % = 5 Punkte).</span>
           </div>
         </div>
-        <div class="group">
+        <div class="group" id="r-compare-wrap" hidden>
+          <h3>Frage für Frage</h3>
+          <div class="tablewrap"><table class="cmp" id="r-compare"></table></div>
+        </div>
+        <div class="share" id="r-share" hidden></div>
+        <div class="group" id="r-breakdown-wrap">
           <h3>Nach Abschnitten</h3>
           <div class="breakdown" id="r-breakdown"></div>
         </div>
@@ -120,6 +186,8 @@
           <button type="button" class="btn primary" id="btn-retry-wrong">Falsche wiederholen</button>
           <button type="button" class="btn" id="btn-again">Neue Runde</button>
           <button type="button" class="btn ghost" id="btn-setup">Einstellungen</button>
+          <button type="button" class="btn primary" id="btn-rematch" hidden>Revanche</button>
+          <button type="button" class="btn ghost" id="btn-free" data-free hidden>Frei üben</button>
         </div>
         <div class="group" id="r-wrong-wrap">
           <h3>Falsch beantwortet</h3>

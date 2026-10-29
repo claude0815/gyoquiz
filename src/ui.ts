@@ -3,10 +3,36 @@ import {
   GRADE_BY_POINTS, answer, createRound, isAnswered, isCorrect, optionsOf, pickQuestions, recordStats, summarize,
   type Round, type RoundItem, type StatsMap,
 } from './engine';
-import { shuffle } from './rng';
+import { buildLink, challengeOf, encodePayload, isValidName, normalizeName, parseHash, randomDuelId, seal, MAX_QUESTIONS, MIN_QUESTIONS, type DuelPayload, type DuelPlayer, type LinkKind } from './duel/link';
+import { createDuelRound, playerFromRound, resultsOf } from './duel/round';
+import { compare, correctCount, formatTenths, runningScore, totalTenths } from './duel/score';
+import { pickRematch, selectionLabel, selectionOf } from './duel/selection';
+import { describeDuel, findDuel, loadDuels, saveDuels, upsertDuel, type StoredDuel } from './duel/store';
+import { randomSeed, shuffle } from './rng';
 import { KEYS, load, save } from './storage';
 
-type View = 'setup' | 'quiz' | 'result';
+type View = 'setup' | 'quiz' | 'result' | 'duel';
+
+/** Laufendes Duell: A spielt vor (noch ohne Link) oder B spielt gegen das Ergebnis von A. */
+type ActiveDuel =
+  | { role: 'challenger'; id: string; seed: number; name: string }
+  | { role: 'opponent'; payload: DuelPayload; name: string };
+
+/** Zwischenstand von A, solange der Herausforderungs-Link noch nicht existiert. */
+interface DuelDraft {
+  id: string;
+  seed: number;
+  name: string;
+  round: Round;
+}
+
+/** Aus wessen Sicht ein Duell-Ergebnis gezeigt wird. */
+type Perspective = 'a' | 'b' | 'neutral';
+
+type ResultMode =
+  | { kind: 'practice' }
+  | { kind: 'sent'; payload: DuelPayload }
+  | { kind: 'compare'; payload: DuelPayload; perspective: Perspective };
 
 interface Settings {
   vo: 'all' | Regulation;
@@ -37,6 +63,10 @@ let round: Round | null = null;
 let view: View = 'setup';
 /** Zeitpunkt, zu dem die aktuelle Frage angezeigt wurde (für die Antwortzeit). */
 let shownAt = 0;
+let duel: ActiveDuel | null = null;
+let duels: StoredDuel[] = loadDuels();
+/** Fragen für eine Revanche, die noch auf die Namenseingabe wartet. */
+let pendingDuelQuestions: Question[] | null = null;
 
 /* ---------- Hilfen ---------- */
 
@@ -68,7 +98,39 @@ function show(next: View): void {
   el('view-setup').hidden = next !== 'setup';
   el('view-quiz').hidden = next !== 'quiz';
   el('view-result').hidden = next !== 'result';
+  el('view-duel').hidden = next !== 'duel';
   window.scrollTo({ top: 0 });
+}
+
+/** Kleines DOM-Element mit Klasse und Text (Text immer über textContent). */
+function node<K extends keyof HTMLElementTagNameMap>(tag: K, cls = '', text = ''): HTMLElementTagNameMap[K] {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text) n.textContent = text;
+  return n;
+}
+
+/** Entfernt den Hash, ohne ein hashchange auszulösen. */
+function clearHash(): void {
+  if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+}
+
+function baseUrl(): string {
+  return location.origin + location.pathname;
+}
+
+function duelLink(kind: LinkKind, payload: DuelPayload): string {
+  return buildLink(baseUrl(), kind, kind === 'd' ? challengeOf(payload) : payload);
+}
+
+function savedName(): string {
+  const n = load<unknown>(KEYS.name, '');
+  return isValidName(n) ? n : '';
+}
+
+function storeDuel(d: StoredDuel): void {
+  duels = upsertDuel(duels, d);
+  saveDuels(duels);
 }
 
 function saveSettings(): void {
@@ -95,6 +157,11 @@ function roundSize(available: number): number {
 }
 
 const isKnown = (q: Question): boolean => stats[q.id]?.lastCorrect === true;
+
+/** Fragenzahl im Duell: 10, 20 oder 40; „Alle“ wird zu 40. */
+function duelSize(available: number): number {
+  return Math.min(settings.n === 0 ? MAX_QUESTIONS : settings.n, available, MAX_QUESTIONS);
+}
 
 /* ---------- Einstellungen ---------- */
 
@@ -131,6 +198,14 @@ function renderSetup(): void {
   start.disabled = !p.length;
   start.textContent = p.length ? `Runde starten · ${n} Fragen` : 'Runde starten';
 
+  const duelBtn = el<HTMLButtonElement>('btn-duel');
+  const canDuel = p.length >= MIN_QUESTIONS;
+  duelBtn.disabled = !canDuel;
+  duelBtn.textContent = canDuel ? `Duell starten · ${duelSize(p.length)} Fragen` : 'Duell starten';
+  if (p.length && !canDuel) el('pool-info').textContent += ` · Für ein Duell braucht es mindestens ${MIN_QUESTIONS}.`;
+  if (!canDuel) closeDuelForm();
+  renderMyDuels();
+
   const seen = catalogue.questions.filter(q => stats[q.id]).length;
   const known = catalogue.questions.filter(isKnown).length;
   el('learn-line').innerHTML =
@@ -163,7 +238,18 @@ function renderStatic(): void {
 
 function startRound(questions: Question[]): void {
   if (!questions.length) return;
+  duel = null;
   round = createRound(questions);
+  enterQuiz();
+}
+
+function enterQuiz(): void {
+  const quit = el('btn-quit');
+  quit.textContent = duel ? 'Duell aufgeben' : 'Runde beenden';
+  el('quit-confirm').hidden = true;
+  const bar = el('q-duelbar');
+  bar.hidden = !duel;
+  if (duel) bar.textContent = duel.role === 'opponent' ? `Duell gegen ${duel.payload.a.n}` : 'Duell · du legst vor, danach verschickst du den Link';
   show('quiz');
   renderQuestion();
 }
@@ -207,6 +293,7 @@ function renderQuestion(): void {
     .map((o, i) => `<button type="button" class="opt" data-i="${i}"><span class="k">${i + 1}</span><span class="tx">${esc(opts[o])}</span></button>`)
     .join('');
   el('q-feedback').hidden = true;
+  el('q-duel').hidden = true;
   el('btn-next').hidden = true;
   if (isAnswered(it)) reveal(false);
   else shownAt = performance.now();
@@ -217,6 +304,7 @@ function onAnswer(position: number): void {
   if (!answer(it, position, performance.now() - shownAt)) return;
   stats = recordStats(stats, it.questionId, isCorrect(it));
   save(KEYS.stats, stats);
+  persistDuel();
   reveal(true);
 }
 
@@ -244,15 +332,38 @@ function reveal(focusNext: boolean): void {
   next.hidden = false;
   renderTrack();
   renderCount();
+  renderDuelHint();
   if (focusNext) next.focus({ preventScroll: true });
+}
+
+/** Nach jeder Antwort von B: wie hat A diese Frage beantwortet, und wie steht es? */
+function renderDuelHint(): void {
+  const box = el('q-duel');
+  if (!round || duel?.role !== 'opponent' || !isAnswered(current())) {
+    box.hidden = true;
+    return;
+  }
+  const a = duel.payload.a;
+  const i = round.index;
+  const aOk = a.r[i] === '1';
+  const who = node('p', `who ${aOk ? 'ok' : 'bad'}`);
+  who.append(node('span', 'sym', aOk ? '✓' : '✗'), node('span', '', `${a.n} ${aOk ? 'hatte das richtig' : 'lag hier falsch'} (${formatTenths(a.t[i] ?? 0)})`));
+  const sc = runningScore(resultsOf(round), a, i);
+  const tally = node('p', 'tally');
+  tally.append('Spielstand: Du ', node('b', 'mono', String(sc.me)), ' : ', node('b', 'mono', String(sc.other)), ` ${a.n}`);
+  box.replaceChildren(who, tally);
+  box.hidden = false;
 }
 
 function goNext(): void {
   if (!round) return;
   if (round.index < round.items.length - 1) {
     round.index++;
+    persistDuel();
     renderQuestion();
     window.scrollTo({ top: 0 });
+  } else if (duel) {
+    finishDuel();
   } else {
     renderResult();
   }
@@ -260,8 +371,45 @@ function goNext(): void {
 
 /* ---------- Ergebnis ---------- */
 
-function renderResult(): void {
-  if (!round) return;
+function renderResult(mode: ResultMode = { kind: 'practice' }): void {
+  const compareMode = mode.kind === 'compare';
+  el('r-score').hidden = !round || compareMode;
+  el('r-breakdown-wrap').hidden = !round || compareMode;
+  el('r-wrong-wrap').hidden = true;
+  el('btn-retry-wrong').hidden = true;
+  if (round) renderOwnResult(round);
+
+  el('btn-again').hidden = compareMode;
+  el('btn-setup').hidden = compareMode;
+  el('btn-rematch').hidden = !compareMode;
+  el('btn-free').hidden = !compareMode;
+  if (compareMode) el('btn-retry-wrong').hidden = true;
+
+  const banner = el('r-banner');
+  const share = el('r-share');
+  banner.hidden = true;
+  share.hidden = true;
+  el('r-compare-wrap').hidden = !compareMode;
+  if (mode.kind === 'sent') {
+    renderChallengeShare(share, mode.payload);
+    share.hidden = false;
+  } else if (mode.kind === 'compare') {
+    renderBanner(mode.payload, mode.perspective);
+    renderCompareTable(mode.payload, mode.perspective);
+    resultPayload = mode.payload;
+    resultPerspective = mode.perspective;
+    if (mode.perspective === 'b') {
+      renderReturnShare(share, mode.payload);
+      share.hidden = false;
+    }
+  }
+  show('result');
+}
+
+let resultPayload: DuelPayload | null = null;
+let resultPerspective: Perspective = 'neutral';
+
+function renderOwnResult(round: Round): void {
   const s = summarize(round);
   el('r-points').innerHTML = `${s.points}<small>Punkte</small>`;
   el('r-note').textContent = s.answered ? `Note ${GRADE_BY_POINTS[s.points]}` : 'Keine Frage beantwortet';
@@ -296,7 +444,352 @@ function renderResult(): void {
       <span class="why">${esc(q.explanation)}</span>
       <span class="ref">${esc(q.ref)} ${regulationOfSection(q.section)}</span></div>`;
   }).join('');
-  show('result');
+}
+
+/* ---------- Duell ---------- */
+
+function startDuelAsChallenger(questions: Question[], name: string): void {
+  if (questions.length < MIN_QUESTIONS) return;
+  const seed = randomSeed();
+  duel = { role: 'challenger', id: randomDuelId(), seed, name };
+  round = createDuelRound(questions.slice(0, MAX_QUESTIONS), seed);
+  clearHash();
+  persistDuel();
+  enterQuiz();
+}
+
+function startDuelAsOpponent(payload: DuelPayload, name: string, resume?: Round): void {
+  duel = { role: 'opponent', payload, name };
+  round = resume ?? createDuelRound(payload.q.map(getQuestion), payload.s);
+  persistDuel();
+  enterQuiz();
+}
+
+/** Speichert den Zwischenstand, damit ein Neuladen an derselben Frage fortsetzt. */
+function persistDuel(): void {
+  if (!duel || !round) return;
+  if (duel.role === 'challenger') {
+    const draft: DuelDraft = { id: duel.id, seed: duel.seed, name: duel.name, round };
+    save(KEYS.duelDraft, draft);
+  } else {
+    storeDuel({ id: duel.payload.id, role: 'opponent', payload: duel.payload, inProgress: round });
+  }
+}
+
+/** Passt eine gespeicherte Runde noch zu den Fragen des Duells? */
+function roundMatches(r: unknown, questionIds: readonly string[]): r is Round {
+  if (typeof r !== 'object' || r === null) return false;
+  const { items, index } = r as Partial<Round>;
+  return Array.isArray(items) && items.length === questionIds.length && Number.isInteger(index) && index! >= 0 && index! < items.length &&
+    items.every((it, i) => it?.questionId === questionIds[i] && Array.isArray(it.order) && it.order.length === 4);
+}
+
+function resumeDraft(): boolean {
+  const d = load<Partial<DuelDraft> | null>(KEYS.duelDraft, null);
+  if (!d || typeof d.id !== 'string' || typeof d.seed !== 'number' || !isValidName(d.name)) return false;
+  const ids = Array.isArray(d.round?.items) ? d.round.items.map(it => it?.questionId) : [];
+  if (!ids.every(id => typeof id === 'string' && questionById.has(id)) || !roundMatches(d.round, ids as string[])) return false;
+  duel = { role: 'challenger', id: d.id, seed: d.seed, name: d.name };
+  round = d.round;
+  enterQuiz();
+  return true;
+}
+
+function finishDuel(): void {
+  if (!duel || !round) return;
+  const me = playerFromRound(duel.name, round);
+  const finishedAt = new Date().toISOString();
+  if (duel.role === 'challenger') {
+    const payload = seal({ v: 1, k: catalogue.version, id: duel.id, s: duel.seed, q: round.items.map(it => it.questionId), a: me });
+    storeDuel({ id: payload.id, role: 'challenger', payload, finishedAt });
+    save(KEYS.duelDraft, null);
+    duel = null;
+    renderResult({ kind: 'sent', payload });
+  } else {
+    const payload = seal({ ...duel.payload, b: me });
+    storeDuel({ id: payload.id, role: 'opponent', payload, finishedAt });
+    duel = null;
+    renderResult({ kind: 'compare', payload, perspective: 'b' });
+  }
+}
+
+/** Beide Seiten eines Ergebnisses aus der gewählten Sicht: links „ich“, rechts der Gegner. */
+function sides(p: DuelPayload, perspective: Perspective): { me: DuelPlayer; other: DuelPlayer; meLabel: string } {
+  const b = p.b!;
+  if (perspective === 'b') return { me: b, other: p.a, meLabel: 'Du' };
+  return { me: p.a, other: b, meLabel: perspective === 'a' ? 'Du' : p.a.n };
+}
+
+function renderBanner(p: DuelPayload, perspective: Perspective): void {
+  const { me, other } = sides(p, perspective);
+  const c = compare(me, other);
+  const score = `${c.myCorrect} : ${c.otherCorrect}`;
+  const gap = formatTenths(Math.abs(c.timeDiffTenths));
+  const tie = c.myCorrect === c.otherCorrect;
+  let head: string;
+  let sub: string;
+  if (perspective === 'neutral') {
+    head = `${me.n} gegen ${other.n}: ${score}`;
+    const winner = c.outcome === 'win' ? me.n : other.n;
+    sub = c.outcome === 'draw' ? 'Unentschieden, auf die Zehntelsekunde gleich schnell.' : `${winner} gewinnt${tie ? `, ${gap} schneller` : ''}.`;
+  } else {
+    const fasterText = c.outcome === 'win' ? `du warst ${gap} schneller` : `${other.n} war ${gap} schneller`;
+    if (c.outcome === 'draw') head = `Unentschieden. ${score} gegen ${other.n}`;
+    else if (perspective === 'a') head = `Du hast gegen ${other.n} ${c.outcome === 'win' ? 'gewonnen' : 'verloren'}`;
+    else head = `${c.outcome === 'win' ? 'Gewonnen!' : 'Verloren.'} ${score}${tie ? `, ${fasterText}` : ` gegen ${other.n}`}`;
+    const times = `Gesamtzeit: du ${formatTenths(totalTenths(me))}, ${other.n} ${formatTenths(totalTenths(other))}.`;
+    if (c.outcome === 'draw') sub = `Gleiche Gesamtzeit: ${formatTenths(totalTenths(me))}.`;
+    else if (perspective === 'a') sub = `${score}${tie ? `, ${fasterText}` : ''}. ${times}`;
+    else sub = times;
+  }
+  const banner = el('r-banner');
+  const kind = perspective === 'neutral' ? 'neutral' : c.outcome;
+  banner.className = `banner ${kind}`;
+  el('r-banner-sym').textContent = kind === 'win' ? '✓' : kind === 'loss' ? '✗' : '=';
+  el('r-banner-head').textContent = head;
+  el('r-banner-sub').textContent = sub;
+  banner.hidden = false;
+}
+
+function markCell(ok: boolean, tenths: number | undefined): HTMLTableCellElement {
+  const td = node('td', 'mk');
+  td.append(node('span', ok ? 'ok' : 'bad', ok ? '✓' : '✗'), node('span', 'sr', ok ? 'richtig' : 'falsch'));
+  if (tenths !== undefined) td.append(node('small', 'mono', formatTenths(tenths)));
+  return td;
+}
+
+function renderCompareTable(p: DuelPayload, perspective: Perspective): void {
+  const { me, other, meLabel } = sides(p, perspective);
+  const table = el<HTMLTableElement>('r-compare');
+  const head = node('tr');
+  head.append(node('th', 'num', 'Nr.'), node('th', '', 'Frage'), node('th', 'mk', meLabel), node('th', 'mk', other.n));
+  const thead = node('thead');
+  thead.append(head);
+  const tbody = node('tbody');
+  p.q.forEach((id, i) => {
+    const tr = node('tr');
+    const qtd = node('td', 'qt');
+    const text = node('span', '', questionById.get(id)?.text ?? id);
+    qtd.append(text);
+    tr.append(node('td', 'num mono', String(i + 1)), qtd, markCell(me.r[i] === '1', me.t[i]), markCell(other.r[i] === '1', other.t[i]));
+    tbody.append(tr);
+  });
+  const foot = node('tr');
+  const total = (pl: DuelPlayer) => {
+    const td = node('td', 'mk');
+    td.append(node('b', 'mono', `${correctCount(pl)}/${p.q.length}`), node('small', 'mono', formatTenths(totalTenths(pl))));
+    return td;
+  };
+  const label = node('td', '', 'Richtig · Gesamtzeit');
+  label.colSpan = 2;
+  foot.append(label, total(me), total(other));
+  const tfoot = node('tfoot');
+  tfoot.append(foot);
+  table.replaceChildren(thead, tbody, tfoot);
+}
+
+/** Bereich zum Verschicken eines Links: Teilen-Menü (falls vorhanden), Kopieren, Textfeld. */
+function renderShare(box: HTMLElement, o: { title: string; text: string; shareText: string; link: string }): void {
+  const h = node('h3', '', o.title);
+  const intro = node('p', 'muted', o.text);
+  const status = node('span', 'status');
+  status.setAttribute('role', 'status');
+  status.setAttribute('aria-live', 'polite');
+  const field = node('input', 'linkfield');
+  field.type = 'text';
+  field.readOnly = true;
+  field.value = o.link;
+  field.setAttribute('aria-label', 'Link');
+  field.addEventListener('focus', () => field.select());
+  const manual = () => {
+    field.focus();
+    field.select();
+    status.textContent = 'Bitte manuell kopieren';
+  };
+  const row = node('div', 'actions');
+  if (typeof navigator.share === 'function') {
+    const shareBtn = node('button', 'btn primary', 'Teilen …');
+    shareBtn.type = 'button';
+    shareBtn.addEventListener('click', () => {
+      navigator.share({ title: document.title, text: o.shareText, url: o.link }).catch(() => { /* abgebrochen */ });
+    });
+    row.append(shareBtn);
+  }
+  const copyBtn = node('button', typeof navigator.share === 'function' ? 'btn' : 'btn primary', 'Link kopieren');
+  copyBtn.type = 'button';
+  copyBtn.addEventListener('click', () => {
+    status.textContent = '';
+    if (!navigator.clipboard?.writeText) return manual();
+    navigator.clipboard.writeText(o.link).then(() => { status.textContent = 'Link kopiert'; }, manual);
+  });
+  row.append(copyBtn);
+  box.replaceChildren(h, intro, row, field, status);
+}
+
+function renderChallengeShare(box: HTMLElement, p: DuelPayload): void {
+  renderShare(box, {
+    title: 'Herausforderung verschicken',
+    text: 'Schick diesen Link an die Person, die du herausfordern willst. Dein Ergebnis wird erst nach und nach aufgedeckt.',
+    shareText: `${p.a.n} fordert dich zum GyO-VO & AP-V Quiz heraus: ${p.q.length} Fragen. Schaffst du mehr?`,
+    link: duelLink('d', p),
+  });
+}
+
+function renderReturnShare(box: HTMLElement, p: DuelPayload): void {
+  renderShare(box, {
+    title: `Ergebnis an ${p.a.n} zurückschicken`,
+    text: `Mit diesem Link sieht ${p.a.n}, wie das Duell ausgegangen ist.`,
+    shareText: `${p.b!.n} hat deine Herausforderung im GyO-VO & AP-V Quiz gespielt. Hier ist das Ergebnis:`,
+    link: duelLink('r', p),
+  });
+}
+
+function showDuelCard(part: 'invite' | 'own' | 'error', title: string): void {
+  el('duel-title').textContent = title;
+  el('duel-invite').hidden = part !== 'invite';
+  el('duel-own').hidden = part !== 'own';
+  el('duel-error').hidden = part !== 'error';
+  duel = null;
+  round = null;
+  show('duel');
+}
+
+let invitePayload: DuelPayload | null = null;
+
+function showInvite(p: DuelPayload): void {
+  invitePayload = p;
+  const facts = el('inv-facts');
+  const sel = selectionOf(p.q);
+  facts.replaceChildren(
+    node('li', '', `${p.q.length} Fragen · ${selectionLabel(sel)}`),
+    node('li', '', 'Mehr richtige Antworten gewinnt, bei Gleichstand die kürzere Zeit.'),
+    node('li', '', `Nach jeder Antwort siehst du, ob ${p.a.n} die Frage richtig hatte.`),
+  );
+  el<HTMLInputElement>('inv-name').value = savedName();
+  el('inv-name-error').textContent = '';
+  showDuelCard('invite', `${p.a.n} fordert dich heraus`);
+}
+
+let ownPayload: DuelPayload | null = null;
+
+function showOwnChallenge(d: StoredDuel): void {
+  ownPayload = d.payload;
+  const a = d.payload.a;
+  el('own-text').textContent = `Du hast ${correctCount(a)} von ${d.payload.q.length} Fragen richtig beantwortet (${formatTenths(totalTenths(a))}).` +
+    (d.payload.b ? ` ${d.payload.b.n} hat schon geantwortet.` : ' Noch keine Rückmeldung.');
+  renderChallengeShare(el('own-share'), d.payload);
+  const res = el<HTMLButtonElement>('btn-own-result');
+  res.hidden = !d.payload.b;
+  if (d.payload.b) res.textContent = `Ergebnis gegen ${d.payload.b.n} ansehen`;
+  showDuelCard('own', 'Das ist deine eigene Herausforderung');
+}
+
+function showDuelError(message: string): void {
+  el('err-text').textContent = message;
+  showDuelCard('error', 'Dieser Link funktioniert nicht');
+}
+
+function showCompare(payload: DuelPayload, perspective: Perspective): void {
+  duel = null;
+  round = null;
+  renderResult({ kind: 'compare', payload, perspective });
+}
+
+/** Wertet den Hash aus: `#d=…` Herausforderung, `#r=…` Rückmeldung, sonst Lernmodus. */
+function route(initial: boolean): void {
+  duels = loadDuels();
+  const r = parseHash(location.hash);
+  if (r.kind === 'none') {
+    if (initial && resumeDraft()) return;
+    if (!initial && view === 'quiz' && duel?.role === 'challenger') return;
+    duel = null;
+    renderSetup();
+    show('setup');
+    return;
+  }
+  if (!r.result.ok) return showDuelError(r.result.message);
+  const p = r.result.payload;
+  const stored = findDuel(duels, p.id);
+  if (r.kind === 'd') {
+    if (stored?.role === 'challenger') return showOwnChallenge(stored);
+    if (stored?.role === 'opponent' && stored.payload.b) return showCompare(stored.payload, 'b');
+    const name = savedName();
+    if (stored?.role === 'opponent' && name && roundMatches(stored.inProgress, p.q)) return startDuelAsOpponent(p, name, stored.inProgress);
+    return showInvite(p);
+  }
+  if (stored?.role === 'challenger') {
+    storeDuel({ ...stored, payload: p });
+    return showCompare(p, 'a');
+  }
+  showCompare(p, stored?.role === 'opponent' ? 'b' : 'neutral');
+}
+
+function goFree(): void {
+  if (location.hash) location.hash = '';
+  else {
+    duel = null;
+    renderSetup();
+    show('setup');
+  }
+}
+
+function renderMyDuels(): void {
+  const list = duels.slice(0, 10);
+  el('my-duels-wrap').hidden = list.length === 0;
+  el('my-duels').replaceChildren(...list.map(d => {
+    const e = describeDuel(d);
+    const li = node('li');
+    const a = node('a', '', e.opponent ? `gegen ${e.opponent}` : `Herausforderung · ${d.payload.q.length} Fragen`);
+    a.href = `#${e.kind}=${encodePayload(e.kind === 'd' ? challengeOf(d.payload) : d.payload)}`;
+    const date = d.finishedAt ? new Date(d.finishedAt).toLocaleDateString('de-DE') : '';
+    li.append(a, node('span', 'st', e.status), node('span', 'dt mono', date));
+    return li;
+  }));
+}
+
+function openDuelForm(questions: Question[] | null): void {
+  pendingDuelQuestions = questions;
+  const form = el('duel-form');
+  form.hidden = false;
+  el('btn-duel').setAttribute('aria-expanded', 'true');
+  const input = el<HTMLInputElement>('duel-name');
+  if (!input.value) input.value = savedName();
+  el('duel-name-hint').textContent = 'Wird im Link mitgeschickt. Vorname oder Kürzel reicht.' +
+    (settings.weak && !questions ? ' „Unsicheres bevorzugen“ gilt im Duell nicht.' : '');
+  el('duel-name-error').textContent = '';
+  input.focus();
+}
+
+function closeDuelForm(): void {
+  el('duel-form').hidden = true;
+  el('btn-duel').setAttribute('aria-expanded', 'false');
+  pendingDuelQuestions = null;
+}
+
+/** Liest und prüft ein Namensfeld; zeigt sonst die Fehlermeldung. */
+function readName(inputId: string, errorId: string): string | null {
+  const input = el<HTMLInputElement>(inputId);
+  const name = normalizeName(input.value);
+  if (!isValidName(name)) {
+    el(errorId).textContent = 'Bitte gib einen Namen mit 1 bis 24 Zeichen ein.';
+    input.focus();
+    return null;
+  }
+  el(errorId).textContent = '';
+  save(KEYS.name, name);
+  return name;
+}
+
+function rematch(): void {
+  const p = resultPayload;
+  if (!p) return;
+  const name = resultPerspective === 'b' ? p.b!.n : resultPerspective === 'a' ? p.a.n : savedName();
+  const questions = pickRematch(selectionOf(p.q), p.q, p.q.length);
+  clearHash();
+  if (name) return startDuelAsChallenger(questions, name);
+  renderSetup();
+  show('setup');
+  openDuelForm(questions);
 }
 
 /* ---------- Ereignisse ---------- */
@@ -354,12 +847,48 @@ function bindEvents(): void {
     renderSetup();
   });
   el('btn-start').addEventListener('click', newRoundFromSettings);
+  el('btn-duel').addEventListener('click', () => {
+    if (el('duel-form').hidden) openDuelForm(null);
+    else closeDuelForm();
+  });
+  el('duel-cancel').addEventListener('click', closeDuelForm);
+  el('duel-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const name = readName('duel-name', 'duel-name-error');
+    if (!name) return;
+    const p = pool();
+    const questions = pendingDuelQuestions ?? pickQuestions(p, duelSize(p.length));
+    closeDuelForm();
+    startDuelAsChallenger(questions, name);
+  });
+  el('inv-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const name = readName('inv-name', 'inv-name-error');
+    if (!name || !invitePayload) return;
+    const stored = findDuel(duels, invitePayload.id);
+    const resume = stored?.role === 'opponent' && roundMatches(stored.inProgress, invitePayload.q) ? stored.inProgress : undefined;
+    startDuelAsOpponent(invitePayload, name, resume);
+  });
+  document.querySelectorAll<HTMLButtonElement>('[data-free]').forEach(b => b.addEventListener('click', goFree));
+  el('btn-own-result').addEventListener('click', () => {
+    if (ownPayload?.b) location.hash = `r=${encodePayload(ownPayload)}`;
+  });
+  el('btn-rematch').addEventListener('click', rematch);
   el('q-opts').addEventListener('click', e => {
     const b = (e.target as HTMLElement).closest<HTMLButtonElement>('.opt');
     if (b) onAnswer(Number(b.dataset.i));
   });
   el('btn-next').addEventListener('click', goNext);
-  el('btn-quit').addEventListener('click', renderResult);
+  el('btn-quit').addEventListener('click', () => {
+    if (!duel) return renderResult();
+    el('quit-confirm').hidden = false;
+    el('btn-quit-no').focus();
+  });
+  el('btn-quit-no').addEventListener('click', () => {
+    el('quit-confirm').hidden = true;
+    el('btn-quit').focus();
+  });
+  el('btn-quit-yes').addEventListener('click', finishDuel);
   el('btn-again').addEventListener('click', newRoundFromSettings);
   el('btn-setup').addEventListener('click', () => {
     renderSetup();
@@ -388,7 +917,8 @@ function bindEvents(): void {
       e.preventDefault();
       onAnswer(pos);
     } else if (isAnswered(it) && (e.key === 'Enter' || e.key === 'ArrowRight')) {
-      if (e.key === 'Enter' && document.activeElement === el('btn-next')) return;
+      // Enter auf einem Button löst dessen eigenen Klick aus (z. B. „Weiter“ oder „Ja, aufgeben“).
+      if (e.key === 'Enter' && document.activeElement instanceof HTMLButtonElement) return;
       e.preventDefault();
       goNext();
     }
@@ -398,6 +928,6 @@ function bindEvents(): void {
 export function startApp(): void {
   renderStatic();
   bindEvents();
-  renderSetup();
-  show('setup');
+  window.addEventListener('hashchange', () => route(false));
+  route(true);
 }

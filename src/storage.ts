@@ -22,4 +22,9 @@ export function save(key: string, value: unknown): void {
 export const KEYS = {
   stats: 'gyoquiz:stats:v1',
   settings: 'gyoquiz:settings:v1',
+  duels: 'gyoquiz:duels:v1',
+  /** Vorbelegung für das Namensfeld im Duell. */
+  name: 'gyoquiz:name:v1',
+  /** Laufendes eigenes Duell, bevor der Link existiert. */
+  duelDraft: 'gyoquiz:duel-draft:v1',
 } as const;
