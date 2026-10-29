@@ -101,6 +101,11 @@ export function seal(p: UnsealedPayload): DuelPayload {
   return { ...canonical(p), c: checksum(p) };
 }
 
+/** Herausforderung ohne Ergebnis von B (für `#d=`-Links). */
+export function challengeOf(p: DuelPayload): DuelPayload {
+  return seal({ v: p.v, k: p.k, id: p.id, s: p.s, q: p.q, a: p.a });
+}
+
 export function encodePayload(p: DuelPayload): string {
   return toBase64Url(JSON.stringify({ ...canonical(p), c: checksum(p) }));
 }

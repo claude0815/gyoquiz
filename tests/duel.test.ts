@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { catalogue, parseCatalogue, questionById } from '../src/catalogue';
 import { answer } from '../src/engine';
 import {
-  LINK_ERROR_MESSAGES, buildLink, decodePayload, encodePayload, fromBase64Url, isValidName, normalizeName, parseHash,
+  LINK_ERROR_MESSAGES, buildLink, challengeOf, decodePayload, encodePayload, fromBase64Url, isValidName, normalizeName, parseHash,
   seal, toBase64Url, type DuelPayload, type DuelPlayer,
 } from '../src/duel/link';
 import { answerOrder, createDuelRound, msToTenths, playerFromRound, resultsOf } from '../src/duel/round';
@@ -46,6 +46,10 @@ describe('Link: Kodierung', () => {
     expect(route.kind !== 'none' && route.result.ok).toBe(true);
     expect(parseHash('').kind).toBe('none');
     expect(parseHash('#foo').kind).toBe('none');
+  });
+
+  it('macht aus einer Rückmeldung wieder die Herausforderung', () => {
+    expect(challengeOf(withB())).toEqual(challenge());
   });
 
   it('verlangt b genau im Rückmelde-Link', () => {
