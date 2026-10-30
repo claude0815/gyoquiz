@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { catalogue, paragraphKey, parseCatalogue, sectionById } from '../src/catalogue';
+import { catalogue, paragraphKey, parseCatalogue, questionById, sectionById } from '../src/catalogue';
 
 describe('Fragenkatalog', () => {
   it('hat eine ganzzahlige Katalogversion', () => {
@@ -29,6 +29,14 @@ describe('Fragenkatalog', () => {
     }
   });
 
+  it('hält ausgemusterte Fragen für alte Duell-Links auffindbar, aber aus neuen Runden heraus', () => {
+    const active = new Set(catalogue.questions.map(q => q.id));
+    for (const q of catalogue.retired) {
+      expect(active.has(q.id), q.id).toBe(false);
+      expect(questionById.get(q.id), q.id).toBe(q);
+    }
+  });
+
   it('hat keine doppelten Fragetexte', () => {
     const texts = catalogue.questions.map(q => q.text);
     expect(new Set(texts).size).toBe(texts.length);
@@ -51,6 +59,19 @@ describe('Fragenkatalog', () => {
       expect(key, `${q.id}: Fundstelle "${q.ref}"`).not.toBeNull();
       expect(sectionById.get(q.section)!.paragraphs, `${q.id}: ${key}`).toContain(key);
     }
+  });
+
+  it('verrät die richtige Antwort nicht durch ihre Länge', () => {
+    // Offizielle Bezeichnungen, die sich nicht sinnvoll kürzen oder angleichen lassen.
+    const exempt = new Set(['g162']); // Bewegungsfeld „Bewegung gymnastisch, rhythmisch und tänzerisch gestalten“
+    const tooLong = catalogue.questions.filter(q => {
+      const longestWrong = Math.max(...q.wrong.map(w => w.length));
+      return !exempt.has(q.id) && q.correct.length >= longestWrong * 1.3 && q.correct.length - longestWrong >= 8;
+    });
+    expect(tooLong.map(q => `${q.id}: ${q.correct}`)).toEqual([]);
+    // Wer immer die längste Antwort wählt, soll kaum besser liegen als beim Raten (25 %).
+    const longestIsCorrect = catalogue.questions.filter(q => q.wrong.every(w => q.correct.length > w.length)).length;
+    expect(longestIsCorrect / catalogue.questions.length).toBeLessThan(0.35);
   });
 
   it('nutzt keine unerklärten Abkürzungen', () => {
