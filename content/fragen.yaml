@@ -5,6 +5,7 @@
 # - Neue Fragen bekommen die nächste freie Nummer (g… für GyO-VO, a… für AP-V).
 # - Ändert sich bei einer bestehenden Frage die richtige Antwort, wird die alte Frage
 #   unter "ausgemustert" verschoben und die neue Fassung bekommt eine neue id.
+# - Doppelungen werden nicht gelöscht, sondern ebenfalls nach "ausgemustert" verschoben.
 # - "richtig" ist die korrekte Antwort, "falsch" enthält genau drei Ablenker.
 #   Die Reihenfolge der Antworten wird in der App gemischt.
 # - "fall: true" markiert Fall- und Rechenfragen.
@@ -12,8 +13,8 @@
 # - Nach jeder inhaltlichen Änderung katalog.version erhöhen.
 
 katalog:
-  version: 2
-  stand: "2026-10-29"
+  version: 3
+  stand: "2026-10-30"
 verordnungen:
   - kurz: GyO-VO
     titel: Verordnung über die Gymnasiale Oberstufe
@@ -354,7 +355,7 @@ fragen:
     abschnitt: gyo-allgemein
     fundstelle: § 4 Abs. 3
     frage: Was brauchen Schülerinnen und Schüler privater Ersatzschulen, die nicht nach den Verordnungen für die Sekundarstufe I zugewiesen wurden, für den Zugang?
-    richtig: Mittleren Schulabschluss und Durchschnitt 3,0 oder besser in D, M, erster Fremdsprache sowie mindestens 3,0 in allen Fächern
+    richtig: Mittleren Schulabschluss und Durchschnitt 3,0 oder besser in Deutsch, Mathematik und erster Fremdsprache sowie mindestens 3,0 in allen Fächern
     falsch:
       - Eine bestandene Aufnahmeprüfung an der Oberstufe
       - Nur den Mittleren Schulabschluss
@@ -571,16 +572,6 @@ fragen:
       - Zwei
       - Fünf
     erklaerung: Neu aufgenommene Fremdsprachen werden vierstündig unterrichtet.
-  - id: g039
-    abschnitt: gyo-unterricht
-    fundstelle: § 8 Abs. 3
-    frage: Ist eine Fremdsprache, die in den beiden Jahrgangsstufen vor der Oberstufe belegt wurde, „neu aufgenommen“?
-    richtig: Nein
-    falsch:
-      - Ja, wenn sie erst in Klasse 9 begann
-      - Ja, bei Noten schlechter als 4
-      - Das entscheidet die Schulleitung
-    erklaerung: Eine in den beiden Jahrgangsstufen davor belegte Fremdsprache ist keine neu aufgenommene.
   - id: g040
     abschnitt: gyo-unterricht
     fundstelle: § 8 Abs. 4
@@ -725,7 +716,7 @@ fragen:
   - id: g054
     abschnitt: gyo-unterricht
     fundstelle: § 10 Abs. 4
-    frage: Wie wird ein Kurs mit 0 Punkten oder „nicht beurteilbar“ behandelt?
+    frage: Wie wird in der Qualifikationsphase ein Kurs mit 0 Punkten oder „nicht beurteilbar“ behandelt?
     richtig: Er gilt als nicht belegt
     falsch:
       - Er gilt als belegt, aber nicht einbringbar
@@ -1004,17 +995,6 @@ fragen:
       - 3+
       - "2"
     erklaerung: 12 = 2+, 11 = 2, 10 = 2−.
-  - id: g082
-    abschnitt: gyo-unterricht
-    fundstelle: § 12 Abs. 7
-    fall: true
-    frage: Welcher Note mit Tendenz entsprechen 4 Punkte in der Punkteskala der Oberstufe?
-    richtig: 4−
-    falsch:
-      - "4"
-      - 5+
-      - 4+
-    erklaerung: 6 = 4+, 5 = 4, 4 = 4−, 3 = 5+.
   - id: g083
     abschnitt: gyo-unterricht
     fundstelle: § 12 Abs. 7
@@ -1026,17 +1006,6 @@ fragen:
       - "12"
       - "15"
     erklaerung: 15 = 1+, 14 = 1, 13 = 1−.
-  - id: g084
-    abschnitt: gyo-unterricht
-    fundstelle: § 12 Abs. 7
-    fall: true
-    frage: Welcher Note entsprechen 0 Punkte in der Punkteskala der Oberstufe?
-    richtig: "6"
-    falsch:
-      - 5−
-      - "5"
-      - „nicht beurteilbar“
-    erklaerung: 3 bis 1 Punkte sind die Note 5, 0 Punkte die Note 6.
   - id: g085
     abschnitt: gyo-unterricht
     fundstelle: § 13 Abs. 1
@@ -1127,17 +1096,6 @@ fragen:
       - 2:1 zugunsten der Theorie
       - Die schlechtere Note zählt
     erklaerung: Praxis und Theorie werden 1:1 gewichtet.
-  - id: g094
-    abschnitt: gyo-unterricht
-    fundstelle: § 13 Abs. 6
-    fall: true
-    frage: "Leistungskurs Sport: Eine Schülerin erreicht in einem Halbjahr 0 Punkte in Sporttheorie und 14 Punkte in Sportpraxis. Wie hoch kann ihre Halbjahresnote höchstens sein?"
-    richtig: 3 Punkte
-    falsch:
-      - 7 Punkte
-      - 6 Punkte
-      - 0 Punkte
-    erklaerung: Rechnerisch wären es 7 Punkte. Bei 0 Punkten in einem der beiden Teile beträgt die Halbjahresnote aber höchstens 3 Punkte.
   - id: g095
     abschnitt: gyo-unterricht
     fundstelle: § 13 Abs. 6
@@ -1413,7 +1371,7 @@ fragen:
       - Alle Schülerinnen und Schüler der E-Phase
       - Nur Schüler aus Vorbereitungsklassen
       - Wer freiwillig einen weiteren Abschluss möchte
-    erklaerung: "Voraussetzung: kein Mittleren Schulabschluss bei Eintritt und Versetzungsgefährdung nach § 17."
+    erklaerung: "Voraussetzung: noch kein Mittlerer Schulabschluss bei Eintritt und Versetzungsgefährdung nach § 17."
   - id: g122
     abschnitt: gyo-abschluesse
     fundstelle: § 20 Abs. 1
@@ -1556,7 +1514,7 @@ fragen:
     erklaerung: Mindestens zweijährige Berufstätigkeit.
   - id: g136
     abschnitt: gyo-abschluesse
-    fundstelle: § 20 Abs. 5 Nr. 2–3
+    fundstelle: § 20 Abs. 5 Nr. 2
     frage: Welcher weitere Nachweis ist für den berufsbezogenen Teil der Fachhochschulreife ausdrücklich vorgesehen?
     richtig: Abschluss einer Ausbildung im Beamtenverhältnis
     falsch:
@@ -1574,16 +1532,6 @@ fragen:
       - Beide Durchgänge
       - Die mit der besseren Note
     erklaerung: Maßgeblich sind die bei der Wiederholung belegten Fächer.
-  - id: g138
-    abschnitt: gyo-weitere
-    fundstelle: § 21 Abs. 2
-    frage: Ein Schüler wiederholt Halbjahre der Qualifikationsphase. Welche Kurse sind für Belegung, Einbringung und Zuerkennung maßgeblich?
-    richtig: Die in der Wiederholung belegten
-    falsch:
-      - Die jeweils besseren
-      - Die des ersten Durchgangs
-      - Freie Wahl
-    erklaerung: Kann ein Kurs nicht wiederholt werden, kann die Schulleitung Ausnahmen zulassen.
   - id: g139
     abschnitt: gyo-weitere
     fundstelle: § 21 Abs. 2
@@ -1634,26 +1582,6 @@ fragen:
       - Aufgabenfeld III
       - Keinem
     erklaerung: Kunst, Musik und Darstellendes Spiel gehören zu Aufgabenfeld I.
-  - id: g144
-    abschnitt: gyo-anlagen
-    fundstelle: Anlage 1
-    frage: Welches Fach gehört zu Aufgabenfeld II?
-    richtig: Religion
-    falsch:
-      - Latein
-      - Informatik
-      - Darstellendes Spiel
-    erklaerung: "Aufgabenfeld II: Geographie, Geschichte, Pädagogik, Philosophie, Politik, Psychologie, Rechtskunde, Religion, Soziologie, Wirtschaftslehre."
-  - id: g145
-    abschnitt: gyo-anlagen
-    fundstelle: Anlage 1
-    frage: Welches Fach gehört NICHT zu Aufgabenfeld II?
-    richtig: Biologie
-    falsch:
-      - Psychologie
-      - Rechtskunde
-      - Pädagogik
-    erklaerung: Biologie gehört zu den naturwissenschaftlichen Fächern in Aufgabenfeld III.
   - id: g146
     abschnitt: gyo-anlagen
     fundstelle: Anlage 1
@@ -1704,16 +1632,6 @@ fragen:
       - Deutsch 4, Mathematik 5
       - Je 5
     erklaerung: Beide Fächer stehen mit 4 Stunden in der Stundentafel.
-  - id: g151
-    abschnitt: gyo-anlagen
-    fundstelle: Anlage 2
-    frage: Wie viele Wochenstunden umfasst die Stundentafel der Einführungsphase (Anlage 2 GyO-VO) insgesamt?
-    richtig: "35"
-    falsch:
-      - "34"
-      - "32"
-      - "36"
-    erklaerung: Die Summe der Stundentafel beträgt 35.
   - id: g152
     abschnitt: gyo-anlagen
     fundstelle: Anlage 2
@@ -1845,17 +1763,6 @@ fragen:
       - 1,9
       - 2,2
     erklaerung: 209 bis 204 Punkte entsprechen 2,0.
-  - id: g165
-    abschnitt: gyo-anlagen
-    fundstelle: Anlage 4
-    fall: true
-    frage: Für den schulischen Teil der Fachhochschulreife ergibt sich eine Gesamtpunktzahl von 150 (möglich sind 95 bis 285). Welche Durchschnittsnote ergibt sich nach Anlage 4 GyO-VO?
-    richtig: 3,0
-    falsch:
-      - 2,9
-      - 3,1
-      - 3,3
-    erklaerung: 152 bis 147 Punkte entsprechen 3,0.
   - id: g166
     abschnitt: gyo-anlagen
     fundstelle: Anlage 4
@@ -1866,16 +1773,182 @@ fragen:
       - "270"
       - "285"
     erklaerung: 285 bis 261 Punkte entsprechen 1,0.
-  - id: g167
-    abschnitt: gyo-anlagen
-    fundstelle: Anlage 4
-    frage: Welche Durchschnittsnote entspricht beim schulischen Teil der Fachhochschulreife der Mindestpunktzahl von 95 Punkten?
-    richtig: 4,0
+  - id: g168
+    abschnitt: gyo-allgemein
+    fundstelle: § 2a Abs. 2 Nr. 1
+    frage: "Neben neu zugewanderten Jugendlichen nennt § 2a GyO-VO eine zweite Gruppe, die einer Vorbereitungsklasse für die Gymnasiale Oberstufe zugewiesen wird. Welche?"
+    richtig: Wer am Ende der Sekundarstufe I unter der Bedingung, die Sprachkenntnisse zu verbessern, der Oberstufe zugewiesen wurde
     falsch:
-      - 3,9
-      - 4,1
-      - 3,5
-    erklaerung: 95 Punkte = 4,0; 100 bis 96 = 3,9.
+      - Wer am Ende der Einführungsphase nicht in die Qualifikationsphase versetzt wurde
+      - Wer von einer privaten Ersatzschule ohne Zuweisung in die Oberstufe wechselt
+      - Wer die Abiturprüfung nicht bestanden hat und sie wiederholen möchte
+    erklaerung: § 2a Abs. 2 Nr. 1 nennt diese Gruppe, Nr. 2 die Jugendlichen, die erstmals in der Sekundarstufe II das deutsche Schulsystem besuchen.
+  - id: g169
+    abschnitt: gyo-unterricht
+    fundstelle: § 7 Abs. 5
+    frage: Was ist nach § 7 Abs. 5 GyO-VO zu berücksichtigen, wenn Unterricht in der Oberstufe als Nachmittagsunterricht stattfindet?
+    richtig: Die besondere zeitliche Belastung der Schülerinnen und Schüler beim Erteilen von Hausaufgaben
+    falsch:
+      - Eine Höchstzahl von zwei Nachmittagen mit Unterricht pro Woche
+      - Ein Verbot, Klausuren im Nachmittagsunterricht zu schreiben
+      - Eine Verkürzung der Unterrichtsstunden am Nachmittag auf 40 Minuten
+    erklaerung: Zwischen Vormittags- und Nachmittagsunterricht ist außerdem eine Mittagspause vorzuhalten.
+  - id: g170
+    abschnitt: gyo-unterricht
+    fundstelle: § 8 Abs. 4
+    fall: true
+    frage: Ein Schüler hatte in der Sekundarstufe I kein Englisch, aber durchgehend Französisch. In der Einführungsphase nimmt er Englisch neu auf und belegt es als fortgesetzte Fremdsprache im Sinne von § 8 Abs. 1 Nr. 2 GyO-VO. Was muss er nach § 8 Abs. 4 zusätzlich tun?
+    richtig: Französisch in der Einführungsphase fortsetzen
+    falsch:
+      - Nichts, der neu aufgenommene Englischkurs genügt
+      - Französisch bis zum Abitur durchgehend als Leistungskurs belegen
+      - Am Ende der Einführungsphase eine Sprachprüfung in Englisch ablegen
+    erklaerung: Wird der neu aufgenommene Englischkurs als Fremdsprache nach § 8 Abs. 1 Nr. 2 belegt, ist eine vor der Oberstufe belegte Fremdsprache in der Einführungsphase fortzusetzen.
+  - id: g171
+    abschnitt: gyo-unterricht
+    fundstelle: § 9 Abs. 1
+    fall: true
+    frage: Eine Schülerin möchte in der Qualifikationsphase Leistungskurs Chemie belegen, hatte Chemie im zweiten Halbjahr der Einführungsphase aber nicht. Wer kann nach § 9 Abs. 1 GyO-VO eine Ausnahme zulassen?
+    richtig: Die Schulleiterin oder der Schulleiter
+    falsch:
+      - Die Senatorin für Kinder und Bildung
+      - Die Prüfungskommission
+      - Niemand, die Belegung im zweiten Halbjahr ist zwingend
+    erklaerung: Leistungskurs- und Prüfungsfächer müssen im zweiten Halbjahr der Einführungsphase belegt sein; die Schulleitung kann Ausnahmen zulassen.
+  - id: g172
+    abschnitt: gyo-unterricht
+    fundstelle: § 10 Abs. 7
+    frage: Mit wie vielen Wochenstunden sollen in der Qualifikationsphase Grundkurse unterrichtet werden, die mit einer schriftlichen Abiturprüfung abgeschlossen werden, also Kurse im 3. Prüfungsfach?
+    richtig: Mit drei
+    falsch:
+      - Mit zwei
+      - Mit vier
+      - Mit fünf, wie ein Leistungskurs
+    erklaerung: Nach § 10 Abs. 7 Satz 2 sollen auch diese Grundkurse dreistündig unterrichtet werden, wie die Grundkurse in Deutsch, Fremdsprachen und Mathematik.
+  - id: g173
+    abschnitt: gyo-unterricht
+    fundstelle: § 11 Abs. 1
+    fall: true
+    frage: Ein Schüler möchte im zweiten Halbjahr der Einführungsphase ein Fach im Wahlpflichtbereich wechseln. Die Frist nach § 11 Abs. 1 GyO-VO ist damit überschritten. Ist der Wechsel trotzdem möglich?
+    richtig: Ja, wenn die Schulleiterin oder der Schulleiter eine Ausnahme zulässt
+    falsch:
+      - Nein, nach Ablauf der Frist ist ein Wechsel ausgeschlossen
+      - Ja, wenn die Erziehungsberechtigten schriftlich zustimmen
+      - Ja, aber nur in ein Fach, das er schon in der Sekundarstufe I hatte
+    erklaerung: Der Wechsel ist bis zum Ende des ersten Halbjahres der Einführungsphase zulässig; die Schulleitung kann Ausnahmen von dieser Frist zulassen.
+  - id: g174
+    abschnitt: gyo-unterricht
+    fundstelle: § 13 Abs. 1
+    frage: Darf eine Schule im Fach Sport einen Kurs in einer Sportart anbieten, die nicht in Anlage 3 GyO-VO steht, etwa Klettern?
+    richtig: Ja, mit Zustimmung der Senatorin für Kinder und Bildung
+    falsch:
+      - Nein, nur die Sportarten der Anlage 3 sind zulässig
+      - Ja, wenn die Fachkonferenz Sport zustimmt
+      - Ja, aber nur im Grundkurs und nicht als Prüfungsgrundlage
+    erklaerung: Kurse haben eine Sportart nach Anlage 3 zur Grundlage; weitere Sportarten kann die Schule mit Zustimmung der Senatorin anbieten (§ 13 Abs. 1, ebenso Anlage 3).
+  - id: g175
+    abschnitt: gyo-unterricht
+    fundstelle: § 13 Abs. 4
+    frage: Sport ist 4. Prüfungsfach, der Kurs hat engen Theorie-Praxis-Bezug. Was kann in begründeten Einzelfällen nach den Möglichkeiten der Schule zusätzlich belegt werden?
+    richtig: Ein weiterer Sport-Praxiskurs
+    falsch:
+      - Ein zweiter Sporttheoriekurs
+      - Ein Leistungskurs Sport an einer anderen Schule
+      - Nichts, weitere Sportkurse sind ausgeschlossen
+    erklaerung: So der letzte Satz von § 13 Abs. 4.
+  - id: g176
+    abschnitt: gyo-versetzung
+    fundstelle: § 15 Abs. 2
+    frage: Unter welcher Voraussetzung darf nach § 15 Abs. 2 GyO-VO am Ende der Einführungsphase auf Nichtversetzung entschieden werden?
+    richtig: Die Lernfortschritte entsprechen nicht den Anforderungen, und ein weiterer Verbleib in der Lerngruppe würde die Entwicklung beeinträchtigen
+    falsch:
+      - Sobald eine Bedingung aus § 16 erfüllt ist; eine pädagogische Abwägung ist dann nicht mehr vorgesehen
+      - Wenn der Notendurchschnitt aller Fächer schlechter als 4,0 ist und die Erziehungsberechtigten zustimmen
+      - Wenn mehr als die Hälfte der unterrichtenden Lehrkräfte eine Wiederholung der Einführungsphase empfiehlt
+    erklaerung: § 16 nennt, wann auf Nichtversetzung entschieden werden kann; § 15 Abs. 2 verlangt zusätzlich diese pädagogische Prognose.
+  - id: g177
+    abschnitt: gyo-versetzung
+    fundstelle: § 18 Abs. 2
+    frage: Wer führt den Vorsitz der Versetzungskonferenz am Ende der Einführungsphase?
+    richtig: Die Schulleiterin oder der Schulleiter oder eine von ihr oder ihm beauftragte Lehrkraft
+    falsch:
+      - Die Klassenlehrerin oder der Klassenlehrer kraft Amtes
+      - Die dienstälteste Lehrkraft, die die Klasse unterrichtet
+      - Eine von der Konferenz zu Beginn gewählte Lehrkraft
+    erklaerung: Bei Stimmengleichheit gibt die Stimme des Vorsitzes den Ausschlag (§ 18 Abs. 2).
+  - id: g178
+    abschnitt: gyo-versetzung
+    fundstelle: § 18 Abs. 3
+    frage: Wann muss der Vorsitz der Versetzungskonferenz Eltern- und Schülervertreter, die mit beratender Stimme teilnehmen, von der Beratung ausschließen?
+    richtig: Wenn es zum Schutz der Persönlichkeit einer Schülerin, eines Schülers oder der Erziehungsberechtigten geboten erscheint
+    falsch:
+      - Immer, sobald über eine mögliche Nichtversetzung beraten wird
+      - Nur auf schriftlichen Antrag der betroffenen Schülerin oder des betroffenen Schülers
+      - Nie, sie haben ein uneingeschränktes Recht auf Teilnahme an der Beratung
+    erklaerung: Der Vorsitz hat einzelne oder alle beratenden Mitglieder dann auszuschließen. Ohnehin ausgeschlossen ist die Elternvertretung bei Beratungen über das eigene Kind.
+  - id: g179
+    abschnitt: gyo-versetzung
+    fundstelle: § 18 Abs. 4
+    fall: true
+    frage: Eine Lehrkraft kann aus zwingenden Gründen nicht an der Versetzungskonferenz teilnehmen und konnte auch keine Beurteilung rechtzeitig vorlegen. Wie verfährt die Konferenz nach § 18 Abs. 4 GyO-VO?
+    richtig: Sie berücksichtigt bei ihrer Entscheidung die ihr zugänglichen Unterlagen
+    falsch:
+      - Sie muss die Entscheidung vertagen, bis die Beurteilung vorliegt
+      - Sie wertet das Fach der fehlenden Lehrkraft mit 0 Punkten
+      - Sie lässt das Fach bei der Entscheidung unberücksichtigt
+    erklaerung: Kann die Lehrkraft ihre Beurteilung nicht rechtzeitig vorlegen, entscheidet die Konferenz auf Grundlage der zugänglichen Unterlagen.
+  - id: g180
+    abschnitt: gyo-abschluesse
+    fundstelle: § 19
+    fall: true
+    frage: Eine Schülerin hatte bei Eintritt in die Oberstufe bereits den Mittleren Schulabschluss. Im Frühjahr wird ihre Versetzung in die Qualifikationsphase als gefährdet eingestuft. Muss sie am Ende der Einführungsphase an der Prüfung zum Mittleren Schulabschluss nach § 19 GyO-VO teilnehmen?
+    richtig: Nein, die Prüfung betrifft nur, wer bei Eintritt noch keinen Mittleren Schulabschluss hatte
+    falsch:
+      - Ja, bei jeder Versetzungsgefährdung nach § 17 ist die Prüfung verpflichtend
+      - Ja, aber nur, wenn sie am Ende tatsächlich nicht versetzt wird
+      - Nur auf Antrag der Erziehungsberechtigten oder der Schülerin selbst
+    erklaerung: "Beide Voraussetzungen müssen zusammenkommen: noch kein Mittlerer Schulabschluss bei Eintritt und gefährdete Versetzung nach § 17."
+  - id: g181
+    abschnitt: gyo-abschluesse
+    fundstelle: § 20 Abs. 2 Nr. 2
+    frage: "Schulischer Teil der Fachhochschulreife: Wie viele Halbjahresergebnisse dürfen aus einem weiteren Fach, das nicht zu den Pflichtfächern nach § 20 Abs. 2 Nr. 2 GyO-VO gehört, etwa Kunst, höchstens angerechnet werden?"
+    richtig: Zwei
+    falsch:
+      - Eines
+      - Vier
+      - Beliebig viele, solange insgesamt 15 Ergebnisse eingebracht werden
+    erklaerung: Pflicht sind je zwei Ergebnisse in Deutsch, einer fortgesetzten Fremdsprache, einer Gesellschaftswissenschaft, Mathematik und einer Naturwissenschaft; aus weiteren Fächern höchstens je zwei.
+  - id: g182
+    abschnitt: gyo-abschluesse
+    fundstelle: § 20 Abs. 5 Nr. 1
+    fall: true
+    frage: Ein früherer Oberstufenschüler hat die Bescheinigung über den schulischen Teil der Fachhochschulreife und danach eine dreijährige Ausbildung zum Industriemechaniker nach dem Berufsbildungsgesetz abgeschlossen. Ist damit der berufsbezogene Teil nach § 20 Abs. 5 GyO-VO nachgewiesen?
+    richtig: Ja, eine abgeschlossene, mindestens zweijährige Berufsausbildung genügt
+    falsch:
+      - Nein, zusätzlich ist ein Jahr Berufstätigkeit erforderlich
+      - Nein, als berufsbezogener Teil zählt nur ein Praktikum
+      - Nur, wenn die Ausbildung in der öffentlichen Verwaltung stattfand
+    erklaerung: § 20 Abs. 5 Nr. 1 nennt den Abschluss einer mindestens zweijährigen Berufsausbildung in einem anerkannten Ausbildungsberuf.
+  - id: g183
+    abschnitt: gyo-unterricht
+    fundstelle: § 7 Abs. 2 Nr. 3
+    frage: Wie sind die Halbjahreskurse der Qualifikationsphase nach § 7 Abs. 2 GyO-VO in der Regel organisiert?
+    richtig: Jahrgangsgebunden
+    falsch:
+      - Jahrgangsübergreifend
+      - Schulübergreifend
+      - In frei wählbaren Blockkursen
+    erklaerung: Die Halbjahreskurse bauen inhaltlich aufeinander auf (außer Sportpraxis) und sind in der Regel jahrgangsgebunden.
+  - id: g184
+    abschnitt: gyo-anlagen
+    fundstelle: Anlage 2
+    frage: Stundentafel der Einführungsphase nach Anlage 2 GyO-VO. Mit wie vielen Wochenstunden wird eine Fremdsprache im Wahlpflichtbereich unterrichtet?
+    richtig: Drei- oder vierstündig
+    falsch:
+      - Zwei- oder dreistündig
+      - Ein- oder zweistündig
+      - Immer fünfstündig
+    erklaerung: "Fußnote ** der Stundentafel: Fächer des Wahlpflichtbereichs sind zwei- oder dreistündig, Fremdsprachen drei- oder vierstündig, Methodenunterricht ein- oder zweistündig."
   - id: a001
     abschnitt: apv-allgemein
     fundstelle: § 1
@@ -2376,26 +2449,6 @@ fragen:
       - Gar nicht
       - Vierfach
     erklaerung: Die Projektarbeit geht in zweifacher Wertung ein.
-  - id: a051
-    abschnitt: apv-zulassung
-    fundstelle: § 8 Abs. 1 Nr. 1
-    frage: "Zulassung in der Gymnasialen Oberstufe: Wie viele der eingebrachten Kurse dürfen höchstens unter 5 Punkten (einfache Wertung) liegen?"
-    richtig: Sechs, davon höchstens zwei Leistungskurse
-    falsch:
-      - Acht, davon höchstens vier LK
-      - Vier, davon höchstens ein LK
-      - Sechs, LK beliebig
-    erklaerung: Gilt für Gymnasiale Oberstufe, Berufliches Gymnasium, doppelqualifizierende Bildungsgänge und Kolleg.
-  - id: a052
-    abschnitt: apv-zulassung
-    fundstelle: § 8 Abs. 1 Nr. 4
-    frage: Wie berechnet sich das Gesamtergebnis der Qualifikationsphase (Block I)?
-    richtig: Summe aller Kurshalbjahresergebnisse geteilt durch ihre Anzahl, mal 40
-    falsch:
-      - Summe mal 2
-      - LK-Durchschnitt mal 40
-      - Grundkurse plus doppelte LK
-    erklaerung: Doppelt gewichtete Kurse zählen bei der Anzahl doppelt; die Projektarbeit gilt als Kurshalbjahresergebnis.
   - id: a053
     abschnitt: apv-zulassung
     fundstelle: § 8 Abs. 1 Nr. 4
@@ -2561,16 +2614,6 @@ fragen:
       - Gar nicht
       - Nur als Prüfungsfach
     erklaerung: So § 8 Abs. 2 Nr. 4 Buchstabe b.
-  - id: a069
-    abschnitt: apv-zulassung
-    fundstelle: § 8 Abs. 2 Nr. 4c
-    frage: Zwei Sportkurse eines Schülers haben dieselbe Sportart. Wie viele davon können für die Zulassung eingebracht werden?
-    richtig: Einer
-    falsch:
-      - Beide
-      - Keiner
-      - Beide, wenn in verschiedenen Jahren
-    erklaerung: Von inhaltsgleichen Kursen und Kursen derselben Sportart kann nur einer eingebracht werden.
   - id: a070
     abschnitt: apv-zulassung
     fundstelle: § 8 Abs. 2 Nr. 5
@@ -2762,7 +2805,7 @@ fragen:
       - Kunst
       - Philosophie
       - Sport
-    erklaerung: "Möglich: Deutsch, fortgesetzte FS (außer Japanisch, Chinesisch), Latein neu, Geschichte, Politik, Mathematik, Biologie, Chemie, Physik."
+    erklaerung: "Möglich: Deutsch, fortgesetzte Fremdsprache (außer Japanisch, Chinesisch), Latein neu, Geschichte, Politik, Mathematik, Biologie, Chemie, Physik."
   - id: a089
     abschnitt: apv-pruefungsfaecher
     fundstelle: § 9a Abs. 3
@@ -2902,7 +2945,7 @@ fragen:
       - Inhaltlich möglichst ähnlich
       - Alle aus einem Halbjahr
       - Keine besonderen
-    erklaerung: In Kunst und DS dürfen die Vorschläge insgesamt höchstens zwei Halbjahre als Schwerpunkt haben.
+    erklaerung: In Kunst und Darstellendem Spiel dürfen die Vorschläge insgesamt höchstens zwei Halbjahre als Schwerpunkt haben.
   - id: a103
     abschnitt: apv-pruefungsfaecher
     fundstelle: § 10a Abs. 2
@@ -3013,16 +3056,6 @@ fragen:
       - Nur in Deutsch
       - Nur dezentral
     erklaerung: So § 11 Abs. 1 Satz 2.
-  - id: a114
-    abschnitt: apv-durchfuehrung
-    fundstelle: § 11 Abs. 1
-    frage: Um wie viel kann sich die Arbeitszeit einer schriftlichen Abiturprüfung erhöhen, wenn Experimente Teil der Aufgabe sind?
-    richtig: Um bis zu 60 Minuten
-    falsch:
-      - Um bis zu 30 Minuten
-      - Um bis zu 90 Minuten
-      - Gar nicht
-    erklaerung: So § 11 Abs. 1 Satz 4.
   - id: a115
     abschnitt: apv-durchfuehrung
     fundstelle: § 11 Abs. 1
@@ -3314,17 +3347,6 @@ fragen:
       - "11"
       - 9,7
     erklaerung: Der Mittelwert 9,67 ist nicht ganzzahlig. Gerundet wird in Richtung des Vorschlags des Vorsitzes, also auf 9.
-  - id: a144
-    abschnitt: apv-durchfuehrung
-    fundstelle: § 14 Abs. 5
-    fall: true
-    frage: "Nach einer mündlichen Abiturprüfung schlagen die drei Mitglieder des Fachprüfungsausschusses vor: Vorsitz 12, Prüferin 11, Protokollantin 11 Punkte. Welche Punktzahl wird festgesetzt?"
-    richtig: "12"
-    falsch:
-      - "11"
-      - "10"
-      - "13"
-    erklaerung: Der Mittelwert 11,33 ist nicht ganzzahlig. Gerundet wird in Richtung des Vorschlags des Vorsitzes, also auf 12.
   - id: a145
     abschnitt: apv-durchfuehrung
     fundstelle: § 14 Abs. 5
@@ -3417,17 +3439,6 @@ fragen:
       - "6"
       - "0"
     erklaerung: Rechnerisch wären es 8 Punkte (7,5 aufgerundet). Bei 0 Punkten in einem Prüfungsteil beträgt das Ergebnis im Fach Sport aber höchstens 3 Punkte.
-  - id: a154
-    abschnitt: apv-durchfuehrung
-    fundstelle: § 15 Abs. 5
-    fall: true
-    frage: "Sport als 4. Prüfungsfach mit besonderer Fachprüfung: Ein Prüfungsteil ergibt 2, der andere 13 Punkte. Welche Punktzahl erhält die besondere Fachprüfung?"
-    richtig: "6"
-    falsch:
-      - "8"
-      - "7"
-      - "3"
-    erklaerung: Rechnerisch wären es 8 Punkte (7,5 aufgerundet). Bei 1 bis 3 Punkten in einem Prüfungsteil beträgt das Ergebnis im Fach Sport aber höchstens 6 Punkte.
   - id: a155
     abschnitt: apv-durchfuehrung
     fundstelle: § 15 Abs. 6
@@ -4122,17 +4133,6 @@ fragen:
       - "45"
       - "57"
     erklaerung: "Schriftlich und mündlich werden 2:1 verrechnet: (2 × 9 + 12) ÷ 3 = 10, fünffach gewertet 50 Punkte."
-  - id: a224
-    abschnitt: apv-anlagen
-    fundstelle: Anlage 2
-    fall: true
-    frage: Ein Abiturient schreibt im 3. Prüfungsfach 6 Punkte und erreicht in der zusätzlichen mündlichen Prüfung 12 Punkte. Er bringt keine besondere Lernleistung ein. Mit wie vielen Punkten geht das Fach nach Anlage 2 in das Prüfungsergebnis ein (fünffache Wertung)?
-    richtig: "40"
-    falsch:
-      - "45"
-      - "30"
-      - "50"
-    erklaerung: (2 × 6 + 12) ÷ 3 = 8, fünffach gewertet 40 Punkte.
   - id: a225
     abschnitt: apv-anlagen
     fundstelle: Anlage 2
@@ -4155,17 +4155,6 @@ fragen:
       - "45"
       - "50"
     erklaerung: (2 × 15 + 15) ÷ 3 = 15, vierfach gewertet 60 Punkte.
-  - id: a227
-    abschnitt: apv-anlagen
-    fundstelle: Anlage 3
-    fall: true
-    frage: Ein Abiturient erreicht insgesamt 650 von 900 möglichen Punkten (Qualifikationsphase und Prüfungen zusammen). Welche Durchschnittsnote ergibt sich nach Anlage 3 AP-V?
-    richtig: 2,0
-    falsch:
-      - 2,1
-      - 1,9
-      - 2,2
-    erklaerung: 660 bis 643 Punkte entsprechen 2,0.
   - id: a228
     abschnitt: apv-anlagen
     fundstelle: Anlage 3
@@ -4176,27 +4165,6 @@ fragen:
       - "850"
       - "900"
     erklaerung: 900 bis 823 Punkte entsprechen 1,0.
-  - id: a229
-    abschnitt: apv-anlagen
-    fundstelle: Anlage 3
-    frage: Welche Abiturnote ergibt die Mindestgesamtpunktzahl von 300 Punkten?
-    richtig: 4,0
-    falsch:
-      - 3,9
-      - 3,5
-      - 4,3
-    erklaerung: 300 Punkte = 4,0; 318 bis 301 = 3,9.
-  - id: a230
-    abschnitt: apv-anlagen
-    fundstelle: Anlage 3
-    fall: true
-    frage: Welche Abiturnote entspricht 700 von 900 möglichen Gesamtpunkten?
-    richtig: 1,7
-    falsch:
-      - 1,6
-      - 1,8
-      - 1,5
-    erklaerung: 714 bis 697 Punkte entsprechen 1,7.
   - id: a231
     abschnitt: apv-anlagen
     fundstelle: Anlage 3
@@ -4219,7 +4187,399 @@ fragen:
       - 2,5
       - 2,6
     erklaerung: 380 + 195 = 575 Punkte liegen im Bereich 588 bis 571, das ergibt 2,4.
+  - id: a233
+    abschnitt: apv-allgemein
+    fundstelle: § 2 Abs. 2
+    frage: Wer ist nach § 2 Abs. 2 AP-V Vorsitzende oder Vorsitzender der Prüfungskommission an einer öffentlichen Schule?
+    richtig: Die Schulleiterin oder der Schulleiter oder ein für den Bildungsgang verantwortliches Mitglied der Schulleitung
+    falsch:
+      - Eine von der Gesamtkonferenz für die Abiturprüfung gewählte Lehrkraft
+      - Die Leiterin oder der Leiter der Fachkonferenz mit den meisten Prüflingen
+      - Die dienstälteste Lehrkraft mit Befähigung für das höhere Lehramt
+    erklaerung: Der Vorsitz muss die Befähigung für das höhere Lehramt besitzen. Die Senatorin kann den Vorsitz abweichend regeln; an anerkannten Ersatzschulen bestellt sie ihn.
+  - id: a234
+    abschnitt: apv-allgemein
+    fundstelle: § 2 Abs. 4
+    frage: Wie trifft die Prüfungskommission nach § 2 Abs. 4 AP-V ihre Entscheidungen?
+    richtig: Mit einfacher Stimmenmehrheit, ohne Stimmenthaltung; die Entscheidungen werden protokolliert
+    falsch:
+      - Einstimmig; Stimmenthaltungen sind zulässig und werden protokolliert
+      - Mit Zweidrittelmehrheit; der Vorsitz hat bei Bewertungsfragen ein Vetorecht
+      - Der Vorsitz entscheidet allein, nachdem er die Mitglieder angehört hat
+    erklaerung: Bei Stimmengleichheit entscheidet die Stimme des Vorsitzes. Beschlussfähig ist die Kommission mit dem Vorsitz und zwei weiteren Mitgliedern.
+  - id: a235
+    abschnitt: apv-allgemein
+    fundstelle: § 3 Abs. 1
+    frage: Wie viele Fachprüfungsausschüsse bestellt der Vorsitz der Prüfungskommission für einen Prüfling?
+    richtig: Für jede Prüfung des Prüflings einen eigenen
+    falsch:
+      - Einen einzigen für alle Prüfungen des Prüflings
+      - Einen je Aufgabenfeld, in dem der Prüfling geprüft wird
+      - Einen für die Leistungskurse; die Grundkurse prüft die Prüfungskommission
+    erklaerung: So § 3 Abs. 1 Satz 1. Die Besetzung unterscheidet sich zwischen schriftlichen und mündlichen Prüfungen.
+  - id: a236
+    abschnitt: apv-allgemein
+    fundstelle: § 3 Abs. 1
+    frage: Wer soll bei einer besonderen Fachprüfung, etwa in Sport, den fachpraktischen Teil abnehmen?
+    richtig: Dieselben Mitglieder, die den schriftlichen oder mündlichen Teil der besonderen Fachprüfung abnehmen
+    falsch:
+      - Ein eigener Ausschuss aus Sportlehrkräften anderer Schulen
+      - Die Fachprüfungsleitung der Schule allein
+      - Die gesamte Prüfungskommission mit vier Mitgliedern
+    erklaerung: So § 3 Abs. 1 Satz 4.
+  - id: a237
+    abschnitt: apv-allgemein
+    fundstelle: § 3 Abs. 3
+    fall: true
+    frage: Am Tag einer mündlichen Abiturprüfung ist der Fachprüfungsausschuss nicht beschlussfähig, weil ein Mitglied erkrankt ist. Was sieht § 3 Abs. 3 AP-V vor?
+    richtig: Der Vorsitz der Prüfungskommission kann eine Stellvertretung bestellen
+    falsch:
+      - Die Prüfung findet mit den beiden anwesenden Mitgliedern statt
+      - Die Prüfung wird auf den Wiederholungstermin im nächsten Schuljahr verschoben
+      - Die Senatorin bestellt eine Lehrkraft einer anderen Schule
+    erklaerung: Beschlussfähig ist der Ausschuss mit Vorsitz, Prüferin oder Prüfer und einem weiteren Mitglied; dafür kann eine Stellvertretung bestellt werden.
+  - id: a238
+    abschnitt: apv-allgemein
+    fundstelle: § 6 Abs. 3
+    fall: true
+    frage: Ein Prüfling hat eine zentral gestellte schriftliche Abiturprüfung krankheitsbedingt versäumt und versäumt aus nicht zu vertretenden Gründen auch den von der Senatorin festgelegten zweiten Termin. Wer setzt nach § 6 Abs. 3 AP-V den neuen Termin fest?
+    richtig: Die Prüfungskommission
+    falsch:
+      - Erneut die Senatorin für Kinder und Bildung
+      - Die Prüferin oder der Prüfer
+      - Niemand, ein weiterer Termin ist nicht vorgesehen
+    erklaerung: Den zweiten Termin legt die Senatorin fest; wird auch er unverschuldet versäumt, setzt die Prüfungskommission einen neuen Termin fest.
+  - id: a239
+    abschnitt: apv-allgemein
+    fundstelle: § 6 Abs. 3
+    fall: true
+    frage: Ein Prüfling hat in einem zentral geprüften Fach auch den zweiten Termin unverschuldet versäumt; die Prüfungskommission setzt einen neuen Termin fest. Welche Aufgabe wird dann nach § 6 Abs. 3 AP-V gestellt?
+    richtig: Ein von der Fachlehrkraft angeforderter, von der Fachaufsicht gewählter und genehmigter Aufgabenvorschlag
+    falsch:
+      - Die zentrale Aufgabe des ersten Termins
+      - Eine zentrale Aufgabe aus dem Vorjahr
+      - Eine von der Prüferin frei gestellte Aufgabe ohne Genehmigung
+    erklaerung: In dezentral geprüften Fächern kann dagegen ein nicht gewählter, von der Fachaufsicht genehmigter Aufgabenvorschlag gestellt werden.
+  - id: a240
+    abschnitt: apv-pruefungsfaecher
+    fundstelle: § 10a Abs. 1
+    frage: Die Prüferin erstellt für die schriftliche Abiturprüfung in Kunst drei dezentrale Aufgabenvorschläge. In wie vielen Halbjahren der Qualifikationsphase dürfen diese Vorschläge insgesamt ihren fachinhaltlichen Schwerpunkt haben?
+    richtig: In nicht mehr als zwei Halbjahren
+    falsch:
+      - In drei verschiedenen Halbjahren, für jeden Vorschlag ein eigenes
+      - In allen vier Halbjahren der Qualifikationsphase
+      - Alle drei Vorschläge im selben Halbjahr
+    erklaerung: In den übrigen dezentral geprüften Fächern haben die Vorschläge ihren Schwerpunkt in verschiedenen Halbjahren; in Kunst und Darstellendem Spiel gilt diese Begrenzung auf zwei Halbjahre.
+  - id: a241
+    abschnitt: apv-durchfuehrung
+    fundstelle: § 12 Abs. 3
+    frage: Was tut die Korreferentin oder der Korreferent nach der Erstkorrektur einer schriftlichen Abiturarbeit?
+    richtig: Sie oder er schließt sich der Bewertung an oder fertigt ein eigenes Gutachten mit Bewertung an
+    falsch:
+      - Sie oder er bewertet nur, wenn die Erstkorrektur unter 5 Punkten liegt
+      - Sie oder er prüft nur die Randkorrektur auf Vollständigkeit
+      - Sie oder er legt die Endnote fest; die Erstkorrektur ist nur ein Vorschlag
+    erklaerung: Bei abweichender Bewertung entscheidet der Vorsitz des Fachprüfungsausschusses mit schriftlicher Begründung.
+  - id: a242
+    abschnitt: apv-durchfuehrung
+    fundstelle: § 13 Abs. 2 Nr. 1
+    frage: Welche Aufgabe darf die Prüferin für eine mündliche Abiturprüfung nicht stellen?
+    richtig: Eine, die im Unterricht so weit behandelt wurde, dass ihre Lösung keine selbstständige Leistung mehr darstellt
+    falsch:
+      - Eine, die Inhalte aus mehr als einem Halbjahr der Qualifikationsphase verbindet
+      - Eine mit Material, das der Prüfling vor der Prüfung nicht kannte
+      - Eine, deren Aufgabe für den ersten Teil schriftlich vorgelegt wird
+    erklaerung: Ebenso darf die mündliche Prüfung weder ganz noch teilweise inhaltsgleich mit einer schriftlichen Prüfung desselben Prüflings sein (§ 13 Abs. 2 Nr. 5).
+  - id: a243
+    abschnitt: apv-durchfuehrung
+    fundstelle: § 14 Abs. 1
+    frage: Wer kann nach § 14 Abs. 1 AP-V in einer mündlichen Abiturprüfung den Vorsitz des Fachprüfungsausschusses übernehmen?
+    richtig: Die oder der Vorsitzende der Prüfungskommission
+    falsch:
+      - Jede Lehrkraft der Schule, die zuhört
+      - Die Fachprüfungsleitung des Faches
+      - Eine Zuhörerin oder ein Zuhörer mit dienstlichem Interesse
+    erklaerung: So § 14 Abs. 1 Satz 4.
+  - id: a244
+    abschnitt: apv-durchfuehrung
+    fundstelle: § 14 Abs. 2
+    frage: Was gilt für die Vorbereitungszeit vor einer mündlichen Abiturprüfung?
+    richtig: Sie findet unter Aufsicht einer Lehrkraft statt; der Prüfling darf sich Aufzeichnungen machen
+    falsch:
+      - Der Prüfling bereitet sich allein vor; Aufzeichnungen darf er in die Prüfung mitnehmen
+      - Sie findet unter Aufsicht statt; Aufzeichnungen sind nicht erlaubt
+      - Die Prüferin begleitet die Vorbereitung und darf Hinweise zur Lösung geben
+    erklaerung: Die Vorbereitungszeit beträgt etwa 20 Minuten und wird bei Gestaltungsaufgaben oder Experimenten angemessen verlängert.
+  - id: a245
+    abschnitt: apv-durchfuehrung
+    fundstelle: § 14 Abs. 3 Nr. 1
+    frage: Was widerspricht nach § 14 Abs. 3 AP-V dem Zweck des ersten Teils der mündlichen Abiturprüfung, der zusammenhängenden Darstellung?
+    richtig: Ein bloßes Ablesen der in der Vorbereitung angefertigten Aufzeichnungen
+    falsch:
+      - Ein Blick auf die Aufzeichnungen als Gedächtnisstütze
+      - Ein Vortrag ohne Unterbrechung durch die Prüferin
+      - Eine eigene Gliederung, die von der Aufgabenreihenfolge abweicht
+    erklaerung: Ebenso eine nicht auf die Aufgabe bezogene Wiedergabe von Wissen. Es soll deutlich werden, wie weit der Prüfling die Aufgabe selbstständig lösen kann.
+  - id: a246
+    abschnitt: apv-durchfuehrung
+    fundstelle: § 14 Abs. 3 Nr. 1
+    frage: Wann wird im ersten Teil der mündlichen Abiturprüfung, der zusammenhängenden Darstellung, eingegriffen?
+    richtig: Nur, wenn es aus prüfungsdidaktischen Gründen notwendig ist
+    falsch:
+      - Bei jedem sachlichen Fehler sofort
+      - Regelmäßig nach fünf Minuten, um zum Gespräch überzuleiten
+      - Gar nicht, Eingreifen ist im ersten Teil ausgeschlossen
+    erklaerung: Der erste Teil soll zeigen, inwieweit der Prüfling die Aufgabe selbstständig lösen kann.
+  - id: a247
+    abschnitt: apv-durchfuehrung
+    fundstelle: § 16 Abs. 4
+    frage: Wer entscheidet über die Leistungen in der besonderen Lernleistung und legt ihre Gesamtnote fest?
+    richtig: Der Fachprüfungsausschuss
+    falsch:
+      - Die Jury des Wettbewerbs, aus dem der Beitrag stammt
+      - Die Prüfungskommission in der dritten Prüfungskonferenz
+      - Die betreuende Lehrkraft allein
+    erklaerung: Für die schriftlichen Teile gilt § 12 Abs. 2 und 3, für das Kolloquium § 14 Abs. 4 bis 6 entsprechend.
+  - id: a248
+    abschnitt: apv-anlagen
+    fundstelle: Anlage 1
+    frage: Welche Arbeitszeit einschließlich Auswahlzeit gilt nach Anlage 1 AP-V für die schriftliche Abiturprüfung in Spanisch, Russisch oder Türkisch?
+    richtig: 300 Minuten im LK, 240 im GK
+    falsch:
+      - 315 Minuten im LK, 255 im GK
+      - 270 Minuten im LK, 210 im GK
+      - 240 Minuten im LK, 180 im GK
+    erklaerung: Englisch und Französisch sind nach Kompetenzbereichen geregelt (Tabelle 2); Latein und Griechisch haben 270 und 210 Minuten.
 
 # Ausgemusterte Fragen bleiben hier stehen (gleiches Format wie unter "fragen"),
 # damit alte Duell-Links lesbar bleiben. Sie kommen in keiner neuen Runde vor.
-ausgemustert: []
+ausgemustert:
+  # Katalog v3: Doppelung zu g036 (fortgesetzte bzw. neu aufgenommene Fremdsprache)
+  - id: g039
+    abschnitt: gyo-unterricht
+    fundstelle: § 8 Abs. 3
+    frage: Ist eine Fremdsprache, die in den beiden Jahrgangsstufen vor der Oberstufe belegt wurde, „neu aufgenommen“?
+    richtig: Nein
+    falsch:
+      - Ja, wenn sie erst in Klasse 9 begann
+      - Ja, bei Noten schlechter als 4
+      - Das entscheidet die Schulleitung
+    erklaerung: Eine in den beiden Jahrgangsstufen davor belegte Fremdsprache ist keine neu aufgenommene.
+  # Katalog v3: Doppelung zu g081 und g083 (Punkte und Note mit Tendenz)
+  - id: g082
+    abschnitt: gyo-unterricht
+    fundstelle: § 12 Abs. 7
+    fall: true
+    frage: Welcher Note mit Tendenz entsprechen 4 Punkte in der Punkteskala der Oberstufe?
+    richtig: 4−
+    falsch:
+      - "4"
+      - 5+
+      - 4+
+    erklaerung: 6 = 4+, 5 = 4, 4 = 4−, 3 = 5+.
+  # Katalog v3: Doppelung zu g081 und g083 (Punkte und Note mit Tendenz)
+  - id: g084
+    abschnitt: gyo-unterricht
+    fundstelle: § 12 Abs. 7
+    fall: true
+    frage: Welcher Note entsprechen 0 Punkte in der Punkteskala der Oberstufe?
+    richtig: "6"
+    falsch:
+      - 5−
+      - "5"
+      - „nicht beurteilbar“
+    erklaerung: 3 bis 1 Punkte sind die Note 5, 0 Punkte die Note 6.
+  # Katalog v3: Doppelung zu a153 (Höchstpunktzahl bei 0 Punkten in einem Sportteil)
+  - id: g094
+    abschnitt: gyo-unterricht
+    fundstelle: § 13 Abs. 6
+    fall: true
+    frage: "Leistungskurs Sport: Eine Schülerin erreicht in einem Halbjahr 0 Punkte in Sporttheorie und 14 Punkte in Sportpraxis. Wie hoch kann ihre Halbjahresnote höchstens sein?"
+    richtig: 3 Punkte
+    falsch:
+      - 7 Punkte
+      - 6 Punkte
+      - 0 Punkte
+    erklaerung: Rechnerisch wären es 7 Punkte. Bei 0 Punkten in einem der beiden Teile beträgt die Halbjahresnote aber höchstens 3 Punkte.
+  # Katalog v3: Doppelung zu a071 (bei Wiederholung zählen die Kurse der Wiederholung)
+  - id: g138
+    abschnitt: gyo-weitere
+    fundstelle: § 21 Abs. 2
+    frage: Ein Schüler wiederholt Halbjahre der Qualifikationsphase. Welche Kurse sind für Belegung, Einbringung und Zuerkennung maßgeblich?
+    richtig: Die in der Wiederholung belegten
+    falsch:
+      - Die jeweils besseren
+      - Die des ersten Durchgangs
+      - Freie Wahl
+    erklaerung: Kann ein Kurs nicht wiederholt werden, kann die Schulleitung Ausnahmen zulassen.
+  # Katalog v3: Doppelung zu g141 (Zuordnung zu Aufgabenfeld II)
+  - id: g144
+    abschnitt: gyo-anlagen
+    fundstelle: Anlage 1
+    frage: Welches Fach gehört zu Aufgabenfeld II?
+    richtig: Religion
+    falsch:
+      - Latein
+      - Informatik
+      - Darstellendes Spiel
+    erklaerung: "Aufgabenfeld II: Geographie, Geschichte, Pädagogik, Philosophie, Politik, Psychologie, Rechtskunde, Religion, Soziologie, Wirtschaftslehre."
+  # Katalog v3: Doppelung zu g141 und g142 (Zuordnung zu den Aufgabenfeldern)
+  - id: g145
+    abschnitt: gyo-anlagen
+    fundstelle: Anlage 1
+    frage: Welches Fach gehört NICHT zu Aufgabenfeld II?
+    richtig: Biologie
+    falsch:
+      - Psychologie
+      - Rechtskunde
+      - Pädagogik
+    erklaerung: Biologie gehört zu den naturwissenschaftlichen Fächern in Aufgabenfeld III.
+  # Katalog v3: Doppelung zu g046 (35 Wochenstunden in der Einführungsphase)
+  - id: g151
+    abschnitt: gyo-anlagen
+    fundstelle: Anlage 2
+    frage: Wie viele Wochenstunden umfasst die Stundentafel der Einführungsphase (Anlage 2 GyO-VO) insgesamt?
+    richtig: "35"
+    falsch:
+      - "34"
+      - "32"
+      - "36"
+    erklaerung: Die Summe der Stundentafel beträgt 35.
+  # Katalog v3: Doppelung zu g164 (Tabelle Anlage 4)
+  - id: g165
+    abschnitt: gyo-anlagen
+    fundstelle: Anlage 4
+    fall: true
+    frage: Für den schulischen Teil der Fachhochschulreife ergibt sich eine Gesamtpunktzahl von 150 (möglich sind 95 bis 285). Welche Durchschnittsnote ergibt sich nach Anlage 4 GyO-VO?
+    richtig: 3,0
+    falsch:
+      - 2,9
+      - 3,1
+      - 3,3
+    erklaerung: 152 bis 147 Punkte entsprechen 3,0.
+  # Katalog v3: Doppelung zu g164 und g166 (Tabelle Anlage 4)
+  - id: g167
+    abschnitt: gyo-anlagen
+    fundstelle: Anlage 4
+    frage: Welche Durchschnittsnote entspricht beim schulischen Teil der Fachhochschulreife der Mindestpunktzahl von 95 Punkten?
+    richtig: 4,0
+    falsch:
+      - 3,9
+      - 4,1
+      - 3,5
+    erklaerung: 95 Punkte = 4,0; 100 bis 96 = 3,9.
+  # Katalog v3: Doppelung zu a057 und a058 (höchstens sechs Kurse, davon zwei Leistungskurse, unter 5 Punkten)
+  - id: a051
+    abschnitt: apv-zulassung
+    fundstelle: § 8 Abs. 1 Nr. 1
+    frage: "Zulassung in der Gymnasialen Oberstufe: Wie viele der eingebrachten Kurse dürfen höchstens unter 5 Punkten (einfache Wertung) liegen?"
+    richtig: Sechs, davon höchstens zwei Leistungskurse
+    falsch:
+      - Acht, davon höchstens vier LK
+      - Vier, davon höchstens ein LK
+      - Sechs, LK beliebig
+    erklaerung: Gilt für Gymnasiale Oberstufe, Berufliches Gymnasium, doppelqualifizierende Bildungsgänge und Kolleg.
+  # Katalog v3: Doppelung zu a054 (Formel für das Gesamtergebnis der Qualifikationsphase)
+  - id: a052
+    abschnitt: apv-zulassung
+    fundstelle: § 8 Abs. 1 Nr. 4
+    frage: Wie berechnet sich das Gesamtergebnis der Qualifikationsphase (Block I)?
+    richtig: Summe aller Kurshalbjahresergebnisse geteilt durch ihre Anzahl, mal 40
+    falsch:
+      - Summe mal 2
+      - LK-Durchschnitt mal 40
+      - Grundkurse plus doppelte LK
+    erklaerung: Doppelt gewichtete Kurse zählen bei der Anzahl doppelt; die Projektarbeit gilt als Kurshalbjahresergebnis.
+  # Katalog v3: Doppelung zu a066 (Sportkurse mit unterschiedlichen Sportarten)
+  - id: a069
+    abschnitt: apv-zulassung
+    fundstelle: § 8 Abs. 2 Nr. 4c
+    frage: Zwei Sportkurse eines Schülers haben dieselbe Sportart. Wie viele davon können für die Zulassung eingebracht werden?
+    richtig: Einer
+    falsch:
+      - Beide
+      - Keiner
+      - Beide, wenn in verschiedenen Jahren
+    erklaerung: Von inhaltsgleichen Kursen und Kursen derselben Sportart kann nur einer eingebracht werden.
+  # Katalog v3: Doppelung zu a219 (Verlängerung der Arbeitszeit um bis zu 60 Minuten)
+  - id: a114
+    abschnitt: apv-durchfuehrung
+    fundstelle: § 11 Abs. 1
+    frage: Um wie viel kann sich die Arbeitszeit einer schriftlichen Abiturprüfung erhöhen, wenn Experimente Teil der Aufgabe sind?
+    richtig: Um bis zu 60 Minuten
+    falsch:
+      - Um bis zu 30 Minuten
+      - Um bis zu 90 Minuten
+      - Gar nicht
+    erklaerung: So § 11 Abs. 1 Satz 4.
+  # Katalog v3: Doppelung zu a143 (Rundung in Richtung des Vorsitzes)
+  - id: a144
+    abschnitt: apv-durchfuehrung
+    fundstelle: § 14 Abs. 5
+    fall: true
+    frage: "Nach einer mündlichen Abiturprüfung schlagen die drei Mitglieder des Fachprüfungsausschusses vor: Vorsitz 12, Prüferin 11, Protokollantin 11 Punkte. Welche Punktzahl wird festgesetzt?"
+    richtig: "12"
+    falsch:
+      - "11"
+      - "10"
+      - "13"
+    erklaerung: Der Mittelwert 11,33 ist nicht ganzzahlig. Gerundet wird in Richtung des Vorschlags des Vorsitzes, also auf 12.
+  # Katalog v3: Doppelung zu g095 (Höchstpunktzahl bei 1 bis 3 Punkten in einem Sportteil)
+  - id: a154
+    abschnitt: apv-durchfuehrung
+    fundstelle: § 15 Abs. 5
+    fall: true
+    frage: "Sport als 4. Prüfungsfach mit besonderer Fachprüfung: Ein Prüfungsteil ergibt 2, der andere 13 Punkte. Welche Punktzahl erhält die besondere Fachprüfung?"
+    richtig: "6"
+    falsch:
+      - "8"
+      - "7"
+      - "3"
+    erklaerung: Rechnerisch wären es 8 Punkte (7,5 aufgerundet). Bei 1 bis 3 Punkten in einem Prüfungsteil beträgt das Ergebnis im Fach Sport aber höchstens 6 Punkte.
+  # Katalog v3: Doppelung zu a223 (Tabelle Anlage 2)
+  - id: a224
+    abschnitt: apv-anlagen
+    fundstelle: Anlage 2
+    fall: true
+    frage: Ein Abiturient schreibt im 3. Prüfungsfach 6 Punkte und erreicht in der zusätzlichen mündlichen Prüfung 12 Punkte. Er bringt keine besondere Lernleistung ein. Mit wie vielen Punkten geht das Fach nach Anlage 2 in das Prüfungsergebnis ein (fünffache Wertung)?
+    richtig: "40"
+    falsch:
+      - "45"
+      - "30"
+      - "50"
+    erklaerung: (2 × 6 + 12) ÷ 3 = 8, fünffach gewertet 40 Punkte.
+  # Katalog v3: Doppelung zu a232 (Tabelle Anlage 3)
+  - id: a227
+    abschnitt: apv-anlagen
+    fundstelle: Anlage 3
+    fall: true
+    frage: Ein Abiturient erreicht insgesamt 650 von 900 möglichen Punkten (Qualifikationsphase und Prüfungen zusammen). Welche Durchschnittsnote ergibt sich nach Anlage 3 AP-V?
+    richtig: 2,0
+    falsch:
+      - 2,1
+      - 1,9
+      - 2,2
+    erklaerung: 660 bis 643 Punkte entsprechen 2,0.
+  # Katalog v3: Doppelung zu a228 und a231 (Tabelle Anlage 3)
+  - id: a229
+    abschnitt: apv-anlagen
+    fundstelle: Anlage 3
+    frage: Welche Abiturnote ergibt die Mindestgesamtpunktzahl von 300 Punkten?
+    richtig: 4,0
+    falsch:
+      - 3,9
+      - 3,5
+      - 4,3
+    erklaerung: 300 Punkte = 4,0; 318 bis 301 = 3,9.
+  # Katalog v3: Doppelung zu a232 (Tabelle Anlage 3)
+  - id: a230
+    abschnitt: apv-anlagen
+    fundstelle: Anlage 3
+    fall: true
+    frage: Welche Abiturnote entspricht 700 von 900 möglichen Gesamtpunkten?
+    richtig: 1,7
+    falsch:
+      - 1,6
+      - 1,8
+      - 1,5
+    erklaerung: 714 bis 697 Punkte entsprechen 1,7.

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { catalogue, paragraphKey, parseCatalogue, sectionById } from '../src/catalogue';
+import { catalogue, paragraphKey, parseCatalogue, questionById, sectionById } from '../src/catalogue';
 
 describe('Fragenkatalog', () => {
   it('hat eine ganzzahlige Katalogversion', () => {
@@ -26,6 +26,14 @@ describe('Fragenkatalog', () => {
       const all = [q.correct, ...q.wrong].map(s => s.trim());
       expect(all.every(Boolean), q.id).toBe(true);
       expect(new Set(all).size, `${q.id}: doppelte Antwort`).toBe(4);
+    }
+  });
+
+  it('hält ausgemusterte Fragen für alte Duell-Links auffindbar, aber aus neuen Runden heraus', () => {
+    const active = new Set(catalogue.questions.map(q => q.id));
+    for (const q of catalogue.retired) {
+      expect(active.has(q.id), q.id).toBe(false);
+      expect(questionById.get(q.id), q.id).toBe(q);
     }
   });
 

@@ -62,6 +62,8 @@ dadurch funktioniert er im Build und in den Tests gleich.
 - Ändert sich bei einer bestehenden Frage die **richtige Antwort**, wandert die alte Fassung unverändert unter
   `ausgemustert:` und die neue Fassung bekommt eine neue ID. Tippfehler und Umformulierungen ohne
   Bedeutungsänderung dürfen in place korrigiert werden.
+- Doppelungen (derselbe Sachverhalt ein zweites Mal abgefragt) werden nicht gelöscht, sondern ebenfalls
+  unter `ausgemustert:` verschoben, mit einem Kommentar, zu welcher Frage sie doppelt waren.
 - Nach jeder inhaltlichen Änderung `katalog.version` um 1 erhöhen.
 - `richtig` ist die korrekte Antwort, `falsch` hat genau drei Ablenker. Die App mischt die Reihenfolge.
   Kommazahlen als Antwort in Anführungszeichen setzen (`"2,4"`).
