@@ -61,6 +61,19 @@ describe('Fragenkatalog', () => {
     }
   });
 
+  it('verrät die richtige Antwort nicht durch ihre Länge', () => {
+    // Offizielle Bezeichnungen, die sich nicht sinnvoll kürzen oder angleichen lassen.
+    const exempt = new Set(['g162']); // Bewegungsfeld „Bewegung gymnastisch, rhythmisch und tänzerisch gestalten“
+    const tooLong = catalogue.questions.filter(q => {
+      const longestWrong = Math.max(...q.wrong.map(w => w.length));
+      return !exempt.has(q.id) && q.correct.length >= longestWrong * 1.3 && q.correct.length - longestWrong >= 8;
+    });
+    expect(tooLong.map(q => `${q.id}: ${q.correct}`)).toEqual([]);
+    // Wer immer die längste Antwort wählt, soll kaum besser liegen als beim Raten (25 %).
+    const longestIsCorrect = catalogue.questions.filter(q => q.wrong.every(w => q.correct.length > w.length)).length;
+    expect(longestIsCorrect / catalogue.questions.length).toBeLessThan(0.35);
+  });
+
   it('nutzt keine unerklärten Abkürzungen', () => {
     const re = /\b(JWS|PF|AF|MSA)\b/;
     for (const q of catalogue.questions) {
