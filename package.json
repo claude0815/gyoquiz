@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Quiz zur Bremer Oberstufen- und Abiturprüfungsverordnung (GyO-VO, AP-V)",
+  "description": "Schulrechts-Quiz Bremen: GyO-VO, AP-V, Zeugnisverordnung und Sekundarstufe I des Gymnasiums",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

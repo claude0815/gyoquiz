@@ -16,6 +16,11 @@
   --bad: #B3261E;
   --bad-bg: #FAE5E2;
   --focus: #3D74C4;
+  /* Kennfarben der Verordnungen (Reihenfolge wie im Fragenkatalog) */
+  --vo-1: var(--flag);
+  --vo-2: var(--accent);
+  --vo-3: #8A5A00;
+  --vo-4: #6B46A8;
   --font-display: "Literata Variable", Georgia, "Times New Roman", serif;
   --font-ui: "IBM Plex Sans Variable", "Segoe UI", system-ui, -apple-system, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
@@ -33,6 +38,7 @@
     --bg: #0E141D; --surface: #161F2D; --ink: #E6EBF2; --muted: #9BA7B9; --line: #29364A;
     --accent: #93B6EA; --accent-soft: #1D2B41; --on-accent: #0E141D; --flag: #E5484D;
     --ok: #62CC92; --ok-bg: #123021; --bad: #F38A80; --bad-bg: #3A1815; --focus: #93B6EA;
+    --vo-3: #E2B45A; --vo-4: #B9A0EC;
     color-scheme: dark;
   }
 }
@@ -86,7 +92,10 @@ header.top { display: flex; gap: 18px; align-items: flex-start; }
 .seg button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); font-weight: 700; }
 .vo { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: var(--step--1); font-weight: 500; }
 .vo::before { content: ""; width: 9px; height: 9px; border-radius: 2px; background: var(--accent); }
-.vo.g::before { background: var(--flag); }
+.vo.vo-1::before { background: var(--vo-1); }
+.vo.vo-2::before { background: var(--vo-2); }
+.vo.vo-3::before { background: var(--vo-3); }
+.vo.vo-4::before { background: var(--vo-4); }
 
 .secgroup { display: flex; flex-direction: column; gap: 2px; }
 .secgroup-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 4px 0 6px; border-bottom: 1px solid var(--line); }

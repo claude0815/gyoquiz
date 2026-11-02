@@ -1,10 +1,12 @@
 import raw from '../content/fragen.yaml';
 
-/** Kürzel der beiden Verordnungen. */
-export type Regulation = 'GyO-VO' | 'AP-V';
+/** Kürzel einer Verordnung, wie im Katalog unter verordnungen[].kurz angegeben (z. B. "GyO-VO"). */
+export type Regulation = string;
 
 export interface RegulationInfo {
   short: Regulation;
+  /** Anfangsbuchstabe der Fragen-IDs dieser Verordnung (g001, a001 …). */
+  prefix: string;
   title: string;
   dated: string;
   version: string;
@@ -80,14 +82,20 @@ export function parseCatalogue(input: unknown): Catalogue {
   const regulations = list(root, 'verordnungen', 'Wurzel').map((r, i): RegulationInfo => {
     const o = obj(r, `verordnungen[${i}]`);
     const short = str(o, 'kurz', `verordnungen[${i}]`);
-    if (short !== 'GyO-VO' && short !== 'AP-V') throw new Error(`Fragenkatalog: unbekannte Verordnung ${short}`);
-    return { short, title: str(o, 'titel', short), dated: str(o, 'vom', short), version: str(o, 'fassung', short), source: str(o, 'quelle', short) };
+    const prefix = str(o, 'praefix', short);
+    if (!/^[a-z]$/.test(prefix)) throw new Error(`Fragenkatalog: ${short} braucht als praefix einen Kleinbuchstaben`);
+    return { short, prefix, title: str(o, 'titel', short), dated: str(o, 'vom', short), version: str(o, 'fassung', short), source: str(o, 'quelle', short) };
   });
+  for (const key of ['short', 'prefix'] as const) {
+    const values = regulations.map(r => r[key]);
+    if (new Set(values).size !== values.length) throw new Error(`Fragenkatalog: doppelte Angabe bei verordnungen (${key})`);
+  }
+  const knownRegulations = new Set(regulations.map(r => r.short));
 
   const sections = list(root, 'abschnitte', 'Wurzel').map((s, i): Section => {
     const o = obj(s, `abschnitte[${i}]`);
     const regulation = str(o, 'verordnung', `abschnitte[${i}]`);
-    if (regulation !== 'GyO-VO' && regulation !== 'AP-V') throw new Error(`Fragenkatalog: abschnitte[${i}] hat unbekannte Verordnung`);
+    if (!knownRegulations.has(regulation)) throw new Error(`Fragenkatalog: abschnitte[${i}] hat unbekannte Verordnung ${regulation}`);
     return {
       id: str(o, 'id', `abschnitte[${i}]`),
       regulation,

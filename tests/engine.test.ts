@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { Question } from '../src/catalogue';
 import {
-  GRADE_BY_POINTS, answer, createRound, isCorrect, pctToPoints, pickQuestions, recordStats, summarize, type StatsMap,
+  GRADE_BY_POINTS, answer, createRound, isCorrect, pctToPoints, pickQuestions, recordStats, summarize, withNewSections, type StatsMap,
 } from '../src/engine';
 import { hashString, seededRng, shuffle } from '../src/rng';
 
@@ -76,6 +76,15 @@ describe('Runde', () => {
   it('lehnt ungültige Positionen ab', () => {
     const round = createRound(POOL.slice(0, 1));
     expect(() => answer(round.items[0]!, 4, 0)).toThrow(RangeError);
+  });
+});
+
+describe('Gespeicherte Abschnittsauswahl', () => {
+  it('behält die Auswahl und ergänzt neu hinzugekommene Abschnitte', () => {
+    expect(withNewSections(['a', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c', 'd', 'e'])).toEqual(['a', 'c', 'd', 'e']);
+  });
+  it('wählt abgewählte, schon bekannte Abschnitte nicht wieder aus und verwirft unbekannte', () => {
+    expect(withNewSections(['x'], ['a', 'b'], ['a', 'b'])).toEqual([]);
   });
 });
 

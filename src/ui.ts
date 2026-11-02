@@ -1,6 +1,6 @@
 import { catalogue, paragraphKey, questionById, sectionById, type Question, type Regulation } from './catalogue';
 import {
-  GRADE_BY_POINTS, answer, createRound, isAnswered, isCorrect, optionsOf, pickQuestions, recordStats, summarize,
+  GRADE_BY_POINTS, answer, createRound, isAnswered, isCorrect, optionsOf, pickQuestions, recordStats, summarize, withNewSections,
   type Round, type RoundItem, type StatsMap,
 } from './engine';
 import { buildLink, challengeOf, encodePayload, isValidName, normalizeName, parseHash, randomDuelId, seal, MAX_QUESTIONS, MIN_QUESTIONS, type DuelPayload, type DuelPlayer, type LinkKind } from './duel/link';
@@ -37,6 +37,8 @@ type ResultMode =
 interface Settings {
   vo: 'all' | Regulation;
   sections: string[];
+  /** Alle Abschnitte, die es beim letzten Speichern gab. Später hinzugekommene werden automatisch ausgewählt. */
+  seen: string[];
   /** Fragen pro Runde, 0 = alle passenden. */
   n: number;
   weak: boolean;
@@ -44,13 +46,20 @@ interface Settings {
 }
 
 const ALL_SECTION_IDS = catalogue.sections.map(s => s.id);
-const DEFAULT_SETTINGS: Settings = { vo: 'all', sections: ALL_SECTION_IDS, n: 20, weak: false, cases: false };
+const DEFAULT_SETTINGS: Settings = { vo: 'all', sections: ALL_SECTION_IDS, seen: ALL_SECTION_IDS, n: 20, weak: false, cases: false };
+/** Gespeicherte Einstellungen ohne `seen` stammen aus der Zeit, als es nur diese beiden Verordnungen gab. */
+const LEGACY_REGULATIONS = ['GyO-VO', 'AP-V'];
 
 function sanitizeSettings(s: Partial<Settings> | null | undefined): Settings {
   const v = { ...DEFAULT_SETTINGS, ...(s ?? {}) };
+  const rawSeen = s?.seen;
+  const seen = Array.isArray(rawSeen)
+    ? rawSeen
+    : catalogue.sections.filter(sec => LEGACY_REGULATIONS.includes(sec.regulation)).map(sec => sec.id);
   return {
-    vo: v.vo === 'GyO-VO' || v.vo === 'AP-V' ? v.vo : 'all',
-    sections: Array.isArray(v.sections) ? v.sections.filter(id => sectionById.has(id)) : ALL_SECTION_IDS,
+    vo: v.vo === 'all' || catalogue.regulations.some(r => r.short === v.vo) ? v.vo : 'all',
+    sections: withNewSections(Array.isArray(v.sections) ? v.sections : ALL_SECTION_IDS, seen, ALL_SECTION_IDS),
+    seen: ALL_SECTION_IDS,
     n: [0, 10, 20, 40].includes(v.n) ? v.n : 20,
     weak: v.weak === true,
     cases: v.cases === true,
@@ -79,8 +88,10 @@ function el<T extends HTMLElement = HTMLElement>(id: string): T {
 const ESC: Record<string, string> = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
 const esc = (s: unknown): string => String(s).replace(/[&<>"']/g, c => ESC[c]!);
 
+/** Kennfarbe je Verordnung über die Klassen vo-1 … vo-4 (Reihenfolge wie im Katalog). */
 function voBadge(vo: Regulation): string {
-  return `<span class="${vo === 'GyO-VO' ? 'vo g' : 'vo'}">${vo}</span>`;
+  const i = catalogue.regulations.findIndex(r => r.short === vo);
+  return `<span class="vo vo-${i + 1}">${esc(vo)}</span>`;
 }
 
 function regulationOfSection(id: string): Regulation {
@@ -171,7 +182,7 @@ function renderSetup(): void {
   el<HTMLInputElement>('opt-weak').checked = settings.weak;
   el<HTMLInputElement>('opt-case').checked = settings.cases;
 
-  const groups = (['GyO-VO', 'AP-V'] as const).filter(vo => settings.vo === 'all' || settings.vo === vo);
+  const groups = catalogue.regulations.map(r => r.short).filter(vo => settings.vo === 'all' || settings.vo === vo);
   el('sec-list').innerHTML = groups.map(vo => {
     const info = catalogue.regulations.find(r => r.short === vo);
     const rows = catalogue.sections.filter(s => s.regulation === vo).map(s => {
@@ -187,7 +198,7 @@ function renderSetup(): void {
     }).join('');
     return `<div class="secgroup">
       <div class="secgroup-head"><span>${voBadge(vo)} <span class="poolinfo">${esc(info?.title ?? '')}</span></span>
-        <span class="linkbtns"><button type="button" class="linkbtn" data-all="${vo}">alle</button><button type="button" class="linkbtn" data-none="${vo}">keine</button></span></div>
+        <span class="linkbtns"><button type="button" class="linkbtn" data-all="${esc(vo)}">alle</button><button type="button" class="linkbtn" data-none="${esc(vo)}">keine</button></span></div>
       ${rows}</div>`;
   }).join('');
 
@@ -216,6 +227,8 @@ function renderSetup(): void {
 }
 
 function renderStatic(): void {
+  el('seg-vo').innerHTML = '<button type="button" data-vo="all">Alle</button>' + catalogue.regulations
+    .map(r => `<button type="button" data-vo="${esc(r.short)}" title="${esc(r.title)}">${esc(r.short)}</button>`).join('');
   el('stand').textContent = catalogue.regulations.map(r => `${r.short} v. ${r.dated}`).join(' · ') + ` · Fragenkatalog v${catalogue.version}`;
 
   el('glossary').innerHTML = catalogue.glossary.map(g => `<dt>${esc(g.term)}</dt><dd>${esc(g.explanation)}</dd>`).join('');
@@ -630,7 +643,7 @@ function renderChallengeShare(box: HTMLElement, p: DuelPayload): void {
   renderShare(box, {
     title: 'Herausforderung verschicken',
     text: 'Schick diesen Link an die Person, die du herausfordern willst. Dein Ergebnis wird erst nach und nach aufgedeckt.',
-    shareText: `${p.a.n} fordert dich zum GyO-VO & AP-V Quiz heraus: ${p.q.length} Fragen. Schaffst du mehr?`,
+    shareText: `${p.a.n} fordert dich zum Schulrechts-Quiz Bremen heraus: ${p.q.length} Fragen. Schaffst du mehr?`,
     link: duelLink('d', p),
   });
 }
@@ -639,7 +652,7 @@ function renderReturnShare(box: HTMLElement, p: DuelPayload): void {
   renderShare(box, {
     title: `Ergebnis an ${p.a.n} zurückschicken`,
     text: `Mit diesem Link sieht ${p.a.n}, wie das Duell ausgegangen ist.`,
-    shareText: `${p.b!.n} hat deine Herausforderung im GyO-VO & AP-V Quiz gespielt. Hier ist das Ergebnis:`,
+    shareText: `${p.b!.n} hat deine Herausforderung im Schulrechts-Quiz Bremen gespielt. Hier ist das Ergebnis:`,
     link: duelLink('r', p),
   });
 }

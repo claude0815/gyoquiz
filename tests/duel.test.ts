@@ -250,6 +250,8 @@ describe('Auswahl', () => {
     expect(selectionLabel(sel)).toMatch(/^GyO-VO, 1 Abschnitt/);
     const mixed = selectionOf([...qs, catalogue.questions.find(q => q.id.startsWith('a'))!.id]);
     expect(selectionLabel(mixed)).toMatch(/^GyO-VO und AP-V, 2 Abschnitte/);
+    const three = selectionOf([...qs, ...['a', 'z'].map(p => catalogue.questions.find(q => q.id.startsWith(p))!.id)]);
+    expect(selectionLabel(three)).toMatch(/^GyO-VO, AP-V und Zeugnis-VO, 3 Abschnitte/);
   });
   it('wählt für die Revanche neue Fragen aus derselben Auswahl', () => {
     const prev = catalogue.questions.slice(0, 10).map(q => q.id);

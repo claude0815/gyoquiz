@@ -48,7 +48,7 @@ Alles läuft ohne Server: Die Herausforderung und das Ergebnis reisen **im Link*
      Textfeld markieren und „Bitte manuell kopieren“ anzeigen). Statusmeldung in einer `aria-live`-Region:
      „Link kopiert“.
    - Schreibgeschütztes Textfeld mit dem Link.
-   - Teilen-Text, **ohne** Punktzahl: „{A} fordert dich zum GyO-VO & AP-V Quiz heraus: {n} Fragen. Schaffst du mehr?“
+   - Teilen-Text, **ohne** Punktzahl: „{A} fordert dich zum Schulrechts-Quiz Bremen heraus: {n} Fragen. Schaffst du mehr?“
 5. Die ausgehende Herausforderung wird lokal unter „Meine Duelle“ gespeichert (siehe unten).
 
 ### 2. B nimmt die Herausforderung an
