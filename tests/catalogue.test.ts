@@ -7,13 +7,13 @@ describe('Fragenkatalog', () => {
     expect(catalogue.version).toBeGreaterThanOrEqual(1);
   });
 
-  it('hat eindeutige IDs im Format g001 / a001 passend zur Verordnung, auch über ausgemusterte Fragen hinweg', () => {
+  it('hat eindeutige IDs mit dem Präfix ihrer Verordnung (g001, a001 …), auch über ausgemusterte Fragen hinweg', () => {
     const ids = [...catalogue.questions, ...catalogue.retired].map(q => q.id);
     expect(new Set(ids).size).toBe(ids.length);
+    const prefixOf = new Map(catalogue.regulations.map(r => [r.short, r.prefix]));
     for (const q of catalogue.questions) {
-      expect(q.id).toMatch(/^[ga]\d{3}$/);
-      const reg = sectionById.get(q.section)?.regulation;
-      expect(q.id.startsWith(reg === 'GyO-VO' ? 'g' : 'a'), `${q.id} passt nicht zu ${reg}`).toBe(true);
+      const reg = sectionById.get(q.section)?.regulation ?? '';
+      expect(q.id, `${q.id} passt nicht zu ${reg}`).toMatch(new RegExp(`^${prefixOf.get(reg)}\\d{3}$`));
     }
   });
 
@@ -83,7 +83,7 @@ describe('Fragenkatalog', () => {
 
   it('hat ein Glossar und Quellen zu beiden Verordnungen', () => {
     expect(catalogue.glossary.length).toBeGreaterThan(5);
-    expect(catalogue.regulations.map(r => r.short).sort()).toEqual(['AP-V', 'GyO-VO']);
+    expect(catalogue.regulations.map(r => r.short)).toEqual(['GyO-VO', 'AP-V', 'Zeugnis-VO', 'Sek-I-Gym-VO']);
   });
 
   it('lehnt eine Frage mit falscher Anzahl an Ablenkern ab', () => {

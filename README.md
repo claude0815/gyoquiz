@@ -1,11 +1,12 @@
 # GyO-VO & AP-V Quiz
 
-Multiple-Choice-Quiz zur **Verordnung über die Gymnasiale Oberstufe (GyO-VO)** und zur
-**Verordnung über die Abiturprüfung im Lande Bremen (AP-V)** – für Lehrkräfte und Schulleitungen.
+Multiple-Choice-Quiz zur **Verordnung über die Gymnasiale Oberstufe (GyO-VO)**, zur
+**Verordnung über die Abiturprüfung im Lande Bremen (AP-V)**, zur **Zeugnisverordnung** und zur
+**Verordnung über die Sekundarstufe I des Gymnasiums** – für Lehrkräfte und Schulleitungen.
 
 **Seite:** https://claude0815.github.io/gyoquiz/
 
-- 399 Fragen, die jeden Paragraphen und jede Anlage beider Verordnungen abdecken
+- 545 Fragen, die jeden Paragraphen und jede Anlage der vier Verordnungen abdecken
 - Filter nach Verordnung, Abschnitt und Fall-/Rechenfragen
 - Erklärung mit Fundstelle nach jeder Antwort, Auswertung in Notenpunkten
 - Lernstand pro Gerät, „Unsicheres bevorzugen“, „Falsche wiederholen“
@@ -65,6 +66,8 @@ Auftrag. Einen fertigen Startprompt gibt es in [`docs/claude-code-start.md`](doc
 
 - [Verordnung über die Gymnasiale Oberstufe (GyO-VO) vom 1. August 2005](https://www.transparenz.bremen.de/metainformationen/verordnung-ueber-die-gymnasiale-oberstufe-gyo-vo-vom-1-august-2005-130143?asl=bremen02.c.732.de&template=20_gp_ifg_meta_detail_d), letzte berücksichtigte Änderung vom 25.04.2019
 - [Verordnung über die Abiturprüfung im Lande Bremen (AP-V) vom 11. März 2022](https://www.transparenz.bremen.de/metainformationen/verordnung-ueber-die-abiturpruefung-im-lande-bremen-ap-v-vom-11-maerz-2022-192657?asl=bremen203_tpgesetz.c.55340.de&template=20_gp_ifg_meta_detail_d), letzte berücksichtigte Änderung vom 19.04.2023
+- Verordnung für Zeugnisse und Lernentwicklungsberichte an öffentlichen Schulen (Zeugnisverordnung) vom 20. Juni 2013, letzte berücksichtigte Änderung vom 16.03.2022
+- Verordnung über die Sekundarstufe I des Gymnasiums vom 26. Juni 2009, letzte berücksichtigte Änderung vom 19.12.2014
 - Arbeitszeiten der schriftlichen Prüfung zusätzlich abgeglichen mit Mitteilung Nr. 221/2024 der Senatorin für Kinder und Bildung
 
 Das Quiz ersetzt nicht den Verordnungstext; bei Abweichungen gilt die amtliche Fassung.

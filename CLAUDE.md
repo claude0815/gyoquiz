@@ -1,7 +1,8 @@
 # CLAUDE.md – GyO-VO & AP-V Quiz
 
 Statische Web-App (Vite + TypeScript), die auf GitHub Pages läuft: ein Multiple-Choice-Quiz zur
-**Verordnung über die Gymnasiale Oberstufe (GyO-VO)** und zur **Verordnung über die Abiturprüfung (AP-V)**
+**Verordnung über die Gymnasiale Oberstufe (GyO-VO)**, zur **Verordnung über die Abiturprüfung (AP-V)**,
+zur **Zeugnisverordnung (Zeugnis-VO)** und zur **Verordnung über die Sekundarstufe I des Gymnasiums (Sek-I-Gym-VO)**
 im Land Bremen. Zielgruppe sind **Lehrkräfte und Schulleitungen**. Oberfläche und Inhalte sind deutsch,
 Ansprache mit „du“ (Spiel unter Kolleginnen und Kollegen).
 
@@ -57,8 +58,12 @@ dadurch funktioniert er im Build und in den Tests gleich.
 
 ## Fragenkatalog pflegen (`content/fragen.yaml`)
 
-- **IDs sind dauerhaft.** `g001…` für GyO-VO, `a001…` für AP-V. Nie ändern, nie neu vergeben,
-  denn Duell-Links speichern IDs. Neue Fragen bekommen die nächste freie Nummer.
+- **IDs sind dauerhaft.** Der Anfangsbuchstabe ist der `praefix` der Verordnung: `g001…` GyO-VO, `a001…` AP-V,
+  `z001…` Zeugnis-VO, `s001…` Sek-I-Gym-VO. Nie ändern, nie neu vergeben, denn Duell-Links speichern IDs.
+  Neue Fragen bekommen die nächste freie Nummer.
+- **Weitere Verordnung aufnehmen:** Eintrag unter `verordnungen` (mit neuem `praefix`), Abschnitte mit allen
+  Paragraphen und Anlagen, Fragen. Auswahlknöpfe, Kennfarben (`--vo-1` … `--vo-4` in `styles.css`) und
+  Tests richten sich nach dem Katalog; für eine fünfte Verordnung `--vo-5` ergänzen.
 - Ändert sich bei einer bestehenden Frage die **richtige Antwort**, wandert die alte Fassung unverändert unter
   `ausgemustert:` und die neue Fassung bekommt eine neue ID. Tippfehler und Umformulierungen ohne
   Bedeutungsänderung dürfen in place korrigiert werden.

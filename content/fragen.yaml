@@ -2,7 +2,8 @@
 #
 # Regeln für Änderungen (siehe auch CLAUDE.md):
 # - Eine id wird nie geändert und nie neu vergeben. Duell-Links speichern ids.
-# - Neue Fragen bekommen die nächste freie Nummer (g… für GyO-VO, a… für AP-V).
+# - Neue Fragen bekommen die nächste freie Nummer. Der Anfangsbuchstabe ist der praefix
+#   der Verordnung (g GyO-VO, a AP-V, z Zeugnis-VO, s Sek-I-Gym-VO).
 # - Ändert sich bei einer bestehenden Frage die richtige Antwort, wird die alte Frage
 #   unter "ausgemustert" verschoben und die neue Fassung bekommt eine neue id.
 # - Doppelungen werden nicht gelöscht, sondern ebenfalls nach "ausgemustert" verschoben.
@@ -13,19 +14,33 @@
 # - Nach jeder inhaltlichen Änderung katalog.version erhöhen.
 
 katalog:
-  version: 3
-  stand: "2026-10-30"
+  version: 4
+  stand: "2026-11-02"
 verordnungen:
   - kurz: GyO-VO
+    praefix: g
     titel: Verordnung über die Gymnasiale Oberstufe
     vom: 1. August 2005
     fassung: "letzte berücksichtigte Änderung: Artikel 2 der Verordnung vom 25.04.2019 (Brem.GBl. S. 218, 320)"
     quelle: https://www.transparenz.bremen.de/metainformationen/verordnung-ueber-die-gymnasiale-oberstufe-gyo-vo-vom-1-august-2005-130143?asl=bremen02.c.732.de&template=20_gp_ifg_meta_detail_d
   - kurz: AP-V
+    praefix: a
     titel: Verordnung über die Abiturprüfung im Lande Bremen
     vom: 11. März 2022
     fassung: "letzte berücksichtigte Änderung: Verordnung vom 19.04.2023 (Brem.GBl. S. 481)"
     quelle: https://www.transparenz.bremen.de/metainformationen/verordnung-ueber-die-abiturpruefung-im-lande-bremen-ap-v-vom-11-maerz-2022-192657?asl=bremen203_tpgesetz.c.55340.de&template=20_gp_ifg_meta_detail_d
+  - kurz: Zeugnis-VO
+    praefix: z
+    titel: Verordnung für Zeugnisse und Lernentwicklungsberichte an öffentlichen Schulen (Zeugnisverordnung)
+    vom: 20. Juni 2013
+    fassung: "letzte berücksichtigte Änderung: Verordnung vom 16.03.2022 (Brem.GBl. S. 266)"
+    quelle: https://www.transparenz.bremen.de/
+  - kurz: Sek-I-Gym-VO
+    praefix: s
+    titel: Verordnung über die Sekundarstufe I des Gymnasiums
+    vom: 26. Juni 2009
+    fassung: "letzte berücksichtigte Änderung: Artikel 3 der Verordnung vom 19.12.2014"
+    quelle: https://www.transparenz.bremen.de/
 abschnitte:
   - id: gyo-allgemein
     verordnung: GyO-VO
@@ -159,6 +174,107 @@ abschnitte:
       - Anlage 1a
       - Anlage 2
       - Anlage 3
+  - id: zvo-allgemein
+    verordnung: Zeugnis-VO
+    name: Allgemeine Bestimmungen
+    bereich: §§ 1–7
+    paragraphen:
+      - § 1
+      - § 2
+      - § 3
+      - § 4
+      - § 5
+      - § 6
+      - § 7
+  - id: zvo-zeugnisse
+    verordnung: Zeugnis-VO
+    name: Beurteilungszeiträume und Zeugnisarten
+    bereich: §§ 8–11
+    paragraphen:
+      - § 8
+      - § 9
+      - § 10
+      - § 10a
+      - § 10b
+      - § 11
+  - id: zvo-verfahren
+    verordnung: Zeugnis-VO
+    name: Verfahrens- und Formvorschriften
+    bereich: §§ 12–17
+    paragraphen:
+      - § 12
+      - § 13
+      - § 14
+      - § 15
+      - § 16
+      - § 17
+  - id: zvo-schularten
+    verordnung: Zeugnis-VO
+    name: Schularten und Schulstufen
+    bereich: §§ 18–26
+    paragraphen:
+      - § 18
+      - § 19
+      - § 20
+      - § 21
+      - § 22
+      - § 23
+      - § 24
+      - § 25
+      - § 26
+  - id: zvo-weitere
+    verordnung: Zeugnis-VO
+    name: Weitere Regelungen und Schlussbestimmungen
+    bereich: §§ 27–32
+    paragraphen:
+      - § 27
+      - § 28
+      - § 29
+      - § 30
+      - § 31
+      - § 32
+  - id: sek1-allgemein
+    verordnung: Sek-I-Gym-VO
+    name: Allgemeine Bestimmungen
+    bereich: §§ 1–3
+    paragraphen:
+      - § 1
+      - § 2
+      - § 3
+  - id: sek1-unterricht
+    verordnung: Sek-I-Gym-VO
+    name: Bestimmungen für den Unterricht
+    bereich: §§ 4–9
+    paragraphen:
+      - § 4
+      - § 5
+      - § 6
+      - § 7
+      - § 8
+      - § 9
+  - id: sek1-versetzung
+    verordnung: Sek-I-Gym-VO
+    name: Versetzung und Abschlüsse
+    bereich: §§ 10–14
+    paragraphen:
+      - § 10
+      - § 11
+      - § 12
+      - § 13
+      - § 14
+  - id: sek1-weitere
+    verordnung: Sek-I-Gym-VO
+    name: Weitere Bestimmungen
+    bereich: §§ 15–16
+    paragraphen:
+      - § 15
+      - § 16
+  - id: sek1-anlagen
+    verordnung: Sek-I-Gym-VO
+    name: Kontingentstundentafel
+    bereich: Anl. 1
+    paragraphen:
+      - Anlage 1
 glossar:
   - begriff: E-Phase
     erklaerung: Einführungsphase, das erste Jahr der Gymnasialen Oberstufe (§ 2 GyO-VO).
@@ -167,7 +283,7 @@ glossar:
   - begriff: LK / GK
     erklaerung: Leistungskurs (erhöhtes Anforderungsniveau, fünfstündig) und Grundkurs (grundlegendes Anforderungsniveau).
   - begriff: Kernfächer
-    erklaerung: Deutsch, Mathematik und erste Fremdsprache; maßgeblich für die Versetzung nach § 16 GyO-VO.
+    erklaerung: Am Ende der Einführungsphase Deutsch, Mathematik und erste Fremdsprache (§ 16 GyO-VO); am Ende der Jahrgangsstufe 9 des Gymnasiums Deutsch, Mathematik und Englisch (§ 10 Sek-I-Gym-VO).
   - begriff: Jahreswochenstunden
     erklaerung: Wochenstunden eines Faches, gerechnet über ein ganzes Schuljahr.
   - begriff: Aufgabenfeld I, II, III
@@ -190,6 +306,16 @@ glossar:
     erklaerung: "Erste: Zulassung. Zweite: Ergebnisse der Prüfungen, zusätzliche mündliche Prüfungen. Dritte: Gesamtergebnis und Bestehen (§§ 7, 17, 18 AP-V)."
   - begriff: Senatorin
     erklaerung: Die Senatorin für Kinder und Bildung, oberste Schulbehörde im Land Bremen.
+  - begriff: Zeugnis-VO, Sek-I-Gym-VO
+    erklaerung: In diesem Quiz verwendete Kürzel für die Zeugnisverordnung vom 20. Juni 2013 und die Verordnung über die Sekundarstufe I des Gymnasiums vom 26. Juni 2009.
+  - begriff: Lernentwicklungsbericht
+    erklaerung: Beurteilung von Leistungsstand und Lernentwicklung ohne Noten, mit Kompetenzraster und freiem Text (§ 7 Zeugnis-VO).
+  - begriff: Zeugniskonferenz
+    erklaerung: Die unterrichtenden Lehrkräfte, die die Zeugnisse beraten und beschließen (§ 12 Zeugnis-VO).
+  - begriff: zielgleich / zieldifferent
+    erklaerung: Unterricht für Schülerinnen und Schüler mit sonderpädagogischem Förderbedarf nach den allgemeinen bzw. nach individuellen Lernzielen (§ 27 Zeugnis-VO).
+  - begriff: Kontingentstundentafel
+    erklaerung: Mindeststunden je Fach, summiert über die Jahrgangsstufen 5 bis 9 des Gymnasiums (Anlage 1 Sek-I-Gym-VO).
 fragen:
   - id: g001
     abschnitt: gyo-allgemein
@@ -4350,6 +4476,1359 @@ fragen:
       - 270 Minuten im LK, 210 im GK
       - 240 Minuten im LK, 180 im GK
     erklaerung: Englisch und Französisch sind nach Kompetenzbereichen geregelt (Tabelle 2); Latein und Griechisch haben 270 und 210 Minuten.
+  - id: z001
+    abschnitt: zvo-allgemein
+    fundstelle: § 1
+    frage: Für welche Schulen gilt die Bremer Zeugnisverordnung?
+    richtig: Für alle öffentlichen Schulen im Sinne des Bremischen Schulgesetzes
+    falsch:
+      - Nur für die allgemeinbildenden Schulen der Sekundarstufe I und II
+      - Für alle öffentlichen und privaten Schulen im Land Bremen gleichermaßen
+      - Nur für Schulen, die Abschlüsse vergeben, also ab Jahrgangsstufe 9
+    erklaerung: Sie regelt die Erteilung von Zeugnissen und Lernentwicklungsberichten.
+  - id: z002
+    abschnitt: zvo-allgemein
+    fundstelle: § 2 Abs. 3
+    frage: Welche Funktion haben Zeugnisse nach § 2 Abs. 3 der Zeugnisverordnung?
+    richtig: Sie sind Grundlage für Versetzungsentscheidungen
+    falsch:
+      - Sie sind Grundlage für die Zuweisung von Förderstunden an die Schule
+      - Sie dienen der Schulaufsicht zum Vergleich der Schulen untereinander
+      - Sie ersetzen bei Bewerbungen die Empfehlung der Klassenleitung
+    erklaerung: Außerdem unterrichten Zeugnisse Schüler, Erziehungsberechtigte, aufnehmende Schulen und Arbeitgeber über Leistungsstand und Lernentwicklung (§ 2 Abs. 2).
+  - id: z003
+    abschnitt: zvo-allgemein
+    fundstelle: § 2 Abs. 2
+    frage: Wen unterrichten Zeugnisse an Berufsschulen nach der Zeugnisverordnung zusätzlich zu den Schülern und ihren Erziehungsberechtigten?
+    richtig: Die Ausbildenden
+    falsch:
+      - Die zuständige Kammer
+      - Die Agentur für Arbeit
+      - Die Berufsgenossenschaft
+    erklaerung: Beim Übergang auf andere Schulen wird die aufnehmende Schule, beim Eintritt in eine Berufstätigkeit der Arbeitgeber unterrichtet.
+  - id: z004
+    abschnitt: zvo-allgemein
+    fundstelle: § 3 Abs. 3
+    frage: Worauf beruht nach § 3 der Zeugnisverordnung die Leistungsbeurteilung in den Unterrichtsfächern?
+    richtig: Auf Beobachtungen im Unterricht sowie mündlichen, schriftlichen und gegebenenfalls praktischen Leistungskontrollen
+    falsch:
+      - Ausschließlich auf schriftlichen Leistungskontrollen wie Klassenarbeiten, Tests und Klausuren des gesamten Schuljahres
+      - Auf schriftlichen Arbeiten und einer Selbsteinschätzung der Schülerin oder des Schülers zum Halbjahr
+      - Auf mündlichen Leistungen, die nach der Verordnung mindestens die Hälfte der Note ausmachen
+    erklaerung: Sie bezieht sich auf die gesamte Lernentwicklung.
+  - id: z005
+    abschnitt: zvo-allgemein
+    fundstelle: § 3 Abs. 3
+    frage: Was umfasst die Leistungsbeurteilung nach § 3 der Zeugnisverordnung außer den fachlichen Fähigkeiten und Kenntnissen?
+    richtig: Die Arbeitsweisen, die Bestandteil der fachlichen Leistungen sind
+    falsch:
+      - Das Sozialverhalten in den Pausen und auf Klassenfahrten
+      - Die Anwesenheit, unabhängig davon, ob Fehlzeiten entschuldigt sind
+      - Das Engagement in Arbeitsgemeinschaften außerhalb des Unterrichts
+    erklaerung: So § 3 Abs. 3 Satz 2.
+  - id: z006
+    abschnitt: zvo-allgemein
+    fundstelle: § 3 Abs. 2
+    frage: Was gilt nach der Zeugnisverordnung für Fächer, die nicht durch die Stundentafel der Senatorin vorgegeben sind?
+    richtig: Sie müssen im Zeugnis der Schule beschrieben sein
+    falsch:
+      - Sie dürfen im Zeugnis nicht aufgeführt werden
+      - Sie erscheinen im Zeugnis nur mit dem Vermerk „teilgenommen“
+      - Sie brauchen vor der Aufnahme ins Zeugnis die Zustimmung der Elternvertretung
+    erklaerung: In beruflichen Bildungsgängen umfasst „Fach“ auch „Lernfeld“.
+  - id: z007
+    abschnitt: zvo-allgemein
+    fundstelle: § 4 Abs. 1
+    frage: In welchen Jahrgängen sollen die Noten im Zeugnis nach § 4 der Zeugnisverordnung durch Berichte über die Lernentwicklung ergänzt werden?
+    richtig: In den Jahrgängen 5 und 6
+    falsch:
+      - In den Jahrgängen 3 und 4
+      - In den Jahrgängen 7 und 8
+      - In allen Jahrgängen der Sekundarstufe I
+    erklaerung: So § 4 Abs. 1 Satz 2.
+  - id: z008
+    abschnitt: zvo-allgemein
+    fundstelle: § 4 Abs. 1
+    frage: Wann werden Leistungen in Arbeitsgemeinschaften nach der Zeugnisverordnung benotet?
+    richtig: Nur wenn die Senatorin oder die Schule dies besonders bestimmt
+    falsch:
+      - Immer, wenn die Arbeitsgemeinschaft mindestens ein Halbjahr dauert
+      - Nur auf Wunsch der Schülerin oder des Schülers für das Abschlusszeugnis
+      - Nie; die Teilnahme erscheint höchstens als Bemerkung im Zeugnis
+    erklaerung: Arbeitsgemeinschaften sind freie Unterrichtsveranstaltungen.
+  - id: z009
+    abschnitt: zvo-allgemein
+    fundstelle: § 4 Abs. 2 Nr. 1
+    frage: Bis zu welcher Jahrgangsstufe dürfen Vermerke über entschuldigte Fehlzeiten in das Zeugnis aufgenommen werden?
+    richtig: Bis einschließlich Jahrgangsstufe 8
+    falsch:
+      - Bis einschließlich Jahrgangsstufe 10
+      - Bis einschließlich Jahrgangsstufe 6
+      - In allen Jahrgangsstufen, ohne Altersgrenze
+    erklaerung: Unentschuldigte Fehlzeiten werden weiterhin vermerkt. Bis Jahrgangsstufe 4 werden Fehlzeiten in gesonderten halbjährlichen Dokumentationen den Eltern zur Unterschrift vorgelegt.
+  - id: z010
+    abschnitt: zvo-allgemein
+    fundstelle: § 4 Abs. 3
+    frage: Was müssen Zeugnisse in der Primarstufe und der Sekundarstufe I nach § 4 Abs. 3 der Zeugnisverordnung enthalten?
+    richtig: Informationen zum Arbeits- und Sozialverhalten
+    falsch:
+      - Eine Einschätzung der Eignung für die Gymnasiale Oberstufe
+      - Eine Empfehlung zur Wahl der zweiten Fremdsprache
+      - Den Rangplatz innerhalb der Klasse oder Lerngruppe
+    erklaerung: In anderen Schulstufen sind solche Bemerkungen möglich, aber nicht vorgeschrieben.
+  - id: z011
+    abschnitt: zvo-allgemein
+    fundstelle: § 4 Abs. 3
+    frage: Ab Jahrgangsstufe 8 hält die Zeugniskonferenz eine Information für nötig, die für die Schülerin nachteilig sein kann und keine Erläuterung zu Noten oder zum Arbeits- und Sozialverhalten ist. Wie wird sie weitergegeben?
+    richtig: Im persönlichen Gespräch durch die Klassenleitung, sonst in einem gesonderten Schreiben
+    falsch:
+      - Als Bemerkung im Zeugnis, wenn die Zeugniskonferenz dies einstimmig beschließt und begründet
+      - In einer Anlage zum Zeugnis, die die Schulleitung unterschreibt und siegelt
+      - Gar nicht; solche Informationen dürfen nicht weitergegeben werden
+    erklaerung: Ab Jahrgangsstufe 8 dürfen ins Zeugnis außer diesen Erläuterungen nur Bemerkungen, die nicht nachteilig sein können.
+  - id: z012
+    abschnitt: zvo-allgemein
+    fundstelle: § 4 Abs. 4
+    frage: Welche Vermerke enthält das Zeugnis nach der Zeugnisverordnung nur auf Wunsch der Schülerin oder des Schülers?
+    richtig: Etwa zu Aufgaben in der schulischen Gemeinschaft oder zum Schüleraustausch
+    falsch:
+      - Etwa zu entschuldigten Fehlzeiten des Halbjahres oder zur Versetzungsentscheidung
+      - Etwa zur Zuerkennung von Abschlüssen oder Berechtigungen
+      - Etwa zum Vorrücken oder Zurückgehen in eine andere Jahrgangsstufe
+    erklaerung: Die übrigen genannten Vermerke sind nach § 4 Abs. 2 Pflicht.
+  - id: z013
+    abschnitt: zvo-allgemein
+    fundstelle: § 4 Abs. 4 Nr. 4
+    frage: Ein Schüler möchte sein ehrenamtliches Engagement außerhalb der Schule im Zeugnis vermerkt haben. Unter welcher Bedingung ist das möglich?
+    richtig: Wenn die Schule für die Richtigkeit der Angaben die Verantwortung übernehmen kann
+    falsch:
+      - Wenn eine schriftliche Bestätigung der Erziehungsberechtigten über die Tätigkeit vorliegt
+      - Wenn die Aufgabe mindestens ein ganzes Schuljahr wahrgenommen wurde
+      - Wenn die Zeugniskonferenz dem Vermerk mit Mehrheit zustimmt
+    erklaerung: Solche Vermerke kommen außerdem nur auf Wunsch der Schülerin oder des Schülers ins Zeugnis.
+  - id: z014
+    abschnitt: zvo-allgemein
+    fundstelle: § 5 Abs. 1
+    frage: Wann soll nach § 5 der Zeugnisverordnung die Note „ausreichend“ erteilt werden?
+    richtig: Wenn die Leistung zwar Mängel aufweist, aber im Ganzen den Anforderungen noch entspricht
+    falsch:
+      - Wenn die Leistung im Allgemeinen den Anforderungen entspricht
+      - Wenn die Leistung den Anforderungen nicht entspricht, die Grundkenntnisse aber vorhanden sind
+      - Wenn die Leistung den Anforderungen voll entspricht, aber einzelne Fehler enthält
+    erklaerung: „Im Allgemeinen“ ist „befriedigend“, „nicht entsprechend, Grundkenntnisse vorhanden“ ist „mangelhaft“.
+  - id: z015
+    abschnitt: zvo-allgemein
+    fundstelle: § 5 Abs. 1
+    frage: Was unterscheidet nach § 5 der Zeugnisverordnung die Note „mangelhaft“ von „ungenügend“?
+    richtig: Bei „mangelhaft“ sind Grundkenntnisse vorhanden und die Mängel in absehbarer Zeit behebbar
+    falsch:
+      - Bei „mangelhaft“ wurde eine Leistung erbracht, bei „ungenügend“ wurde nichts abgegeben
+      - „Mangelhaft“ gilt für schriftliche, „ungenügend“ für mündliche Leistungen
+      - Bei „ungenügend“ sind Grundkenntnisse vorhanden, die Mängel aber nicht in absehbarer Zeit behebbar
+    erklaerung: Bei „ungenügend“ sind selbst die Grundkenntnisse so lückenhaft, dass die Mängel nicht in absehbarer Zeit behoben werden könnten.
+  - id: z016
+    abschnitt: zvo-allgemein
+    fundstelle: § 5 Abs. 2
+    fall: true
+    frage: Mehrere Lehrkräfte beurteilen eigenverantwortlich Teile eines Faches, können sich aber nicht auf die Gesamtnote einigen. Wer entscheidet nach der Zeugnisverordnung?
+    richtig: Die Zeugniskonferenz
+    falsch:
+      - Die Schulleiterin oder der Schulleiter
+      - Die Lehrkraft mit dem größten Stundenanteil
+      - Der rechnerische Durchschnitt der Teilnoten
+    erklaerung: Im Regelfall geben die Lehrkräfte die Gesamtnote einvernehmlich.
+  - id: z017
+    abschnitt: zvo-allgemein
+    fundstelle: § 5 Abs. 3
+    fall: true
+    frage: Ein Schüler entzieht sich aus Gründen, die er selbst zu vertreten hat, in schwerem Fall der Leistungskontrolle in einem Fach. Was sieht § 5 Abs. 3 der Zeugnisverordnung vor?
+    richtig: Die Note „ungenügend“, die im Zeugnis zu begründen ist
+    falsch:
+      - Den Vermerk „nicht beurteilbar“ anstelle einer Note
+      - Die Note „mangelhaft“, ohne Begründung im Zeugnis
+      - Eine Nachprüfung, deren Ergebnis die Note bestimmt
+    erklaerung: „Nicht beurteilbar“ gilt nur, wenn der Schüler das Fehlen nicht zu vertreten hat (§ 5 Abs. 4, § 6 Abs. 5).
+  - id: z018
+    abschnitt: zvo-allgemein
+    fundstelle: § 5 Abs. 5
+    fall: true
+    frage: Eine Schülerin hat im Schuljahr überwiegend nicht am Unterricht teilgenommen, sodass ihre Leistungen insgesamt nicht beurteilt werden können. Was gilt nach § 5 Abs. 5 der Zeugnisverordnung für ihr Zeugnis?
+    richtig: Es enthält keine Noten; die Gründe werden im Zeugnis dargelegt
+    falsch:
+      - Alle Fächer erhalten die Note „ungenügend“ mit kurzer Begründung
+      - Alle Fächer erhalten den Vermerk „tg“ für teilgenommen
+      - Es wird kein Zeugnis erteilt, nur eine Schulbesuchsbescheinigung
+    erklaerung: So § 5 Abs. 5.
+  - id: z019
+    abschnitt: zvo-allgemein
+    fundstelle: § 6 Abs. 1
+    frage: Wie sind die Noten nach § 6 der Zeugnisverordnung in das Zeugnisformular einzutragen?
+    richtig: In arabischen Ziffern, ohne Zwischennoten, Zusätze oder Korrekturen
+    falsch:
+      - In arabischen Ziffern; Tendenzen mit Plus und Minus sind zulässig
+      - In Worten mit Tendenz, etwa „gut minus“; Korrekturen mit Paraphe sind zulässig
+      - In römischen Ziffern; Zwischennoten wie „2–3“ sind zulässig
+    erklaerung: In Abschluss- und Abgangszeugnissen werden die Noten dagegen ausgeschrieben (§ 16 Abs. 2).
+  - id: z020
+    abschnitt: zvo-allgemein
+    fundstelle: § 6 Abs. 3
+    frage: Welcher Vermerk steht nach der Zeugnisverordnung bei Fächern, in denen die Leistungen nicht benotet werden?
+    richtig: „tg“ (teilgenommen)
+    falsch:
+      - „nicht beurteilbar“
+      - „ausgefallen“
+      - Ein durchgestrichenes Notenfeld
+    erklaerung: Die anderen Vermerke gelten für andere Fälle (§ 6 Abs. 2, 4 und 5).
+  - id: z021
+    abschnitt: zvo-allgemein
+    fundstelle: § 6 Abs. 2
+    fall: true
+    frage: Ein Fach hätte laut Stundentafel und Beschluss der Schule erteilt werden müssen, konnte aber gar nicht erteilt werden. Was steht nach der Zeugnisverordnung im Zeugnis?
+    richtig: Das Notenfeld wird durchgestrichen
+    falsch:
+      - Der Vermerk „ausgefallen“
+      - Der Vermerk „ausgefallen“ anstelle der Note
+      - Das Fach wird nicht aufgeführt
+    erklaerung: „Ausgefallen“ gilt, wenn Unterricht stattfand, aber so weit ausgefallen ist, dass keine Beurteilung möglich ist (§ 6 Abs. 4). Das Feld wird auch bei nicht gewählten oder befreiten Fächern durchgestrichen.
+  - id: z022
+    abschnitt: zvo-allgemein
+    fundstelle: § 6 Abs. 5
+    fall: true
+    frage: Eine Schülerin konnte wegen langer Krankheit nicht so regelmäßig am Unterricht eines Faches teilnehmen, dass eine Beurteilung möglich ist. Welcher Vermerk steht nach der Zeugnisverordnung im Zeugnis?
+    richtig: „nicht beurteilbar“
+    falsch:
+      - „ausgefallen“
+      - „tg“ (teilgenommen)
+      - Die Note „ungenügend“ mit Begründung
+    erklaerung: Hat sie das Fehlen selbst zu vertreten, gilt dagegen § 5 Abs. 3.
+  - id: z023
+    abschnitt: zvo-allgemein
+    fundstelle: § 7 Abs. 2
+    frage: Wie ist ein Lernentwicklungsbericht nach § 7 der Zeugnisverordnung aufgebaut?
+    richtig: Erster Teil als Kompetenzraster, zweiter Teil als freier Text zur Lernentwicklung
+    falsch:
+      - Erster Teil mit Noten in Worten, zweiter Teil als Kompetenzraster zu den Fächern
+      - Nur als freier Text; ein Kompetenzraster ist nicht vorgesehen
+      - Als Kompetenzraster mit Noten je Fach, ergänzt um die Fehlzeiten
+    erklaerung: Das Kompetenzraster orientiert sich an den Bildungsstandards.
+  - id: z024
+    abschnitt: zvo-allgemein
+    fundstelle: § 7 Abs. 3
+    frage: Was darf ein Lernentwicklungsbericht nach der Zeugnisverordnung nicht enthalten?
+    richtig: Formulierungen, die eine verdeckte Benotung darstellen
+    falsch:
+      - Informationen zum Arbeits- und Sozialverhalten der Schülerin oder des Schülers
+      - Vermerke über Fehlzeiten und die Versetzung
+      - Ein Kompetenzraster nach den Bildungsstandards
+    erklaerung: Der Bericht beurteilt ohne Noten; Arbeits- und Sozialverhalten gehören ausdrücklich dazu.
+  - id: z025
+    abschnitt: zvo-zeugnisse
+    fundstelle: § 8 Abs. 2
+    frage: Wann erhalten Schülerinnen und Schüler nach der Zeugnisverordnung neben dem Jahreszeugnis grundsätzlich ein Zwischenzeugnis oder einen Lernentwicklungsbericht?
+    richtig: Zum Schulhalbjahr
+    falsch:
+      - Zu Beginn jedes Schuljahres
+      - Nur auf Antrag der Erziehungsberechtigten
+      - Vor den Herbstferien
+    erklaerung: In Berufsschulen erhalten auch die Ausbildenden das Zwischenzeugnis.
+  - id: z026
+    abschnitt: zvo-zeugnisse
+    fundstelle: § 8 Abs. 2
+    frage: In welchen Jahrgangsstufen kann das Zwischenzeugnis oder der Lernentwicklungsbericht zum Schulhalbjahr nach der Zeugnisverordnung entfallen?
+    richtig: In den Jahrgangsstufen 5 und 6, wenn eine andere Form der Rückmeldung gewählt wird
+    falsch:
+      - In den Jahrgangsstufen 9 und 10, wenn Abschlussprüfungen bevorstehen
+      - In der Jahrgangsstufe 4, wenn ein Elterngespräch stattfindet
+      - In allen Jahrgangsstufen der Sekundarstufe I auf Beschluss der Schulkonferenz
+    erklaerung: Die andere Form muss Leistungsstand, Lernentwicklung sowie Arbeits- und Sozialverhalten zurückmelden.
+  - id: z027
+    abschnitt: zvo-zeugnisse
+    fundstelle: § 9 Abs. 1
+    fall: true
+    frage: Ein Schüler verlässt die Schule, nachdem er den Bildungsgang dort sechs Unterrichtswochen besucht hat. Erhält er nach § 9 der Zeugnisverordnung ein Zeugnis?
+    richtig: Nein, erst ab mindestens acht Unterrichtswochen
+    falsch:
+      - Ja, beim Verlassen gibt es immer ein Zeugnis
+      - Ja, aber nur mit Fehlzeiten und ohne Noten
+      - Nein, erst ab einem vollen Schulhalbjahr
+    erklaerung: So § 9 Abs. 1 Satz 1.
+  - id: z028
+    abschnitt: zvo-zeugnisse
+    fundstelle: § 9 Abs. 1
+    fall: true
+    frage: Ein Schüler wechselt fünf Unterrichtswochen vor Schuljahresende an eine andere Schule. Welche Wirkung hat das Zeugnis der abgebenden Schule nach § 9 der Zeugnisverordnung?
+    richtig: Es wirkt für das Schuljahresende; die neue Schule kann nur ausnahmsweise neu beurteilen
+    falsch:
+      - Es ist nur eine Information; die neue Schule muss das Jahreszeugnis neu erteilen
+      - Es gilt nur, wenn die Erziehungsberechtigten der Übernahme schriftlich zustimmen
+      - Es gilt nur für das erste Halbjahr; das zweite wird an der neuen Schule nachgeholt
+    erklaerung: Liegen weniger als acht Unterrichtswochen bis Schuljahresende, hat es Rechtswirkung für das Schuljahresende. Eine Neubeurteilung durch die aufnehmende Schule ist im Protokoll zu begründen.
+  - id: z029
+    abschnitt: zvo-zeugnisse
+    fundstelle: § 9 Abs. 2
+    fall: true
+    frage: An der Schule werden Lernentwicklungsberichte erteilt. Eine Schülerin der Jahrgangsstufe 6 wechselt die Schule. Was können ihre Erziehungsberechtigten nach § 9 der Zeugnisverordnung verlangen?
+    richtig: Ein Zeugnis statt des Lernentwicklungsberichts
+    falsch:
+      - Eine Bildungsgangsempfehlung der abgebenden Schule
+      - Einen Lernentwicklungsbericht der aufnehmenden Schule
+      - Eine Prüfung über den aktuellen Leistungsstand
+    erklaerung: Bis Jahrgangsstufe 4 gilt das nicht beim Schulwechsel innerhalb des Landes Bremen.
+  - id: z030
+    abschnitt: zvo-zeugnisse
+    fundstelle: § 10 Abs. 1
+    frage: Wann ist nach § 10 der Zeugnisverordnung das Ziel eines Bildungsganges ohne Abschlussprüfung erreicht?
+    richtig: Wenn die letzte Jahrgangsstufe bis Schuljahresende besucht wurde und die Leistungen ohne Ausgleich zur Versetzung reichen
+    falsch:
+      - Wenn die letzte Jahrgangsstufe besucht wurde, auch wenn die Leistungen nur mit einem Ausgleich zur Versetzung reichen
+      - Wenn die Schulpflicht erfüllt ist und alle Fächer der letzten Jahrgangsstufe belegt wurden
+      - Wenn die Leistungen in den Kernfächern im letzten Schuljahr mindestens „ausreichend“ sind
+    erklaerung: Dann wird ein Abschlusszeugnis erteilt.
+  - id: z031
+    abschnitt: zvo-zeugnisse
+    fundstelle: § 10 Abs. 2
+    frage: Ein Bildungsgang wird mit einer Prüfung abgeschlossen. Wann ist sein Ziel nach der Zeugnisverordnung erreicht?
+    richtig: Wenn die Prüfung bestanden ist
+    falsch:
+      - Wenn die letzte Jahrgangsstufe besucht wurde, unabhängig von der Prüfung
+      - Wenn die Prüfung und die Jahresnoten jeweils mindestens ausreichend sind
+      - Wenn die Zeugniskonferenz dies nach der Prüfung beschließt
+    erklaerung: So § 10 Abs. 2.
+  - id: z032
+    abschnitt: zvo-zeugnisse
+    fundstelle: § 10a Abs. 1
+    frage: Welches Zeugnis wird nach der Zeugnisverordnung erteilt, wenn jemand aufgrund einer Prüfung einen anderen Abschluss erreicht, als sein Bildungsgang vorsieht?
+    richtig: Ein Prüfungszeugnis
+    falsch:
+      - Ein Abschlusszeugnis
+      - Ein Abgangszeugnis
+      - Ein Allgemeines Zeugnis
+    erklaerung: Es weist die Noten der Prüfungsleistung und den erreichten Abschluss aus (§ 10a Abs. 2).
+  - id: z033
+    abschnitt: zvo-zeugnisse
+    fundstelle: § 10a Abs. 2
+    frage: Was weist ein Prüfungszeugnis nach § 10a der Zeugnisverordnung aus?
+    richtig: Die Noten der Prüfungsleistung und den erreichten Abschluss
+    falsch:
+      - Die Jahresnoten aller Fächer und eine Bildungsgangsempfehlung
+      - Nur den erreichten Abschluss, ohne Noten
+      - Die Noten der letzten beiden Halbjahreszeugnisse
+    erklaerung: Als Datum steht das Datum des Beschlusses über das Prüfungsergebnis im Zeugnis (§ 12 Abs. 5).
+  - id: z034
+    abschnitt: zvo-zeugnisse
+    fundstelle: § 10b Abs. 1
+    frage: Wann wird nach § 10b der Zeugnisverordnung ein Allgemeines Zeugnis erteilt?
+    richtig: Am Ende der Sekundarstufe I oder II bei Förderbedarf Lernen oder Wahrnehmungs- und Entwicklungsförderung, ohne Einfache Berufsbildungsreife
+    falsch:
+      - Beim Verlassen der Schule ohne Abschluss, unabhängig von einem sonderpädagogischen Förderbedarf in einem der Bereiche
+      - Am Ende der Grundschule bei sonderpädagogischem Förderbedarf, anstelle eines Lernentwicklungsberichts
+      - Wenn die Einfache Berufsbildungsreife nur durch eine zusätzliche Nachprüfung am Ende der Jahrgangsstufe 9 des Bildungsganges erreicht wurde
+    erklaerung: Es wird auch in den Bildungsgängen Praktikumsklasse und Berufsorientierungsklasse mit Sprachförderung erteilt.
+  - id: z035
+    abschnitt: zvo-zeugnisse
+    fundstelle: § 10b Abs. 2
+    frage: Was weist das Allgemeine Zeugnis nach der Zeugnisverordnung in den Fächern aus?
+    richtig: Die individuell erreichten Kompetenzen, anschlussorientiert
+    falsch:
+      - Noten in allen Fächern nach dem allgemeinen Maßstab der Verordnung
+      - Nur die Teilnahme am Unterricht mit dem Vermerk „tg“
+      - Den Rangplatz im Vergleich zur Lerngruppe
+    erklaerung: In zielgleich unterrichteten Fächern weist es die Note und das Kompetenzniveau des entsprechenden Abschlusses aus.
+  - id: z036
+    abschnitt: zvo-zeugnisse
+    fundstelle: § 11
+    frage: Wer erhält nach § 11 der Zeugnisverordnung ein Abgangszeugnis?
+    richtig: Wer den Bildungsgang ohne Erreichen des Ziels verlässt und die allgemeine Schulpflicht erfüllt hat
+    falsch:
+      - Wer den Bildungsgang mit Erreichen des Ziels verlässt, dafür aber keine Abschlussprüfung abgelegt hat
+      - Jede Schülerin und jeder Schüler beim Wechsel an eine andere Schule im Land Bremen
+      - Wer die Schulpflicht noch nicht erfüllt hat und die Schule deshalb wechseln muss
+    erklaerung: Grundlage ist der jeweilige Leistungsstand.
+  - id: z037
+    abschnitt: zvo-zeugnisse
+    fundstelle: § 11
+    fall: true
+    frage: Eine Schülerin verlässt den Bildungsgang sechs Unterrichtswochen nach ihrem letzten Zeugnis, ohne das Ziel erreicht zu haben; sie hat die Schulpflicht erfüllt. Was gilt nach § 11 der Zeugnisverordnung für die Noten ihres Abgangszeugnisses?
+    richtig: Die Noten des letzten Zeugnisses werden übertragen
+    falsch:
+      - Die Noten werden nach dem aktuellen Leistungsstand neu festgesetzt
+      - Das Abgangszeugnis enthält dann keine Noten, nur einen Vermerk
+      - Die Noten werden aus letztem Zeugnis und aktuellem Stand gemittelt
+    erklaerung: Bei nicht mehr als acht Unterrichtswochen seit dem letzten Zeugnis werden dessen Noten übertragen. Wer den Bildungsgang insgesamt nicht mehr als acht Wochen besucht hat, erhält kein Abgangszeugnis.
+  - id: z038
+    abschnitt: zvo-verfahren
+    fundstelle: § 12 Abs. 1
+    frage: Wer beschließt nach § 12 der Zeugnisverordnung die Zeugnisse?
+    richtig: Die unterrichtenden Lehrkräfte als Zeugniskonferenz, auf Grundlage ihrer Noten
+    falsch:
+      - Die Klassenlehrerin oder der Klassenlehrer nach Rücksprache mit der Schulleitung
+      - Die Schulleiterin oder der Schulleiter auf Vorschlag der Fachkonferenzen
+      - Die Gesamtkonferenz der Schule jeweils am Ende des Halbjahres
+    erklaerung: Vorsitz hat die Schulleitung oder eine beauftragte Lehrkraft (§ 12 Abs. 2).
+  - id: z039
+    abschnitt: zvo-verfahren
+    fundstelle: § 12 Abs. 1
+    frage: Auf welcher Grundlage beschließt die Zeugniskonferenz Lernentwicklungsberichte?
+    richtig: Auf Grundlage eines Vorschlags der Klassenlehrerin oder des Klassenlehrers
+    falsch:
+      - Auf Grundlage eines landesweiten Kompetenztests der Senatorin
+      - Auf Grundlage der Selbsteinschätzung der Schülerin oder des Schülers
+      - Auf Grundlage der Noten der Lehrkräfte, die in den Bericht umformuliert werden
+    erklaerung: Der Bericht darf die schriftliche Einzelbeurteilung der Lehrkräfte im Ergebnis nicht verändern.
+  - id: z040
+    abschnitt: zvo-verfahren
+    fundstelle: § 12 Abs. 3
+    frage: Wer darf nach der Zeugnisverordnung mit beratender Stimme an der Zeugniskonferenz einer allgemeinbildenden Schule teilnehmen?
+    richtig: Die Elternvertretung der Klasse oder des Jahrgangs, ab Jahrgangsstufe 5 auch die Schülervertretung
+    falsch:
+      - Alle Erziehungsberechtigten der Klasse, ab Jahrgangsstufe 7 zusätzlich auch die Schülervertretung
+      - Nur die Elternvertretung der Klasse; eine Schülervertretung ist nicht vorgesehen
+      - Die Schülervertretung ab Jahrgangsstufe 1 und ein Mitglied des Schulelternbeirats
+    erklaerung: Klassen- oder Jahrgangselternsprecher, ab Jahrgangsstufe 5 Klassenschülersprecher oder zwei Jahrgangsschülersprecher.
+  - id: z041
+    abschnitt: zvo-verfahren
+    fundstelle: § 12 Abs. 4
+    fall: true
+    frage: Eine Fachnote fällt gegenüber dem vorhergehenden Zeugnis desselben Bildungsganges der Schule von „gut“ auf „mangelhaft“. Was verlangt § 12 Abs. 4 der Zeugnisverordnung?
+    richtig: Die Begründung der Lehrkraft wird in der Niederschrift festgehalten
+    falsch:
+      - Die Erziehungsberechtigten müssen der Note vorher schriftlich zustimmen
+      - Die Schulleitung muss die Note genehmigen und gegenzeichnen
+      - Die Note wird im Zeugnis mit einer Bemerkung erläutert
+    erklaerung: Das gilt bei einer Abweichung um zwei oder mehr Stufen nach unten.
+  - id: z042
+    abschnitt: zvo-verfahren
+    fundstelle: § 12 Abs. 5
+    frage: Wann soll das Zeugnis nach § 12 der Zeugnisverordnung grundsätzlich ausgehändigt werden?
+    richtig: Am letzten Unterrichtstag des Schulhalbjahres oder Schuljahres
+    falsch:
+      - Spätestens eine Woche nach dem letzten Unterrichtstag des Halbjahres
+      - Am ersten Unterrichtstag nach den Ferien
+      - Innerhalb von fünf Werktagen nach der Zeugniskonferenz
+    erklaerung: Grundschulen können es auch innerhalb von fünf Werktagen vor dem letzten Unterrichtstag in einem Gespräch ausgeben.
+  - id: z043
+    abschnitt: zvo-verfahren
+    fundstelle: § 12 Abs. 5
+    frage: Welches Datum ist nach der Zeugnisverordnung in einem Prüfungszeugnis zu vermerken?
+    richtig: Das Datum des Beschlusses über das Prüfungsergebnis
+    falsch:
+      - Das Datum des letzten Unterrichtstages im Schuljahr
+      - Das Datum der letzten mündlichen Prüfung
+      - Das Datum der Aushändigung an den Prüfling
+    erklaerung: In anderen Zeugnissen steht das Datum des letzten Unterrichtstages.
+  - id: z044
+    abschnitt: zvo-verfahren
+    fundstelle: § 13 Abs. 2
+    frage: Wer unterschreibt nach § 13 der Zeugnisverordnung ein Halbjahres- oder Jahreszeugnis?
+    richtig: Die Klassenleitung oder die Tutorin bzw. der Tutor, im Auftrag der Schulleitung
+    falsch:
+      - Die Schulleiterin oder der Schulleiter persönlich, mit Unterschrift und Siegel der Schule
+      - Alle Fachlehrkräfte, die im Zeugnis eine Note erteilt haben
+      - Die Klassenleitung gemeinsam mit der Elternvertretung
+    erklaerung: Zeugnisse und Lernentwicklungsberichte sind Urkunden. Für Abschluss- und Abgangszeugnisse gilt § 16.
+  - id: z045
+    abschnitt: zvo-verfahren
+    fundstelle: § 13 Abs. 3
+    frage: Wer legt nach § 13 der Zeugnisverordnung die Zeugnisformulare fest?
+    richtig: Die Schule, im Rahmen der Verordnung und der Zeugniserlasse
+    falsch:
+      - Ausschließlich die Senatorin, mit landeseinheitlichen Formularen
+      - Die Schulkonferenz, ohne inhaltliche Vorgaben
+      - Die Kultusministerkonferenz für alle Länder gemeinsam
+    erklaerung: Das Nähere bestimmt die Senatorin in Zeugniserlassen.
+  - id: z046
+    abschnitt: zvo-verfahren
+    fundstelle: § 14
+    frage: Welche Angaben zur Person sind nach § 14 der Zeugnisverordnung in das Zeugnis einzutragen?
+    richtig: Vorname, Familienname und Geburtsdatum
+    falsch:
+      - Vorname, Familienname und Anschrift
+      - Familienname, Geburtsort und Staatsangehörigkeit
+      - Vorname, Familienname und Schülernummer
+    erklaerung: So § 14.
+  - id: z047
+    abschnitt: zvo-verfahren
+    fundstelle: § 15 Abs. 1
+    frage: Wann darf nach der Zeugnisverordnung frühestens über ein Abschlusszeugnis beschlossen werden?
+    richtig: 14 Tage vor dem letzten Schultag
+    falsch:
+      - Vier Wochen vor dem letzten Schultag
+      - Erst am letzten Schultag
+      - Sieben Tage vor dem letzten Schultag
+    erklaerung: Das gilt auch für Prüfungszeugnisse, Allgemeine Zeugnisse und Abgangszeugnisse zum Schuljahresende. Nach dem Beschluss sind sie unverzüglich auszufertigen.
+  - id: z048
+    abschnitt: zvo-verfahren
+    fundstelle: § 16 Abs. 1
+    frage: Wer unterschreibt und siegelt nach der Zeugnisverordnung Abiturzeugnisse an allgemeinbildenden Schulen?
+    richtig: Der Vorsitz der Prüfungskommission und die Schulleitung
+    falsch:
+      - Die Tutorin oder der Tutor und die Oberstufenleitung
+      - Die Senatorin für Kinder und Bildung und die Schulleitung
+      - Alle vier Mitglieder der Prüfungskommission
+    erklaerung: So § 16 Abs. 1 Satz 2.
+  - id: z049
+    abschnitt: zvo-verfahren
+    fundstelle: § 16 Abs. 2
+    frage: Wie werden die Noten in Abschluss- und Abgangszeugnissen nach der Zeugnisverordnung eingetragen?
+    richtig: Ausgeschrieben, also etwa „gut“ statt „2“
+    falsch:
+      - In arabischen Ziffern wie in jedem Zeugnis
+      - In Ziffern mit Tendenz, etwa „2+“
+      - Als Punktzahl von 0 bis 15
+    erklaerung: In der Sekundarstufe II gilt diese Regel nicht (§ 21 Abs. 2).
+  - id: z050
+    abschnitt: zvo-verfahren
+    fundstelle: § 16 Abs. 4
+    fall: true
+    frage: Ein Fach wurde in Jahrgangsstufe 8 abgeschlossen. Wie erscheint es nach der Zeugnisverordnung im Abschlusszeugnis einer allgemeinbildenden Schule am Ende der Jahrgangsstufe 10?
+    richtig: Gesondert ohne Note, außer die Schülerin beantragt rechtzeitig eine Note
+    falsch:
+      - Mit der Note aus Jahrgangsstufe 8, genauso wie alle anderen Fächer im Zeugnis
+      - Gar nicht, weil es im letzten Schuljahr nicht unterrichtet wurde
+      - Mit dem Vermerk „tg“, weil keine aktuelle Leistung vorliegt
+    erklaerung: In beruflichen Bildungsgängen werden solche Fächer dagegen mit Note ausgewiesen (§ 25 Abs. 2).
+  - id: z051
+    abschnitt: zvo-verfahren
+    fundstelle: § 17
+    frage: Ein Abschlusszeugnis wird aufgrund einer Prüfungsverordnung erteilt, die in einem Punkt von der Zeugnisverordnung abweicht. Was gilt?
+    richtig: Die besondere Bestimmung der Prüfungsverordnung
+    falsch:
+      - Die Zeugnisverordnung, weil sie für alle Zeugnisse gilt
+      - Die jeweils für den Prüfling günstigere Regelung
+      - Die Schule entscheidet im Einzelfall
+    erklaerung: So § 17.
+  - id: z052
+    abschnitt: zvo-schularten
+    fundstelle: § 18 Abs. 1
+    frage: Was erhalten Kinder in der Grundschule nach der Zeugnisverordnung?
+    richtig: Lernentwicklungsberichte, in Jahrgangsstufe 4 auch zum Halbjahr
+    falsch:
+      - Zeugnisse mit Noten ab Jahrgangsstufe 3, vorher Lernentwicklungsberichte
+      - Lernentwicklungsberichte nur am Ende der Jahrgangsstufe 4
+      - Halbjährlich Zeugnisse mit Noten in allen Jahrgangsstufen
+    erklaerung: In den Jahrgangsstufen 1 bis 4 gibt es zum Schuljahresende außerdem Elterngespräche (§ 18 Abs. 3).
+  - id: z053
+    abschnitt: zvo-schularten
+    fundstelle: § 18 Abs. 2
+    frage: Unter welchen Voraussetzungen können Grundschulen die Lernentwicklungsberichte der Jahrgangsstufen 3 und 4 um zusammengefasste Noten ergänzen?
+    richtig: Mit Genehmigung der Senatorin; den Antrag muss die Schulkonferenz mit Zweidrittelmehrheit befürworten
+    falsch:
+      - Auf Beschluss der Gesamtkonferenz mit einfacher Mehrheit; eine Genehmigung der Senatorin ist nicht nötig
+      - Auf Wunsch einzelner Erziehungsberechtigter für ihr Kind, ohne Beschluss der Schule
+      - Gar nicht; Noten sind in der Grundschule nach der Zeugnisverordnung ausgeschlossen
+    erklaerung: Die Note steht dann in verbaler Form und in Ziffernform am Ende des Schuljahres.
+  - id: z054
+    abschnitt: zvo-schularten
+    fundstelle: § 19 Abs. 2
+    frage: Was gilt nach § 19 der Zeugnisverordnung, wenn an einer Oberschule oder einem Gymnasium Lernentwicklungsberichte an die Stelle von Zeugnissen treten sollen?
+    richtig: Nötig sind ein Beschluss der Schulkonferenz und die Zustimmung der Fachaufsicht
+    falsch:
+      - Das entscheidet die Gesamtkonferenz allein, ohne weitere Zustimmung der Fachaufsicht
+      - Das ist nur in den Jahrgangsstufen 9 und 10 zulässig
+      - Das ist nicht möglich; dort werden immer Zeugnisse erteilt
+    erklaerung: Ab Jahrgangsstufe 9 dürfen zum Schuljahresende keine Lernentwicklungsberichte erteilt werden.
+  - id: z055
+    abschnitt: zvo-schularten
+    fundstelle: § 19 Abs. 2
+    frage: Ab welcher Jahrgangsstufe dürfen an Oberschulen und Gymnasien zum Schuljahresende keine Lernentwicklungsberichte mehr erteilt werden?
+    richtig: Ab Jahrgangsstufe 9
+    falsch:
+      - Ab Jahrgangsstufe 7
+      - Ab Jahrgangsstufe 10
+      - Ab Jahrgangsstufe 5
+    erklaerung: Ausgenommen ist zieldifferenter Unterricht nach § 27.
+  - id: z056
+    abschnitt: zvo-schularten
+    fundstelle: § 19 Abs. 3
+    frage: Was enthält das Zeugnis an der Oberschule nach der Zeugnisverordnung ab Ende der Jahrgangsstufe 8?
+    richtig: Eine Prognose über den Bildungsgang
+    falsch:
+      - Eine Empfehlung für eine Berufsausbildung
+      - Den Rangplatz in der Lerngruppe
+      - Eine Prüfungsnote in den Kernfächern
+    erklaerung: So § 19 Abs. 3.
+  - id: z057
+    abschnitt: zvo-schularten
+    fundstelle: § 20
+    frage: Was ist nach der Zeugnisverordnung bei Fächern mit Fachleistungsdifferenzierung im Zeugnis anzugeben?
+    richtig: Das Anforderungsniveau
+    falsch:
+      - Die Größe der Lerngruppe
+      - Der Name der unterrichtenden Lehrkraft
+      - Die Zahl der Wochenstunden
+    erklaerung: So § 20.
+  - id: z058
+    abschnitt: zvo-schularten
+    fundstelle: § 21 Abs. 1
+    frage: Welchen Punkten entspricht in der Gymnasialen Oberstufe nach § 21 der Zeugnisverordnung die Note „mangelhaft“?
+    richtig: 1 bis 3 Punkten
+    falsch:
+      - 0 bis 3 Punkten
+      - 2 bis 4 Punkten
+      - 1 bis 4 Punkten
+    erklaerung: „Ungenügend“ entspricht 0 Punkten, „ausreichend“ 4 bis 6 Punkten.
+  - id: z059
+    abschnitt: zvo-schularten
+    fundstelle: § 21 Abs. 1
+    frage: Was weist das Halbjahreszeugnis in der Gymnasialen Oberstufe nach der Zeugnisverordnung aus, wenn der Unterricht in Kursen organisiert ist?
+    richtig: Die belegten Kurse und die Bewertung in Punkten
+    falsch:
+      - Die Fächer mit Noten in Ziffern und Tendenz
+      - Nur die Leistungskurse mit ausgeschriebenen Noten
+      - Die Kurse mit einem Kompetenzraster ohne Punkte
+    erklaerung: Zeugnisse gibt es dort halbjährlich.
+  - id: z060
+    abschnitt: zvo-schularten
+    fundstelle: § 21 Abs. 3
+    fall: true
+    frage: Eine Schülerin verlässt die Qualifikationsphase ohne Abitur; der Unterricht ist in Kursen organisiert. Was weist ihr Abgangszeugnis nach der Zeugnisverordnung aus?
+    richtig: Die Leistungen aller belegten Kurse in Punkten
+    falsch:
+      - Nur die Noten der Kurse des letzten Halbjahres, ausgeschrieben
+      - Nur die Leistungskurse und die Projektarbeit in Punkten
+      - Die Noten der Fächer des letzten Schuljahres in Ziffern
+    erklaerung: Bei Nichtversetzung oder freiwilliger Wiederholung werden die Punkte des wiederholten Jahrgangs nur auf Wunsch ausgewiesen.
+  - id: z061
+    abschnitt: zvo-schularten
+    fundstelle: § 21 Abs. 4
+    frage: Wer bildet in der Gymnasialen Oberstufe nach der Zeugnisverordnung mindestens die Zeugniskonferenz?
+    richtig: Die Bildungsgangsleitung als Vorsitz und die Tutorin oder Kursleitung
+    falsch:
+      - Alle Lehrkräfte des Jahrgangs unter Vorsitz der Schulleiterin oder des Schulleiters
+      - Die Prüfungskommission mit ihren vier Mitgliedern
+      - Die Tutorin oder der Tutor allein, ohne weiteren Vorsitz
+    erklaerung: Statt der Tutorin oder Kursleitung kann es auch die Klassenleitung sein.
+  - id: z062
+    abschnitt: zvo-schularten
+    fundstelle: § 22
+    frage: Wie oft erhalten Erwachsene in Bildungsgängen der Schule für Erwachsene zur Erweiterten Berufsbildungsreife oder zum Mittleren Schulabschluss ein Zeugnis?
+    richtig: Halbjährlich
+    falsch:
+      - Nur am Ende jedes Schuljahres
+      - Nur zum Abschluss des Bildungsganges
+      - Nur auf Antrag
+    erklaerung: Abweichend von § 8 Abs. 1.
+  - id: z063
+    abschnitt: zvo-schularten
+    fundstelle: § 23
+    frage: Was gilt nach § 23 der Zeugnisverordnung für Lernentwicklungsberichte an berufsbildenden Schulen?
+    richtig: Zum Schuljahresende sind sie nicht zulässig, außer im Bildungsgang Werkstufe
+    falsch:
+      - Sie ersetzen dort grundsätzlich die Zeugnisse am Schuljahresende
+      - Sie sind nur in der Berufsschule zulässig, nicht in Vollzeitbildungsgängen
+      - Sie sind zulässig, wenn der Ausbildungsbetrieb ausdrücklich zustimmt
+    erklaerung: So § 23.
+  - id: z064
+    abschnitt: zvo-schularten
+    fundstelle: § 24
+    fall: true
+    frage: In einem beruflichen Bildungsgang ist ein Pflichtpraktikum Teil der Ausbildung. Wann ist es nach § 24 der Zeugnisverordnung erfolgreich beendet?
+    richtig: Bei mindestens 75 % abgeleisteter Dauer und dem Vermerk „mit Erfolg teilgenommen“
+    falsch:
+      - Bei mindestens 50 % abgeleisteter Dauer und einer Bescheinigung des Betriebs
+      - Bei vollständig abgeleisteter Dauer, unabhängig von einer Bewertung
+      - Bei mindestens 75 % abgeleisteter Dauer; eine Bewertung ist nicht nötig
+    erklaerung: Nur dann ist das Ziel des Bildungsganges erreicht, sofern die Bildungsgangsverordnung nichts anderes regelt.
+  - id: z065
+    abschnitt: zvo-schularten
+    fundstelle: § 25 Abs. 2
+    frage: Was gilt nach der Zeugnisverordnung abweichend für Abschluss- und Abgangszeugnisse in beruflichen Bildungsgängen?
+    richtig: Auch früher abgeschlossene Fächer werden gesondert mit Note ausgewiesen
+    falsch:
+      - Früher abgeschlossene Fächer werden im Zeugnis grundsätzlich nicht mehr aufgeführt
+      - Früher abgeschlossene Fächer erscheinen nur mit dem Vermerk „tg“
+      - Alle Noten werden als Punktzahlen von 0 bis 15 ausgewiesen
+    erklaerung: Noten in Lernfeldern dürfen dort außerdem auf schuljahresübergreifenden Leistungen beruhen (§ 25 Abs. 1).
+  - id: z066
+    abschnitt: zvo-schularten
+    fundstelle: § 26
+    frage: Eine Berufsfachschule mit berufsqualifizierendem Abschluss endet mit einer außerschulischen Prüfung. Was enthält das Abschlusszeugnis nach der Zeugnisverordnung?
+    richtig: Die Noten der schulischen Leistungen und das Ergebnis der außerschulischen Prüfung
+    falsch:
+      - Nur das Ergebnis der außerschulischen Prüfung, ohne schulische Noten
+      - Nur die schulischen Noten; die Prüfung bescheinigt allein die Kammer
+      - Die schulischen Noten und eine Prognose der Lehrkräfte für die außerschulische Prüfung
+    erklaerung: So § 26.
+  - id: z067
+    abschnitt: zvo-weitere
+    fundstelle: § 27 Abs. 2
+    frage: Wie werden nach der Zeugnisverordnung die Leistungen in zieldifferent unterrichteten Fächern dargestellt?
+    richtig: Die individuell erreichten Kompetenzen werden durch freien Text erläutert
+    falsch:
+      - Mit Noten nach dem allgemeinen Maßstab und dem Zusatz „zieldifferent“
+      - Mit dem Vermerk „tg“, ohne weitere Erläuterung im Zeugnis
+      - Mit Noten, die gegenüber dem allgemeinen Maßstab um eine Stufe angehoben sind
+    erklaerung: In zielgleich unterrichteten Fächern gelten die allgemeinen Bestimmungen (§ 27 Abs. 1).
+  - id: z068
+    abschnitt: zvo-weitere
+    fundstelle: § 27 Abs. 3
+    frage: Wer entscheidet nach der Zeugnisverordnung, ob eine Schülerin mit sonderpädagogischem Förderbedarf zielgleich oder zieldifferent unterrichtet wird?
+    richtig: Die Zeugniskonferenz zum Halbjahres- oder Schuljahresende, mit Wirkung für das folgende Halbjahr
+    falsch:
+      - Die Schulleitung jederzeit auf Antrag der Erziehungsberechtigten, mit sofortiger Wirkung im Halbjahr
+      - Das Zentrum für unterstützende Pädagogik einmal zu Beginn der Sekundarstufe I
+      - Die Senatorin für Kinder und Bildung auf Vorschlag der Klassenleitung
+    erklaerung: So § 27 Abs. 3.
+  - id: z069
+    abschnitt: zvo-weitere
+    fundstelle: § 27 Abs. 4
+    frage: Wann entscheidet die Zeugniskonferenz, ob Schülerinnen und Schüler mit Förderbedarf Lernen probeweise in allen Fächern zielgleich unterrichtet werden?
+    richtig: Am Ende der Jahrgangsstufe 8
+    falsch:
+      - Am Ende der Jahrgangsstufe 6
+      - Am Ende der Jahrgangsstufe 9
+      - Zu Beginn der Jahrgangsstufe 10
+    erklaerung: Über die dauerhafte zielgleiche Unterrichtung entscheidet sie am Ende des ersten Halbjahres der Jahrgangsstufe 9.
+  - id: z070
+    abschnitt: zvo-weitere
+    fundstelle: § 27 Abs. 5
+    frage: Was ist nach § 27 Abs. 5 der Zeugnisverordnung mit der Entscheidung für dauerhaft zielgleichen Unterricht verbunden?
+    richtig: Das Ablegen des sonderpädagogischen Förderbedarfs
+    falsch:
+      - Eine probeweise Wiederholung der Jahrgangsstufe 9
+      - Der Wechsel an eine andere Schulart
+      - Eine Abschlussprüfung am Ende des Halbjahres
+    erklaerung: Voraussetzung ist, dass das Erreichen eines Abschlusses hinreichend wahrscheinlich ist.
+  - id: z071
+    abschnitt: zvo-weitere
+    fundstelle: § 28 Abs. 1
+    frage: Was soll bei der Leistungsbeurteilung von Schülerinnen und Schülern nicht deutscher Herkunftssprache in allen Fächern angemessen berücksichtigt werden?
+    richtig: Sprachlich bedingte Erschwernisse
+    falsch:
+      - Die Aufenthaltsdauer in Deutschland durch einen Notenbonus
+      - Die Leistungen im Herkunftsland anstelle der aktuellen Leistungen
+      - Nur die mündlichen Leistungen, nicht die schriftlichen
+    erklaerung: So § 28 Abs. 1.
+  - id: z072
+    abschnitt: zvo-weitere
+    fundstelle: § 28 Abs. 2
+    frage: Wie lange können Schülerinnen und Schüler, die überwiegend einer Vorbereitungsklasse zugeordnet sind, nach der Zeugnisverordnung ein von der Regelform abweichendes Zeugnis erhalten?
+    richtig: Längstens zwei Jahre, ausnahmsweise auf Beschluss der Zeugniskonferenz ein Jahr länger
+    falsch:
+      - Längstens ein Jahr, ausnahmsweise auf Beschluss der Schulleitung ein halbes Jahr länger
+      - Bis zum Ende der Sekundarstufe I, unabhängig von der Dauer in der Vorbereitungsklasse
+      - Längstens drei Jahre; eine Verlängerung ist auch in Ausnahmefällen ausgeschlossen
+    erklaerung: Das Zeugnis beurteilt die Entwicklung in der deutschen Sprache sowie das Lern- und Arbeitsverhalten; übrige Fächer werden benotet, wenn es pädagogisch sinnvoll ist.
+  - id: z073
+    abschnitt: zvo-weitere
+    fundstelle: § 28 Abs. 3
+    fall: true
+    frage: Eine Schülerin wurde ab Jahrgangsstufe 7 erstmals an einer deutschen Schule aufgenommen. Was kann nach der Zeugnisverordnung am Ende der Sekundarstufe I an die Stelle der Note in der ersten Fremdsprache treten?
+    richtig: Die Note in der Herkunftssprache
+    falsch:
+      - Die Note in Deutsch als Zweitsprache
+      - Eine Bemerkung zum Lernfortschritt in Englisch
+      - Die Note in der zweiten Fremdsprache
+    erklaerung: Wer ab Jahrgangsstufe 5 aufgenommen wurde, kann die Herkunftssprache statt der zweiten Fremdsprache beurteilen lassen.
+  - id: z074
+    abschnitt: zvo-weitere
+    fundstelle: § 28 Abs. 6
+    fall: true
+    frage: Ein Schüler kam erst in Jahrgangsstufe 9 des Gymnasiums ins deutsche Schulsystem. In Deutsch könnte er ohne Berücksichtigung sprachlicher Erschwernisse kein „ausreichend“ bekommen; sonst erfüllt er die Anforderungen. Unter welcher Bedingung wird er der Gymnasialen Oberstufe zugewiesen?
+    richtig: Unter der Bedingung, einen einjährigen Vorbereitungskurs vor allem für Deutsch zu besuchen
+    falsch:
+      - Unter der Bedingung, die Jahrgangsstufe 9 mit zusätzlichem Deutschunterricht zu wiederholen
+      - Unter der Bedingung, im Fach Deutsch eine Nachprüfung vor einer Kommission zu bestehen
+      - Ohne Bedingung, weil sprachliche Erschwernisse in allen Fächern berücksichtigt werden
+    erklaerung: Das gilt für Eintritte nach Beginn der letzten beiden Jahrgänge der Sekundarstufe I. Das Zeugnis erhält einen Vermerk; auf Wunsch gibt es eine Zweitschrift mit dem Vermerk statt des Originals.
+  - id: z075
+    abschnitt: zvo-weitere
+    fundstelle: § 29 Abs. 3
+    fall: true
+    frage: Wer entscheidet über die nachträgliche Zuerkennung eines Abschlusses für ein Zeugnis, das laut Beschlussdatum fünf Jahre alt ist?
+    richtig: Die Senatorin für Kinder und Bildung
+    falsch:
+      - Die Schule, die das Zeugnis ausgestellt hat
+      - Die Schule, die die Person zuletzt besucht hat
+      - Die Zeugniskonferenz der zuletzt besuchten Schule
+    erklaerung: Bei Zeugnissen, die nicht älter als drei Jahre sind, entscheidet die Schule, die das Zeugnis ausgestellt hat.
+  - id: z076
+    abschnitt: zvo-weitere
+    fundstelle: § 29 Abs. 4
+    frage: Wer erteilt nach der Zeugnisverordnung die Gesamtbescheinigung über die Zuerkennung der Fachhochschulreife?
+    richtig: Das Praktikantenamt der Fachoberschulen in Bremen oder Bremerhaven
+    falsch:
+      - Die Schule, an der der schulische Teil der Fachhochschulreife erworben wurde
+      - Die Senatorin für Kinder und Bildung in jedem Einzelfall
+      - Die Handelskammer nach Abschluss des Praktikums
+    erklaerung: Zuständig ist das Praktikantenamt am Standort der Schule, die den schulischen Teil zuerkannt hat; es handelt, sobald schulischer und berufsbezogener Teil nachgewiesen sind.
+  - id: z077
+    abschnitt: zvo-weitere
+    fundstelle: § 29 Abs. 4
+    frage: Wonach richtet sich die Zuständigkeit des Praktikantenamtes für die Zuerkennung der Fachhochschulreife?
+    richtig: Nach dem Standort der Schule, die den schulischen Teil zuerkannt hat
+    falsch:
+      - Nach dem Wohnort der Person zum Zeitpunkt des Antrags
+      - Nach dem Sitz des Betriebs, in dem das Praktikum stattfand
+      - Nach dem Standort der berufsbildenden Schule, die die Person zuletzt besucht hat
+    erklaerung: So § 29 Abs. 4 Satz 2.
+  - id: z078
+    abschnitt: zvo-weitere
+    fundstelle: § 29 Abs. 5
+    frage: Was kann die Senatorin nach § 29 Abs. 5 der Zeugnisverordnung in begründeten Einzelfällen?
+    richtig: Abschlüsse zuerkennen, auch wenn die Voraussetzungen der Bildungsgangsverordnung nicht erfüllt sind
+    falsch:
+      - Noten in bereits erteilten Zeugnissen nachträglich ändern, wenn Erziehungsberechtigte es beantragen
+      - Die Frist für die nachträgliche Zuerkennung durch die Schule von drei auf fünf Jahre verlängern
+      - Einen Abschluss aberkennen, wenn sich die Voraussetzungen später als nicht erfüllt erweisen
+    erklaerung: So § 29 Abs. 5.
+  - id: z079
+    abschnitt: zvo-weitere
+    fundstelle: § 30 Abs. 1
+    fall: true
+    frage: Das Zeugnis einer öffentlichen Schule in Niedersachsen weist eine Berechtigung aus. Gilt diese nach der Bremer Zeugnisverordnung auch in Bremen?
+    richtig: Ja, unmittelbar, außer der Inhalt weicht erheblich von den Bremer Anforderungen ab
+    falsch:
+      - Nur, wenn die Senatorin die Berechtigung im Einzelfall anerkennt
+      - Nein, Berechtigungen anderer Länder müssen in Bremen in jedem Fall neu erworben werden
+      - Nur, wenn die aufnehmende Bremer Schule sie ausdrücklich bestätigt
+    erklaerung: Über Berechtigungen aus Zeugnissen außerhalb Deutschlands entscheidet die Senatorin im Einzelfall (§ 30 Abs. 2).
+  - id: z080
+    abschnitt: zvo-weitere
+    fundstelle: § 30 Abs. 2
+    frage: Wer entscheidet nach der Zeugnisverordnung über Berechtigungen aus Zeugnissen, die außerhalb Deutschlands erworben wurden?
+    richtig: Die Senatorin für Kinder und Bildung im Einzelfall
+    falsch:
+      - Die aufnehmende Schule nach eigener Prüfung
+      - Die Kultusministerkonferenz einheitlich für alle Länder
+      - Niemand; solche Berechtigungen gelten in Bremen unmittelbar
+    erklaerung: So § 30 Abs. 2.
+  - id: z081
+    abschnitt: zvo-weitere
+    fundstelle: § 31 Abs. 2 Nr. 2
+    frage: Wie setzte sich nach der Übergangsbestimmung des § 31 der Zeugnisverordnung die Gesamtnote in den Prüfungsfächern des auslaufenden Bildungsganges Gesamtschule zusammen?
+    richtig: Zu zwei Dritteln aus der Unterrichtsnote der Jahrgangsstufe 10 und zu einem Drittel aus der Prüfungsnote
+    falsch:
+      - Je zur Hälfte aus der Unterrichtsnote der Jahrgangsstufe 10 und aus der Note der schriftlichen Prüfungsleistung
+      - Zu einem Drittel aus der Unterrichtsnote und zu zwei Dritteln aus der Prüfungsnote
+      - Allein aus der Prüfungsnote; die Unterrichtsnote wurde nur bei Gleichstand herangezogen
+    erklaerung: Das galt für Schülerinnen und Schüler, die am 31. Juli 2013 den Bildungsgang Gesamtschule besuchten.
+  - id: z082
+    abschnitt: zvo-weitere
+    fundstelle: § 32 Abs. 1
+    frage: Seit wann gilt die Zeugnisverordnung vom 20. Juni 2013 im Wesentlichen?
+    richtig: Seit dem 1. August 2013
+    falsch:
+      - Seit dem 20. Juni 2013
+      - Seit dem 1. Januar 2014
+      - Seit dem 1. August 2014
+    erklaerung: § 7 Abs. 2 und § 18 Abs. 2 traten erst am 1. August 2015 in Kraft. Die Zeugnisordnung von 1997 trat mit Ablauf des 31. Juli 2013 außer Kraft.
+  - id: s001
+    abschnitt: sek1-allgemein
+    fundstelle: § 1
+    frage: Für welche Jahrgangsstufen gilt die Bremer Verordnung über die Sekundarstufe I des Gymnasiums?
+    richtig: Für die Jahrgangsstufen 5 bis 9
+    falsch:
+      - Für die Jahrgangsstufen 5 bis 10
+      - Für die Jahrgangsstufen 5 bis 12
+      - Für die Jahrgangsstufen 7 bis 10
+    erklaerung: Das Gymnasium umfasst die Jahrgangsstufen 5 bis 12; ab Jahrgangsstufe 10 gilt die GyO-VO.
+  - id: s002
+    abschnitt: sek1-allgemein
+    fundstelle: § 2 Abs. 1
+    frage: Wie ist der Bildungsgang des Gymnasiums in Bremen nach der Verordnung über die Sekundarstufe I des Gymnasiums gegliedert?
+    richtig: Acht Jahre bis zum Abitur; die drei letzten Jahrgangsstufen gehören zur Gymnasialen Oberstufe
+    falsch:
+      - Neun Jahre bis zum Abitur; die drei letzten Jahrgangsstufen gehören zur Gymnasialen Oberstufe
+      - Acht Jahre bis zum Abitur; die beiden letzten Jahrgangsstufen gehören zur Gymnasialen Oberstufe
+      - Neun Jahre bis zum Abitur; die vier letzten Jahrgangsstufen gehören zur Gymnasialen Oberstufe
+    erklaerung: In der Sekundarstufe I bereitet das Gymnasium auf die Gymnasiale Oberstufe vor.
+  - id: s003
+    abschnitt: sek1-allgemein
+    fundstelle: § 2 Abs. 2
+    frage: Am Ende welcher Jahrgangsstufen sollen am Gymnasium die Standards der Bildungspläne erreicht werden?
+    richtig: Am Ende der Jahrgangsstufen 6, 8 und 10
+    falsch:
+      - Am Ende der Jahrgangsstufen 5, 7 und 9
+      - Am Ende der Jahrgangsstufen 6 und 9
+      - Am Ende jeder einzelnen Jahrgangsstufe
+    erklaerung: So § 2 Abs. 2 der Verordnung über die Sekundarstufe I des Gymnasiums.
+  - id: s004
+    abschnitt: sek1-allgemein
+    fundstelle: § 2 Abs. 3
+    frage: Was nennt § 2 der Verordnung über die Sekundarstufe I des Gymnasiums als grundlegend für die Arbeit des Gymnasiums?
+    richtig: Die Gleichberechtigung der Geschlechter und die Einübung eines partnerschaftlichen Verhältnisses
+    falsch:
+      - Die Vorbereitung auf ein Hochschulstudium als ausschließliches Ziel des gesamten achtjährigen Bildungsganges
+      - Die Leistungsdifferenzierung in getrennten Lerngruppen und Kursen ab Jahrgangsstufe 5
+      - Den Vorrang kognitiver Fähigkeiten vor sozialen, emotionalen und kreativen Fähigkeiten
+    erklaerung: Die Arbeit zielt auf die gesamte Persönlichkeit und bereitet auch auf die Arbeitswelt vor.
+  - id: s005
+    abschnitt: sek1-allgemein
+    fundstelle: § 3 Abs. 2
+    frage: Am Ende welcher Jahrgangsstufe kann am Gymnasium die Einfache Berufsbildungsreife erreicht werden?
+    richtig: Am Ende der Jahrgangsstufe 9
+    falsch:
+      - Am Ende der Jahrgangsstufe 10
+      - Am Ende der Jahrgangsstufe 8
+      - Gar nicht; das Gymnasium vergibt nur Abitur und Mittleren Schulabschluss
+    erklaerung: Mittlerer Schulabschluss und Erweiterte Berufsbildungsreife sind am Ende der Jahrgangsstufe 10 möglich, das Abitur am Ende der Jahrgangsstufe 12.
+  - id: s006
+    abschnitt: sek1-allgemein
+    fundstelle: § 3 Abs. 1
+    frage: Wie kann der Bildungsgang des Gymnasiums nach § 3 der Verordnung über die Sekundarstufe I außerdem gestaltet sein?
+    richtig: Als bilinguales Profil
+    falsch:
+      - Als neunjähriger Bildungsgang
+      - Als jahrgangsübergreifender Lernverbund
+      - Als Ganztagszug mit verkürzter Oberstufe
+    erklaerung: Die Einzelheiten regelt § 7.
+  - id: s007
+    abschnitt: sek1-allgemein
+    fundstelle: § 3 Abs. 3
+    frage: Wie kann die Zusammenarbeit der Lehrkräfte eines Jahrgangs nach § 3 der Verordnung über die Sekundarstufe I des Gymnasiums organisiert werden?
+    richtig: In Jahrgangsteams, die die Schülerinnen und Schüler durch die Sekundarstufe I begleiten
+    falsch:
+      - In Fachteams, die jedes Schuljahr den Jahrgang wechseln und die Noten untereinander abstimmen
+      - In Klassenkonferenzen unter Leitung der Elternvertretung des Jahrgangs
+      - In schulübergreifenden Teams der Fachaufsicht für alle Gymnasien der Stadt
+    erklaerung: Die Leitung des Jahrgangsteams kann mit der Organisation des Jahrgangs beauftragt werden.
+  - id: s008
+    abschnitt: sek1-unterricht
+    fundstelle: § 4 Abs. 2
+    frage: Wo ist die fachliche Struktur des Unterrichts in den Jahrgangsstufen 5 bis 9 des Gymnasiums festgelegt?
+    richtig: In der Kontingentstundentafel der Anlage 1
+    falsch:
+      - In den Bildungsplänen der Kultusministerkonferenz
+      - Im schulinternen Curriculum jeder Schule
+      - In einer jährlichen Verfügung der Schulleitung
+    erklaerung: Sie gibt die Stundenkontingente an, die mindestens unterrichtet werden müssen, und ein Kontingent für die Profilbildung.
+  - id: s009
+    abschnitt: sek1-unterricht
+    fundstelle: § 4 Abs. 3
+    frage: Wie viele Wochenstunden werden in den Jahrgangsstufen 5 bis 7 des Gymnasiums mindestens für selbstständiges Lernen zur Vertiefung in Deutsch und Mathematik verwendet?
+    richtig: Mindestens vier Wochenstunden
+    falsch:
+      - Mindestens zwei Wochenstunden
+      - Mindestens sechs Wochenstunden
+      - Mindestens eine Wochenstunde je Fach und Jahrgang
+    erklaerung: Sie sind in der Stundentafel ausgewiesen.
+  - id: s010
+    abschnitt: sek1-unterricht
+    fundstelle: § 4 Abs. 3
+    frage: Was sind nach der Verordnung über die Sekundarstufe I des Gymnasiums neben dem Lehrgangsunterricht feste Bestandteile der Unterrichtsplanung?
+    richtig: Freiarbeit, Wochen- und Arbeitsplan sowie Projektunterricht
+    falsch:
+      - Frontalunterricht, Hausaufgabenbetreuung und Nachhilfe
+      - Klassenarbeiten, Tests und regelmäßige mündliche Abfragen
+      - Arbeitsgemeinschaften, Exkursionen und Klassenfahrten
+    erklaerung: Sie sollen selbstständige Lernformen stärken.
+  - id: s011
+    abschnitt: sek1-unterricht
+    fundstelle: § 4 Abs. 4
+    frage: In welcher Jahrgangsstufe beginnt am Gymnasium die zweite Fremdsprache, und bis wann ist sie verbindlich?
+    richtig: Ab Jahrgangsstufe 6; verbindlich bis Ende der Jahrgangsstufe 9
+    falsch:
+      - Ab Jahrgangsstufe 7; verbindlich bis Ende der Jahrgangsstufe 10
+      - Ab Jahrgangsstufe 5; verbindlich bis Ende der Jahrgangsstufe 8
+      - Ab Jahrgangsstufe 6; verbindlich bis Ende der Jahrgangsstufe 8
+    erklaerung: Die erste Fremdsprache ist Englisch.
+  - id: s012
+    abschnitt: sek1-unterricht
+    fundstelle: § 4 Abs. 5
+    fall: true
+    frage: Eine Schülerin wählt im Wahlpflichtunterricht der Jahrgangsstufe 8 des Gymnasiums eine weitere Fremdsprache. Was gilt nach § 4 Abs. 5 der Verordnung über die Sekundarstufe I?
+    richtig: Sie muss die Sprache in Jahrgangsstufe 9 fortführen; über Ausnahmen entscheidet die Schulleitung
+    falsch:
+      - Sie kann nach einem Halbjahr ohne Genehmigung in einen anderen Wahlpflichtkurs ihrer Wahl wechseln
+      - Sie muss die Sprache bis zum Abitur fortführen; Ausnahmen sind nicht vorgesehen
+      - Sie belegt die Sprache nur in Jahrgangsstufe 8; danach endet der Kurs automatisch
+    erklaerung: Das Fremdsprachenangebot kann klassenübergreifend organisiert werden.
+  - id: s013
+    abschnitt: sek1-unterricht
+    fundstelle: § 4 Abs. 6
+    frage: Wie werden die naturwissenschaftlichen Fächer in den Jahrgangsstufen 5 und 6 des Gymnasiums unterrichtet?
+    richtig: Integriert als Fach Naturwissenschaft
+    falsch:
+      - Getrennt als Biologie, Chemie und Physik
+      - Epochal im Wechsel von Biologie und Physik
+      - Als Wahlpflichtfach neben Informatik
+    erklaerung: In den Jahrgangsstufen 7 und 8 können sie integriert unterrichtet werden. Gesellschaft und Politik wird in 5 und 6 ebenfalls integriert unterrichtet.
+  - id: s014
+    abschnitt: sek1-unterricht
+    fundstelle: § 4 Abs. 7
+    frage: Wie ist Medienbildung nach der Verordnung über die Sekundarstufe I des Gymnasiums verankert?
+    richtig: Als Bestandteil der Fächer oder in eigenen Modulen, nicht als eigener Lernbereich
+    falsch:
+      - Als eigener Lernbereich mit einer Wochenstunde in den Jahrgangsstufen 5 bis 7
+      - Als Wahlpflichtkurs in den Jahrgangsstufen 8 und 9 mit zwei Wochenstunden
+      - Als jährliche Projektwoche außerhalb der Stundentafel
+    erklaerung: So § 4 Abs. 7.
+  - id: s015
+    abschnitt: sek1-unterricht
+    fundstelle: § 4 Abs. 8
+    frage: Bis wann führt das Gymnasium ein mehrwöchiges Betriebspraktikum durch?
+    richtig: Bis Ende der Jahrgangsstufe 9; es kann in die Einführungsphase verlegt werden
+    falsch:
+      - In Jahrgangsstufe 8; eine Verlegung in die Oberstufe ist nicht vorgesehen
+      - In der Qualifikationsphase im Rahmen der Projektarbeit
+      - In Jahrgangsstufe 7; danach sind Praktika nur noch freiwillig
+    erklaerung: Ab Jahrgangsstufe 7 können Schulen außerdem Praktika zur Stärkung sozialer, kreativer und praktischer Fähigkeiten durchführen.
+  - id: s016
+    abschnitt: sek1-unterricht
+    fundstelle: § 5 Abs. 3
+    frage: In welchen Fächern wird in Jahrgangsstufe 6 des Gymnasiums jeweils eine Parallelarbeit geschrieben?
+    richtig: In Deutsch, Mathematik und Englisch
+    falsch:
+      - In Deutsch, Mathematik und Naturwissenschaft
+      - In Mathematik, Englisch und der zweiten Fremdsprache
+      - In allen Hauptfächern einschließlich Gesellschaft und Politik
+    erklaerung: Parallelarbeiten mit einheitlicher Aufgabenstellung sichern die Standards in den Lerngruppen einer Jahrgangsstufe.
+  - id: s017
+    abschnitt: sek1-unterricht
+    fundstelle: § 5 Abs. 5
+    frage: Ab welcher Unterrichtsverpflichtung ist der Unterricht am Gymnasium nach der Verordnung über die Sekundarstufe I zusätzlich als Nachmittagsunterricht durchzuführen?
+    richtig: Wenn sie 31 Wochenstunden übersteigt
+    falsch:
+      - Wenn sie 28 Wochenstunden übersteigt
+      - Wenn sie 34 Wochenstunden übersteigt
+      - Wenn sie 30 Wochenstunden erreicht
+    erklaerung: Dann ist eine Mittagspause vorzuhalten.
+  - id: s018
+    abschnitt: sek1-unterricht
+    fundstelle: § 5 Abs. 5
+    frage: Wie viel Zeit darf die Bearbeitung von Hausaufgaben am Gymnasium in der Sekundarstufe I pro Schultag höchstens beanspruchen?
+    richtig: 90 Minuten, gemessen an der durchschnittlichen Leistungsfähigkeit der Lerngruppe
+    falsch:
+      - 60 Minuten, gemessen an der langsamsten Schülerin oder dem langsamsten Schüler
+      - 120 Minuten, gemessen an der durchschnittlichen Leistungsfähigkeit der Lerngruppe
+      - 90 Minuten, gemessen an der Einschätzung der Erziehungsberechtigten
+    erklaerung: So § 5 Abs. 5 Satz 4 und 5.
+  - id: s019
+    abschnitt: sek1-unterricht
+    fundstelle: § 5 Abs. 2
+    frage: Was erarbeiten die Lehrkräfte am Gymnasium nach § 5 der Verordnung über die Sekundarstufe I in Fach- oder Fachbereichskonferenzen?
+    richtig: Ein schulinternes Curriculum für das Fach oder den Fachbereich
+    falsch:
+      - Die Kontingentstundentafel für ihre eigene Schule
+      - Die Aufgaben der zentralen Abschlussprüfungen im Fach
+      - Die Versetzungsentscheidungen für ihr Fach in allen Klassen des Jahrgangs
+    erklaerung: Die Lehrkräfte eines Jahrgangs arbeiten außerdem eng zusammen (§ 5 Abs. 1).
+  - id: s020
+    abschnitt: sek1-unterricht
+    fundstelle: § 6 Abs. 1
+    frage: Wie lange kann ein Auslandsaufenthalt mit Besuch einer ausländischen Schule nach § 6 der Verordnung über die Sekundarstufe I des Gymnasiums dauern?
+    richtig: Ein halbes Jahr, mit Genehmigung der Schulleitung
+    falsch:
+      - Ein ganzes Schuljahr, mit Genehmigung der Senatorin
+      - Bis zu drei Monate, ohne Genehmigung
+      - Ein halbes Jahr, mit Zustimmung der Klassenkonferenz
+    erklaerung: Danach wird die Schulzeit ohne zeitliche Verzögerung fortgesetzt.
+  - id: s021
+    abschnitt: sek1-unterricht
+    fundstelle: § 6 Abs. 2
+    fall: true
+    frage: Ein Schüler verbringt das zweite Halbjahr der Jahrgangsstufe 9 des Gymnasiums im Ausland. Was gilt für seine Versetzung in die Gymnasiale Oberstufe?
+    richtig: Sie ist grundsätzlich ausgeschlossen; Ausnahmen lässt die Schulleitung auf Antrag der Versetzungskonferenz zu
+    falsch:
+      - Sie erfolgt automatisch, wenn das Zeugnis zum Halbjahr der Jahrgangsstufe 9 ausreicht
+      - Sie richtet sich allein nach dem Zeugnis der ausländischen Schule, das umgerechnet wird
+      - Sie wird nach einer Nachprüfung in den Kernfächern zu Beginn der Einführungsphase durch die Schulleitung ausgesprochen
+    erklaerung: So § 6 Abs. 2.
+  - id: s022
+    abschnitt: sek1-unterricht
+    fundstelle: § 7 Abs. 1
+    frage: Worauf baut ein bilinguales Profil am Gymnasium auf?
+    richtig: Auf einer in Jahrgangsstufe 5 betriebenen Fremdsprache
+    falsch:
+      - Auf der zweiten Fremdsprache ab Jahrgangsstufe 6
+      - Auf einem Sprachtest vor Eintritt in das Gymnasium
+      - Auf herkunftssprachlichem Unterricht in der Grundschule
+    erklaerung: In den Jahrgangsstufen 5 und 6 wird zum bilingualen Sachfachunterricht hingeführt.
+  - id: s023
+    abschnitt: sek1-unterricht
+    fundstelle: § 7 Abs. 1
+    frage: Ab welcher Jahrgangsstufe wird im bilingualen Profil des Gymnasiums mindestens ein Fach in der Fremdsprache als Unterrichtssprache erteilt?
+    richtig: Ab Jahrgangsstufe 7
+    falsch:
+      - Ab Jahrgangsstufe 5
+      - Ab Jahrgangsstufe 8
+      - Ab der Einführungsphase
+    erklaerung: So § 7 Abs. 1 Satz 5.
+  - id: s024
+    abschnitt: sek1-unterricht
+    fundstelle: § 7 Abs. 1
+    frage: Um wie viele Wochenstunden kann der Fremdsprachenunterricht in den Jahrgangsstufen 5 und 6 eines bilingualen Profils erweitert werden?
+    richtig: Um bis zu zwei Wochenstunden im Rahmen der Stundentafel
+    falsch:
+      - Um bis zu vier Wochenstunden zusätzlich zur Stundentafel
+      - Um eine Wochenstunde zusätzlich zur Stundentafel
+      - Um bis zu drei Wochenstunden im Rahmen der Stundentafel
+    erklaerung: So § 7 Abs. 1 Satz 4.
+  - id: s025
+    abschnitt: sek1-unterricht
+    fundstelle: § 7 Abs. 1
+    frage: Wer muss der Einrichtung eines bilingualen Profils an einem Gymnasium in der Stadtgemeinde Bremerhaven zustimmen?
+    richtig: Der Magistrat
+    falsch:
+      - Die Senatorin
+      - Die Schulkonferenz allein
+      - Der Schulelternbeirat
+    erklaerung: In der Stadtgemeinde Bremen ist die Zustimmung der Senatorin nötig.
+  - id: s026
+    abschnitt: sek1-unterricht
+    fundstelle: § 8 Abs. 1
+    frage: Mit wie vielen Wochenstunden wird eine dritte Fremdsprache im Wahlpflichtunterricht des Gymnasiums mindestens angeboten?
+    richtig: Mit mindestens drei Wochenstunden
+    falsch:
+      - Mit mindestens zwei Wochenstunden
+      - Mit mindestens vier Wochenstunden
+      - Mit mindestens fünf Wochenstunden
+    erklaerung: Kurse in den übrigen Lernbereichen haben mindestens zwei Wochenstunden.
+  - id: s027
+    abschnitt: sek1-unterricht
+    fundstelle: § 8 Abs. 1
+    frage: Für wie lange werden Kurse im Wahlpflichtunterricht der Jahrgangsstufen 8 und 9 des Gymnasiums belegt?
+    richtig: Für zwei Jahrgangsstufen
+    falsch:
+      - Für ein Schulhalbjahr
+      - Für ein Schuljahr
+      - Bis zum Ende der Einführungsphase
+    erklaerung: So § 8 Abs. 1 Satz 4.
+  - id: s028
+    abschnitt: sek1-unterricht
+    fundstelle: § 8 Abs. 2
+    frage: Das Gymnasium bietet Wahlunterricht an. Was müssen die Schülerinnen und Schüler in der Sekundarstufe I davon belegen?
+    richtig: Einen Kurs im Umfang einer Jahreswochenstunde
+    falsch:
+      - In jedem Schuljahr einen Kurs mit zwei Wochenstunden
+      - Nichts; Wahlunterricht ist immer freiwillig
+      - Zwei Kurse im Umfang von je einer Jahreswochenstunde
+    erklaerung: Der Wahlunterricht kann epochal organisiert sein.
+  - id: s029
+    abschnitt: sek1-unterricht
+    fundstelle: § 9 Abs. 2
+    frage: Die Leistungsentwicklung eines Schülers zeigt, dass er im Unterricht einzelner Fächer nicht erfolgreich mitarbeiten kann. Was gilt nach § 9 der Verordnung über die Sekundarstufe I des Gymnasiums?
+    richtig: Er ist zu fördern; die Maßnahmen werden mit den Erziehungsberechtigten beraten und dokumentiert
+    falsch:
+      - Er wird in eine niedrigere Jahrgangsstufe zurückgestuft; die Erziehungsberechtigten werden informiert
+      - Er wechselt an eine Oberschule, wenn die Klassenkonferenz zustimmt
+      - Er erhält Förderunterricht nur auf Antrag und ohne Dokumentation
+    erklaerung: So § 9 Abs. 2.
+  - id: s030
+    abschnitt: sek1-unterricht
+    fundstelle: § 9 Abs. 1
+    frage: Für wen kann das Gymnasium nach § 9 der Verordnung über die Sekundarstufe I auch Förderunterricht anbieten?
+    richtig: Für Schülerinnen und Schüler mit besonderen Leistungsfähigkeiten
+    falsch:
+      - Nur für Schülerinnen und Schüler mit Versetzungsgefährdung
+      - Für Erziehungsberechtigte, die ihre Kinder unterstützen wollen
+      - Für Schülerinnen und Schüler anderer Schulen im Stadtteil
+    erklaerung: Förderunterricht beruht auf einem Förderkonzept und den dafür zugewiesenen Ressourcen.
+  - id: s031
+    abschnitt: sek1-unterricht
+    fundstelle: § 9 Abs. 3
+    frage: Bis zu welcher Jahrgangsstufe können am Gymnasium außerschulisch erbrachte Leistungen im Zeugnis mit einer Note ausgewiesen werden?
+    richtig: Bis einschließlich Jahrgangsstufe 8
+    falsch:
+      - Bis einschließlich Jahrgangsstufe 6
+      - Bis einschließlich Jahrgangsstufe 9
+      - In allen Jahrgangsstufen der Sekundarstufe I
+    erklaerung: Im Lernentwicklungsbericht werden sie mit einer Kompetenzbeschreibung ausgewiesen.
+  - id: s032
+    abschnitt: sek1-unterricht
+    fundstelle: § 9 Abs. 3
+    frage: Was ist Voraussetzung dafür, dass außerschulisch erbrachte Leistungen im Zeugnis des Gymnasiums ausgewiesen werden?
+    richtig: Eine Lernvereinbarung, eine Präsentation und ein Gespräch, bewertet von zwei Lehrkräften
+    falsch:
+      - Eine Bescheinigung des Vereins oder der Musikschule über die regelmäßige Teilnahme
+      - Ein Antrag der Erziehungsberechtigten und die Zustimmung der Schulleitung
+      - Eine Klassenarbeit über die Inhalte, bewertet von der zuständigen Fachlehrkraft
+    erklaerung: So § 9 Abs. 3.
+  - id: s033
+    abschnitt: sek1-versetzung
+    fundstelle: § 10 Abs. 3
+    frage: Welche Fächer sind bei der Versetzung am Ende der Jahrgangsstufe 9 des Gymnasiums die Kernfächer?
+    richtig: Deutsch, Mathematik und Englisch
+    falsch:
+      - Deutsch, Mathematik und die zweite Fremdsprache
+      - Deutsch, Englisch und Naturwissenschaft
+      - Mathematik, Englisch und die zweite Fremdsprache
+    erklaerung: So § 10 Abs. 3 Nr. 1 und 4.
+  - id: s034
+    abschnitt: sek1-versetzung
+    fundstelle: § 10 Abs. 3
+    fall: true
+    frage: "Zeugnis am Ende der Jahrgangsstufe 9 des Gymnasiums: Mathematik „ungenügend“, alle anderen Fächer mindestens „gut“. Kann nach § 10 auf Nichtversetzung in die Einführungsphase entschieden werden?"
+    richtig: Ja, „ungenügend“ in einem Kernfach genügt und kann nicht ausgeglichen werden
+    falsch:
+      - Nein, die guten Noten in den anderen Fächern gleichen die Note aus
+      - Nein, dafür wäre zusätzlich eine mangelhafte Note in einem weiteren Fach nötig
+      - Ja, aber nur, wenn auch Deutsch höchstens „ausreichend“ ist
+    erklaerung: Ein „ungenügend“ lässt sich nur in Fächern ausgleichen, die keine Kernfächer sind (§ 10 Abs. 4).
+  - id: s035
+    abschnitt: sek1-versetzung
+    fundstelle: § 10 Abs. 4
+    fall: true
+    frage: "Zeugnis am Ende der Jahrgangsstufe 9 des Gymnasiums: Englisch und Physik „mangelhaft“, Deutsch „gut“, Chemie „befriedigend“, alle übrigen Fächer „ausreichend“. Kann nach § 10 auf Nichtversetzung entschieden werden?"
+    richtig: Nein, Englisch wird durch Deutsch und Physik durch Chemie ausgeglichen
+    falsch:
+      - Ja, zwei mangelhafte Noten reichen immer für eine Nichtversetzung
+      - Ja, eine mangelhafte Note in einem Kernfach kann nicht ausgeglichen werden
+      - Nein, eine Nichtversetzung setzt mindestens eine ungenügende Note voraus
+    erklaerung: „Mangelhaft“ in einem Kernfach gleicht „gut“ in einem anderen Kernfach aus, „mangelhaft“ in einem übrigen Fach „befriedigend“ in einem anderen Fach. Ohne Ausgleich für beide Fächer wäre Nichtversetzung möglich (§ 10 Abs. 3 Nr. 5).
+  - id: s036
+    abschnitt: sek1-versetzung
+    fundstelle: § 10 Abs. 4
+    frage: Wie kann nach § 10 der Verordnung über die Sekundarstufe I des Gymnasiums die Note „mangelhaft“ in einem Kernfach ausgeglichen werden?
+    richtig: Durch mindestens „gut“ in einem anderen Kernfach oder mindestens „befriedigend“ in beiden anderen Kernfächern
+    falsch:
+      - Durch mindestens „befriedigend“ in einem beliebigen anderen Fach, auch außerhalb der Kernfächer
+      - Durch mindestens „gut“ in zwei beliebigen anderen Fächern, die keine Kernfächer sein müssen
+      - Gar nicht; eine mangelhafte Note in einem Kernfach lässt sich durch kein anderes Fach und keine Kombination ausgleichen
+    erklaerung: „Mangelhaft“ in zwei Kernfächern ist dagegen immer ein Grund, auf Nichtversetzung entscheiden zu können (§ 10 Abs. 3 Nr. 4).
+  - id: s037
+    abschnitt: sek1-versetzung
+    fundstelle: § 10 Abs. 4
+    frage: Unter welcher Voraussetzung kann am Ende der Jahrgangsstufe 9 des Gymnasiums die Note „ungenügend“ in einem Fach, das kein Kernfach ist, ausgeglichen werden?
+    richtig: Mit mindestens „gut“ in einem anderen Fach oder mindestens „befriedigend“ in zwei oder mehr Fächern
+    falsch:
+      - Mit mindestens „befriedigend“ in einem einzigen anderen Fach, auch wenn dieses Fach kein Kernfach ist
+      - Mit mindestens „sehr gut“ in einem Kernfach; andere Fächer zählen dafür nicht
+      - Gar nicht; „ungenügend“ kann am Gymnasium in keinem Fach ausgeglichen werden
+    erklaerung: Ein „ungenügend“ zusammen mit einem „mangelhaft“ in einem weiteren Fach ist dagegen ein eigener Grund für eine mögliche Nichtversetzung (§ 10 Abs. 3 Nr. 2).
+  - id: s038
+    abschnitt: sek1-versetzung
+    fundstelle: § 10 Abs. 5
+    frage: Wie wird der Vermerk „nicht beurteilbar“ bei der Versetzung am Ende der Jahrgangsstufe 9 des Gymnasiums behandelt?
+    richtig: Wie die Note „mangelhaft“
+    falsch:
+      - Wie die Note „ungenügend“
+      - Wie die Note „ausreichend“
+      - Das Fach bleibt unberücksichtigt
+    erklaerung: So § 10 Abs. 5.
+  - id: s039
+    abschnitt: sek1-versetzung
+    fundstelle: § 11
+    frage: Die Versetzung einer Schülerin der Jahrgangsstufe 9 des Gymnasiums ist wegen mangelhafter Leistungen gefährdet. Was sieht § 11 der Verordnung über die Sekundarstufe I vor?
+    richtig: Beratung in der Klassenkonferenz vor den Osterferien, schriftliche Begründung der Fachlehrkraft, schriftliche Information
+    falsch:
+      - Beratung im Jahrgangsteam nach den Herbstferien und nur ein mündliches Gespräch mit den Erziehungsberechtigten im Frühjahr
+      - Eine Nachprüfung im gefährdeten Fach vor den Sommerferien, angesetzt durch die Schulleitung
+      - Eine schriftliche Information erst mit dem Jahreszeugnis, wenn die Nichtversetzung feststeht
+    erklaerung: Die Fachlehrkraft muss die Leistungen nach den Teilbereichen des Bildungsplans spezifizieren.
+  - id: s040
+    abschnitt: sek1-versetzung
+    fundstelle: § 12 Abs. 1
+    frage: Auf welcher Grundlage entscheidet die Versetzungskonferenz am Ende der Jahrgangsstufe 9 des Gymnasiums?
+    richtig: Auf Grundlage der im gesamten Schuljahr erbrachten Leistungen
+    falsch:
+      - Auf Grundlage des Zeugnisses zum Schulhalbjahr und der Klassenarbeiten
+      - Auf Grundlage der Parallelarbeiten des Jahrgangs
+      - Auf Grundlage einer Prüfung in den Kernfächern
+    erklaerung: Die Entscheidung lautet „versetzt“ oder „nicht versetzt“.
+  - id: s041
+    abschnitt: sek1-versetzung
+    fundstelle: § 12 Abs. 3
+    frage: Wer darf mit beratender Stimme an der Versetzungskonferenz am Ende der Jahrgangsstufe 9 des Gymnasiums teilnehmen?
+    richtig: Die Klassenelternsprecher und die Klassenschülersprecher
+    falsch:
+      - Alle Erziehungsberechtigten der Klasse ohne Stimmrecht
+      - Ein Mitglied des Zentralelternbeirats und des Schulelternbeirats
+      - Die Schülervertretung der gesamten Schule
+    erklaerung: Zum Schutz der Persönlichkeit kann der Vorsitz sie von der Beratung ausschließen; über das eigene Kind bzw. sich selbst beraten sie nicht mit.
+  - id: s042
+    abschnitt: sek1-versetzung
+    fundstelle: § 13
+    fall: true
+    frage: Ein Schüler wird am Ende der Jahrgangsstufe 9 des Gymnasiums nicht in die Einführungsphase versetzt und auch nach der Wiederholung nicht. Was gilt nach § 13?
+    richtig: Er muss den Bildungsgang des Gymnasiums verlassen
+    falsch:
+      - Er darf die Jahrgangsstufe 9 ein zweites Mal wiederholen
+      - Er wird nach einer Prüfung in die Einführungsphase zugewiesen
+      - Er kann mit Zustimmung der Schulleitung in die Einführungsphase
+    erklaerung: Nach der ersten Nichtversetzung kann er die Jahrgangsstufe 9 wiederholen.
+  - id: s043
+    abschnitt: sek1-versetzung
+    fundstelle: § 14 Abs. 1
+    frage: Wie wird die Einfache Berufsbildungsreife am Gymnasium in der Regel erworben?
+    richtig: Mit der Versetzung in die Gymnasiale Oberstufe
+    falsch:
+      - Mit einer Prüfung am Ende der Jahrgangsstufe 9
+      - Mit dem Zeugnis zum Halbjahr der Jahrgangsstufe 9
+      - Mit dem erfolgreichen Abschluss der Jahrgangsstufe 8
+    erklaerung: Eine Prüfung ist nur in besonderen Fällen vorgesehen (§ 14 Abs. 2 und 3).
+  - id: s044
+    abschnitt: sek1-versetzung
+    fundstelle: § 14 Abs. 1
+    fall: true
+    frage: Ein Schüler wird am Ende der Jahrgangsstufe 9 des Gymnasiums allein wegen seiner Leistungen in der zweiten Fremdsprache nicht versetzt. Was gilt nach § 14?
+    richtig: Er erwirbt trotzdem die Einfache Berufsbildungsreife
+    falsch:
+      - Er erwirbt keinen Abschluss und muss wiederholen
+      - Er erwirbt die Erweiterte Berufsbildungsreife
+      - Er erwirbt den Mittleren Schulabschluss unter Vorbehalt
+    erklaerung: Das gilt auch für eine weitere Fremdsprache.
+  - id: s045
+    abschnitt: sek1-versetzung
+    fundstelle: § 14 Abs. 3
+    frage: Unter welcher Voraussetzung kann am Gymnasium die Erweiterte Berufsbildungsreife am Ende der Jahrgangsstufe 9 durch eine Prüfung erworben werden?
+    richtig: Wenn sich die Schülerin oder der Schüler in der Wiederholung der Jahrgangsstufe 9 befindet
+    falsch:
+      - Wenn die Schülerin oder der Schüler die allgemeine Schulpflicht bereits erfüllt hat
+      - Wenn die Schülerin oder der Schüler die allgemeine Schulpflicht bereits vollständig erfüllt hat
+      - Wenn die Erziehungsberechtigten einen Antrag bei der Senatorin stellen
+    erklaerung: Die erfüllte Schulpflicht ist dagegen Voraussetzung für die Prüfung zur Einfachen Berufsbildungsreife (§ 14 Abs. 2). Die Erziehungsberechtigten sind jeweils rechtzeitig zu informieren.
+  - id: s046
+    abschnitt: sek1-weitere
+    fundstelle: § 15
+    frage: Für welche Schülerinnen und Schüler galt die Verordnung über die Sekundarstufe I des Gymnasiums erstmals?
+    richtig: Für alle, die zum 1. August 2010 oder später in die 5. Jahrgangsstufe eingetreten sind
+    falsch:
+      - Für alle, die zum 1. August 2009 oder später in die 5. Jahrgangsstufe eingetreten sind
+      - Für alle, die zum 1. August 2012 oder später in die 5. Jahrgangsstufe eingetreten sind
+      - Für alle Schülerinnen und Schüler ab Inkrafttreten, unabhängig vom Eintritt
+    erklaerung: Die §§ 10 bis 14 galten auch für frühere Jahrgänge.
+  - id: s047
+    abschnitt: sek1-weitere
+    fundstelle: § 16
+    frage: Wann trat die Verordnung über die Sekundarstufe I des Gymnasiums in Kraft?
+    richtig: Am 1. August 2009
+    falsch:
+      - Am 26. Juni 2009
+      - Am 1. August 2010
+      - Am 1. Januar 2015
+    erklaerung: Unterzeichnet wurde sie am 26. Juni 2009.
+  - id: s048
+    abschnitt: sek1-anlagen
+    fundstelle: Anlage 1
+    frage: Wie viele Stunden umfasst die Kontingentstundentafel des Gymnasiums für die Jahrgangsstufen 5 bis 9 insgesamt mindestens?
+    richtig: "161"
+    falsch:
+      - "150"
+      - "155"
+      - "170"
+    erklaerung: Die Werte sind Summen der Wochenstunden über die Jahrgangsstufen 5 bis 9.
+  - id: s049
+    abschnitt: sek1-anlagen
+    fundstelle: Anlage 1
+    frage: Wie viele Stunden sieht die Kontingentstundentafel des Gymnasiums für die zweite Fremdsprache über die Jahrgangsstufen 5 bis 9 mindestens vor?
+    richtig: "14"
+    falsch:
+      - "12"
+      - "16"
+      - "19"
+    erklaerung: Deutsch, Englisch und Mathematik haben je 19 Stunden.
+  - id: s050
+    abschnitt: sek1-anlagen
+    fundstelle: Anlage 1
+    frage: Welche Fächer haben in der Kontingentstundentafel des Gymnasiums für die Jahrgangsstufen 5 bis 9 je 19 Stunden?
+    richtig: Deutsch, Englisch und Mathematik
+    falsch:
+      - Deutsch, Mathematik und Sport
+      - Deutsch, Englisch und die zweite Fremdsprache
+      - Mathematik, Englisch und Gesellschaft-Politik
+    erklaerung: Sport und Gesellschaft-Politik haben je 15 Stunden.
+  - id: s051
+    abschnitt: sek1-anlagen
+    fundstelle: Anlage 1
+    frage: Wie viele Stunden sieht die Kontingentstundentafel des Gymnasiums über die Jahrgangsstufen 5 bis 9 für „Profil und Ergänzung“ vor?
+    richtig: "11"
+    falsch:
+      - "6"
+      - "4"
+      - "15"
+    erklaerung: Der Wahlpflichtunterricht hat 6, das selbstständige Lernen 4 Stunden.
 
 # Ausgemusterte Fragen bleiben hier stehen (gleiches Format wie unter "fragen"),
 # damit alte Duell-Links lesbar bleiben. Sie kommen in keiner neuen Runde vor.

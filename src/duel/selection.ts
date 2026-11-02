@@ -14,16 +14,21 @@ export function selectionOf(questionIds: readonly string[], lookup: ReadonlyMap<
   const sectionIds = [...new Set(qs.map(q => q.section))];
   const regs = new Set(sectionIds.map(id => sectionById.get(id)?.regulation));
   return {
-    regulations: (['GyO-VO', 'AP-V'] as const).filter(r => regs.has(r)),
+    regulations: catalogue.regulations.map(r => r.short).filter(r => regs.has(r)),
     sectionIds,
     casesOnly: qs.length > 0 && qs.every(q => q.isCase),
   };
 }
 
+/** Aufzählung wie „A, B und C“. */
+function joinGerman(items: readonly string[]): string {
+  return items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} und ${items[items.length - 1]}`;
+}
+
 /** Kurzform wie „GyO-VO und AP-V, 14 Abschnitte“. */
 export function selectionLabel(sel: DuelSelection): string {
   const n = sel.sectionIds.length;
-  return `${sel.regulations.join(' und ')}, ${n} ${n === 1 ? 'Abschnitt' : 'Abschnitte'}${sel.casesOnly ? ', nur Fall- und Rechenfragen' : ''}`;
+  return `${joinGerman(sel.regulations)}, ${n} ${n === 1 ? 'Abschnitt' : 'Abschnitte'}${sel.casesOnly ? ', nur Fall- und Rechenfragen' : ''}`;
 }
 
 /** Fragen für eine Revanche: dieselbe Auswahl, möglichst keine Frage aus dem letzten Duell. */

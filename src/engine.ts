@@ -139,3 +139,9 @@ export function recordStats(stats: StatsMap, questionId: string, correct: boolea
     },
   };
 }
+
+/** Gewählte Abschnitte plus alle, die seit dem letzten Speichern neu hinzugekommen sind (z. B. eine neue Verordnung). */
+export function withNewSections(chosen: readonly string[], seen: readonly string[], all: readonly string[]): string[] {
+  const known = new Set(all);
+  return [...new Set([...chosen.filter(id => known.has(id)), ...all.filter(id => !seen.includes(id))])];
+}
