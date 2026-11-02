@@ -643,7 +643,7 @@ function renderChallengeShare(box: HTMLElement, p: DuelPayload): void {
   renderShare(box, {
     title: 'Herausforderung verschicken',
     text: 'Schick diesen Link an die Person, die du herausfordern willst. Dein Ergebnis wird erst nach und nach aufgedeckt.',
-    shareText: `${p.a.n} fordert dich zum GyO-VO & AP-V Quiz heraus: ${p.q.length} Fragen. Schaffst du mehr?`,
+    shareText: `${p.a.n} fordert dich zum Schulrechts-Quiz Bremen heraus: ${p.q.length} Fragen. Schaffst du mehr?`,
     link: duelLink('d', p),
   });
 }
@@ -652,7 +652,7 @@ function renderReturnShare(box: HTMLElement, p: DuelPayload): void {
   renderShare(box, {
     title: `Ergebnis an ${p.a.n} zurückschicken`,
     text: `Mit diesem Link sieht ${p.a.n}, wie das Duell ausgegangen ist.`,
-    shareText: `${p.b!.n} hat deine Herausforderung im GyO-VO & AP-V Quiz gespielt. Hier ist das Ergebnis:`,
+    shareText: `${p.b!.n} hat deine Herausforderung im Schulrechts-Quiz Bremen gespielt. Hier ist das Ergebnis:`,
     link: duelLink('r', p),
   });
 }

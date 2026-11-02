@@ -1,4 +1,4 @@
-# GyO-VO & AP-V Quiz
+# Schulrechts-Quiz Bremen
 
 Multiple-Choice-Quiz zur **Verordnung über die Gymnasiale Oberstufe (GyO-VO)**, zur
 **Verordnung über die Abiturprüfung im Lande Bremen (AP-V)**, zur **Zeugnisverordnung** und zur

@@ -1,4 +1,4 @@
-# CLAUDE.md – GyO-VO & AP-V Quiz
+# CLAUDE.md – Schulrechts-Quiz Bremen
 
 Statische Web-App (Vite + TypeScript), die auf GitHub Pages läuft: ein Multiple-Choice-Quiz zur
 **Verordnung über die Gymnasiale Oberstufe (GyO-VO)**, zur **Verordnung über die Abiturprüfung (AP-V)**,
